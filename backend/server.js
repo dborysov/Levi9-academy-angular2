@@ -1,6 +1,5 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
-const path = require('path');
 const serverConfig = require('./server.config');
 const apiRouter = require('./routes/api-router')
 

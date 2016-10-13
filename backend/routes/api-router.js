@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('../db-utils');
 
-module.exports = app => {
+module.exports = () => {
 
     //Api router
     const apiRouter = express.Router();
@@ -82,11 +82,10 @@ module.exports = app => {
     //Updating existing product
     apiRouter.put('/products/:id', (request, response) => {
 
-        const id = request.params.id;
         const productToUpdate = request.body;
 
         db.updateExistingProduct(productToUpdate)
-            .then(data => {
+            .then(() => {
                 response.json({
                     success: true,
                     message: "Successfully updated!",
@@ -108,7 +107,7 @@ module.exports = app => {
         const id = request.params.id;
 
         db.deleteExistingProduct(id)
-            .then(data => {
+            .then(() => {
                 response.json({
                     success: true,
                     message: "Successfully deleted!",

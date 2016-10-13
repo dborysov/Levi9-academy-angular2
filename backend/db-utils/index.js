@@ -2,15 +2,22 @@ const mongoose = require('mongoose');
 const serverConfig = require('../server.config');
 const Product = require('../models/product.model');
 
+module.exports = {
+    setUpConnection,
+    getAllProducts,
+    getProductById,
+    createNewProduct,
+    deleteExistingProduct,
+    updateExistingProduct
+};
+
 function setUpConnection() {
     mongoose.connect(`mongodb://${serverConfig.db.host}:${serverConfig.db.port}/${serverConfig.db.name}`);
 
     const db = mongoose.connection;
 
     db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', () => {
-        console.log("Successfully connected to the database")
-    });
+    db.once('open', console.log.bind(console, 'Successfully connected to the database'));
 }
 
 function getAllProducts() {
@@ -42,12 +49,3 @@ function updateExistingProduct(newProduct) {
         existingProduct.save();
     });
 }
-
-module.exports = {
-    setUpConnection,
-    getAllProducts,
-    getProductById,
-    createNewProduct,
-    deleteExistingProduct,
-    updateExistingProduct
-};
