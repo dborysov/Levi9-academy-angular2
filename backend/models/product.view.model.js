@@ -1,3 +1,5 @@
+const ProductDTO = require('./productDto.model');
+
 module.exports = class Product {
     constructor({id, category, title, brand, price, image, description, details, date}) {
         this.id = id
@@ -9,5 +11,13 @@ module.exports = class Product {
         this.description = description
         this.details = details
         this.date = date
+    }
+
+    toDto() {
+        return new ProductDTO(this);
+    }
+
+    static fromDto(dtoModel) {
+        return new Product(dtoModel);
     }
 }

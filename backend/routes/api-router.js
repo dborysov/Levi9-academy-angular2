@@ -1,6 +1,6 @@
 const express = require('express');
-const db = require('../db-utils');
-const Product = require('../models/product.model');
+const productDb = require('../DAO/product');
+const Product = require('../models/product.view.model');
 const HttpStatus = require('http-status-codes');
 
 module.exports = () => {
@@ -9,7 +9,7 @@ module.exports = () => {
     const apiRouter = express.Router();
 
     //Connecting to the database
-    db.setUpConnection();
+    productDb.setUpConnection();
 
     //Middleware for Logging each request to the console
     apiRouter.use((request, response, next) => {
@@ -19,45 +19,48 @@ module.exports = () => {
 
     //Getting all products
     apiRouter.get('/products', (request, response) => {
-        db.getAllProducts()
-            .then(products => response.json(products.map(product => new Product(product))))
-            .catch(error => response.status(HttpStatus.NOT_FOUND).json(`Couldn't fetch data:  ${error.errmsg}`));
+        productDb.getAllProducts()
+            .then(products => response.json(products.map(product => Product.fromDto(product))))
+            .catch(error => response.status(HttpStatus.NOT_FOUND).json(`Couldn't fetch data:  ${error || ''}`));
     });
 
     //Creating new product
     apiRouter.post('/products', (request, response) => {
-        const newProduct = request.body;
+        const newProduct = new Product(request.body).toDto();
 
-        db.createNewProduct(newProduct)
-            .then(createdProduct => response.status(201).json(new Product(createdProduct)))
-            .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`Couldn't create product: ${error.errmsg}`));
+        productDb.createNewProduct(newProduct)
+            .then(createdProduct => response.status(HttpStatus.CREATED).json(Product.fromDto((createdProduct))))
+            .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`Couldn't create product: ${error || ''}`));
     });
 
     //Getting single product by id
     apiRouter.get('/products/:id', (request, response) => {
         const id = request.params.id;
 
-        db.getProductById(id)
+        productDb.getProductById(id)
             .then(product => response.json(new Product(product)))
-            .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`The data wasn't found! ${error.errmsg}`));
+            .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`The data wasn't found! ${error || ''}`));
     });
 
     //Updating existing product
-    apiRouter.put('/products', (request, response) => {
-        const productToUpdate = request.body;
+    apiRouter.put('/products/:id', (request, response) => {
+        const productToUpdate = new Product(request.body);
+        const id = request.params.id;
 
-        db.updateExistingProduct(productToUpdate)
-            .then(product => response.json(new Product(product)))
-            .catch(error => `Cannot update the product ${error.errmsg}`);
+        productToUpdate.id = null;
+
+        productDb.updateExistingProduct(id, productToUpdate)
+            .then(product => response.json(Product.fromDto(product)))
+            .catch(error => `Cannot update the product ${error || ''}`);
     });
 
     //Deleting existing product
     apiRouter.delete('/products/:id', (request, response) => {
         const id = request.params.id;
 
-        db.deleteExistingProduct(id)
+        productDb.deleteExistingProduct(id)
             .then(() => response.sendStatus(HttpStatus.NO_CONTENT))
-            .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`Cannot delete the product! ${error.errmsg}`));
+            .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`Cannot delete the product! ${error || ''}`));
     });
 
     return apiRouter;
