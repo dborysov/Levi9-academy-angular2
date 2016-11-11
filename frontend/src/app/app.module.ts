@@ -9,11 +9,19 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './components/app/app.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { HomeComponent } from './components/home/home.component';
+import { CatalogComponent } from './components/catalog/catalog.component';
+import { CartComponent } from './components/cart/cart.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavigationComponent,
+        HomeComponent,
+        CatalogComponent,
+        CartComponent,
+        AdminComponent,
     ],
     imports: [
         BrowserModule,

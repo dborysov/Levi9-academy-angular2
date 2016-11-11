@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { CatalogComponent } from './components/catalog/catalog.component';
+import { CartComponent } from './components/cart/cart.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 const routes: Routes = [
-    { path: '', redirectTo: '/', pathMatch: 'full' },
-    { path: 'catalog', redirectTo: '/', pathMatch: 'full' },
-    { path: 'catalog/:productId', redirectTo: '/', pathMatch: 'full' },
-    { path: 'cart', redirectTo: '/', pathMatch: 'full' },
-    { path: 'admin', redirectTo: '/', pathMatch: 'full' },
-    { path: 'admin/create', redirectTo: '/', pathMatch: 'full' },
-    { path: 'admin/edit/:productId', redirectTo: '/', pathMatch: 'full' },
+    { path: '', component: HomeComponent },
+    { path: 'catalog', component: CatalogComponent },
+    { path: 'cart', component: CartComponent },
+    { path: 'admin', component: AdminComponent },
 ];
 
 @NgModule({

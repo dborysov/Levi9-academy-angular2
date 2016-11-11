@@ -1,7 +1,8 @@
-<ul>
-    <li>
-        <a [routerLink]="">
-            Home
-        </a>
-    </li>
-</ul>
+<nav>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+    <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
+    <a routerLink="/cart" routerLinkActive="active">Cart</a>
+    <a routerLink="/admin" routerLinkActive="active">Admin</a>
+</nav>
+
+<router-outlet></router-outlet>
