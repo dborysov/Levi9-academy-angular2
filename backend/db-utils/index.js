@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const serverConfig = require('../server.config');
-const Product = require('../models/product.model');
+const Product = require('../models/productDTO.model');
 
 module.exports = {
     setUpConnection,
@@ -21,31 +21,25 @@ function setUpConnection() {
 }
 
 function getAllProducts() {
-    return Product.find();
+    return Promise.resolve(Product.find());
 }
 
 function getProductById(id) {
-    return Product.findById(id);
+    return Promise.resolve(Product.findById(id));
 }
 
 function createNewProduct(newProduct) {
     const product = new Product(newProduct);
 
-    return product.save();
+    return Promise.resolve(product.save());
 }
 
 function deleteExistingProduct(id) {
-    return Product.findById(id).remove();
+    return Promise.resolve(Product.findById(id).remove());
 }
 
 function updateExistingProduct(newProduct) {
-    return Product.findOne({ _id: newProduct._id }, (err, existingProduct) => {
-        if (err) {
-            console.log(`Cannot update product ${err}`);
-            return;
-        }
-        existingProduct = Object.assign(existingProduct, newProduct);
-
-        existingProduct.save();
-    });
+    return Promise.resolve(Product.findOne({ _id: newProduct._id }))
+        .then(res => Object.assign(res, newProduct).save())
+        .catch(console.log.bind(console, 'Cannot update product'));
 }
