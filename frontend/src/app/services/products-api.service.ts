@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OpaqueToken } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { Observable } from 'rxjs';
 
 import { Product } from '../models/product';
 
+export const IProductsApiService = new OpaqueToken('IProductsApiService');
 export interface IProductsApiService {
     getAllProducts(): Observable<Product[]>;
     getProductById(id: number): Observable<Product>;
