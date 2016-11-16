@@ -1,4 +1,4 @@
-import { Injectable, OpaqueToken } from '@angular/core';
+import { OpaqueToken } from '@angular/core';
 export const INotificationsService = new OpaqueToken('INotificationsService');
 
 export interface INotificationsService {
@@ -8,7 +8,6 @@ export interface INotificationsService {
     error(message): void;
 }
 
-@Injectable()
 export class NotificationsService implements INotificationsService {
 
     private _spawnNotification(body, title) {
