@@ -1,4 +1,4 @@
-import { OpaqueToken } from '@angular/core';
+import { OpaqueToken, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { Observable } from 'rxjs';
@@ -14,11 +14,11 @@ export interface IProductsApiService {
     removeProduct(id: number): Observable<void>;
 }
 
+@Injectable()
 export class ProductsApiService implements IProductsApiService {
 
     private _baseUrl = 'http://localhost:7778/api';
     private _relativeUrl = 'products';
-
     constructor(private _http: Http) { }
 
     getAllProducts(): Observable<Product[]> {

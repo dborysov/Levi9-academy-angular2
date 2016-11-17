@@ -1,28 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { cartStore } from '../../services/shopping-cart.service';
 
-interface ICartStateItem {
-  id: number;
-  quantity: number;
-}
+import { ICartItem } from '../../reducers/shopping-cart.reducer';
+
+import { INotificationsService } from '../../services/notifications.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
-  public items: Observable<ICartStateItem[]>;
+export class HomeComponent {
+    public items: Observable<ICartItem[]>;
 
-  constructor(private _store: Store<ICartStateItem[]>) {
-    this.items = _store;
+    constructor(
+        private _store: Store<ICartItem[]>,
+        @Inject(INotificationsService) private _notificationService: INotificationsService
+    ) {
+        this._notificationService.success('Home page is opened!');
 
-    _store.dispatch({ type: 'REMOVE_ALL', payload: { id: 1, quantity: 20 } });
-  }
+        this.items = _store;
 
-  ngOnInit() {
-  }
+        _store.dispatch({ type: 'REMOVE_ALL', payload: { id: 1, quantity: 20 } });
+    }
 
 }
