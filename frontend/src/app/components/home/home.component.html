@@ -1,3 +1,3 @@
-<p>
-  home works!
-</p>
+<div *ngFor="let el of items | async">
+  {{el.id}} {{el.quantity}}
+</div>
