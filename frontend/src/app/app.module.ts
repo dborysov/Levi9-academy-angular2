@@ -1,5 +1,7 @@
 import './rxjs-extensions';
 
+import { Config } from './config';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -11,18 +13,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { INotificationsService, NotificationsService } from './services/notifications.service';
 import { IProductsApiService, ProductsApiService } from './services/products-api.service';
 
-import { AppComponent } from './components/app/app.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { HomeComponent } from './components/home/home.component';
-import { CatalogComponent } from './components/catalog/catalog.component';
-import { CartComponent } from './components/cart/cart.component';
-import { AdminComponent } from './components/admin/admin.component';
+import { AppComponent, NavigationComponent, HomeComponent, CatalogComponent, CartComponent, AdminComponent } from './components/all';
 
-import { cartStoreReducer } from './reducers/shopping-cart.reducer';
+import { cartStoreReducer } from './reducers/shopping-cart-items.reducer';
+import { saveToLocalStorageMetaReducer } from './reducers/save-to-local-storage.meta-reducer';
 
-const savedCart = JSON.parse(localStorage.getItem('cart'));
-const cartStoreInitialValue = savedCart || [];
-localStorage.setItem('cart', JSON.stringify(cartStoreInitialValue));
+const cartStoreInitialValue = JSON.parse(localStorage.getItem(Config.localStorageKeyChart)) || [];
 
 @NgModule({
     declarations: [
@@ -38,7 +34,7 @@ localStorage.setItem('cart', JSON.stringify(cartStoreInitialValue));
         FormsModule,
         HttpModule,
         AppRoutingModule,
-        StoreModule.provideStore(cartStoreReducer, cartStoreInitialValue)
+        StoreModule.provideStore({ cart: saveToLocalStorageMetaReducer(cartStoreReducer) }, { cart: cartStoreInitialValue })
     ],
     providers: [{
         provide: INotificationsService,
