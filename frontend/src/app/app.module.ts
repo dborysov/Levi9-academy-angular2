@@ -16,6 +16,8 @@ import { IProductsApiService, ProductsApiService } from './services/products-api
 import { AppComponent, NavigationComponent, HomeComponent, CatalogComponent, CartComponent, AdminComponent } from './components/all';
 
 import { cartStoreReducer } from './reducers/shopping-cart-items.reducer';
+import { catalogItemsReducer } from './reducers/catalog-items.reducer';
+import { selectedProductReducer } from './reducers/selected-product-reducer';
 import { saveToLocalStorageMetaReducer } from './reducers/save-to-local-storage.meta-reducer';
 
 const cartStoreInitialValue = JSON.parse(localStorage.getItem(Config.localStorageKeyChart)) || [];
@@ -34,7 +36,16 @@ const cartStoreInitialValue = JSON.parse(localStorage.getItem(Config.localStorag
         FormsModule,
         HttpModule,
         AppRoutingModule,
-        StoreModule.provideStore({ cart: saveToLocalStorageMetaReducer(cartStoreReducer) }, { cart: cartStoreInitialValue })
+        StoreModule.provideStore(
+            {
+                cart: saveToLocalStorageMetaReducer(cartStoreReducer),
+                catalog: catalogItemsReducer,
+                selectedProduct: selectedProductReducer
+            }, {
+                cart: cartStoreInitialValue,
+                catalog: [],
+                selectedProduct: null
+            })
     ],
     providers: [{
         provide: INotificationsService,

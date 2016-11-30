@@ -1,17 +1,21 @@
 import { OpaqueToken, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { Observable } from 'rxjs';
+import { IAppStore } from '../../appStore';
 
 import { IProduct } from '../models/product';
 
+import { Store } from '@ngrx/store';
+
+import { ADD_PRODUCT, REMOVE_ALL_PRODUCTS, EDIT_PRODUCT, DELETE_PRODUCT, SELECT_PRODUCT } from '../actions/products-actions';
+
 export const IProductsApiService = new OpaqueToken('IProductsApiService');
 export interface IProductsApiService {
-    getAllProducts(): Observable<IProduct[]>;
-    getProductById(id: number): Observable<IProduct>;
-    createNewProduct(newProduct: IProduct): Observable<IProduct>;
-    editProduct(newProduct: IProduct): Observable<IProduct>;
-    removeProduct(id: number): Observable<void>;
+    getAllProducts(): void;
+    createProduct(newProduct: IProduct): void;
+    editProduct(newProduct: IProduct): void;
+    removeProduct(id: number): void;
+    selectItem(id: number): void;
 }
 
 @Injectable()
@@ -19,35 +23,47 @@ export class ProductsApiService implements IProductsApiService {
 
     private _baseUrl = 'http://localhost:7778/api';
     private _relativeUrl = 'products';
-    constructor(private _http: Http) { }
+    constructor(
+        private _http: Http,
+        private _store: Store<IAppStore>
+    ) { }
 
-    getAllProducts(): Observable<IProduct[]> {
-        return this._http
+    getAllProducts(): void {
+        this._http
             .get(`${this._baseUrl}/${this._relativeUrl}`)
-            .map(products => products.json() as IProduct[]);
+            .do(() => this._store.dispatch({ type: REMOVE_ALL_PRODUCTS }))
+            .flatMap(products => products.json() as IProduct[])
+            .map(payload => ({ type: ADD_PRODUCT, payload }))
+            .subscribe(action => this._store.dispatch(action));
     };
 
-    getProductById(id: number): Observable<IProduct> {
-        return this._http
-            .get(`${this._baseUrl}/${this._relativeUrl}/id`)
-            .map(response => response.json() as IProduct);
-    };
-
-    createNewProduct(newProduct: IProduct): Observable<IProduct> {
-        return this._http
+    createProduct(newProduct: IProduct): void {
+        this._http
             .post(`${this._baseUrl}/${this._relativeUrl}`, newProduct)
-            .map(response => response.json() as IProduct);
+            .map(response => response.json() as IProduct)
+            .map(payload => ({ type: ADD_PRODUCT, payload }))
+            .subscribe(action => this._store.dispatch(action));
     };
 
-    editProduct(newProduct: IProduct): Observable<IProduct> {
-        return this._http
+    editProduct(newProduct: IProduct): void {
+        this._http
             .put(`${this._baseUrl}/${this._relativeUrl}/${newProduct.id}`, newProduct)
-            .map(response => response.json() as IProduct);
+            .map(response => response.json() as IProduct)
+            .map(payload => ({ type: EDIT_PRODUCT, payload }))
+            .subscribe(action => this._store.dispatch(action));
     };
 
-    removeProduct(id: number): Observable<void> {
-        return this._http.delete(`${this._baseUrl}/${this._relativeUrl}/${id}`)
-            .mapTo(undefined);
+    removeProduct(id: number): void {
+        this._http.delete(`${this._baseUrl}/${this._relativeUrl}/${id}`)
+            .map(() => ({ type: DELETE_PRODUCT, payload: { id } }))
+            .subscribe(action => this._store.dispatch(action));
     };
 
+    selectItem(id: number): void {
+        this._http
+            .get(`${this._baseUrl}/${this._relativeUrl}/${id}`)
+            .map(response => response.json() as IProduct)
+            .map(payload => ({type: SELECT_PRODUCT, payload}))
+            .subscribe(action => this._store.dispatch(action));
+    }
 }
