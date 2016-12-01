@@ -13,7 +13,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { INotificationsService, NotificationsService } from './services/notifications.service';
 import { IProductsApiService, ProductsApiService } from './services/products-api.service';
 
-import { AppComponent, NavigationComponent, HomeComponent, CatalogComponent, CartComponent, AdminComponent } from './components/all';
+import {
+    AppComponent,
+    NavigationComponent,
+    HomeComponent,
+    CatalogComponent,
+    CartComponent,
+    AdminComponent,
+    ProductDetailsPageComponent
+} from './components/all';
 
 import { cartStoreReducer } from './reducers/shopping-cart-items.reducer';
 import { catalogItemsReducer } from './reducers/catalog-items.reducer';
@@ -30,6 +38,7 @@ const cartStoreInitialValue = JSON.parse(localStorage.getItem(Config.localStorag
         CatalogComponent,
         CartComponent,
         AdminComponent,
+        ProductDetailsPageComponent,
     ],
     imports: [
         BrowserModule,
