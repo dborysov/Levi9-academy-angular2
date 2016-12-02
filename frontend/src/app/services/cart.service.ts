@@ -1,7 +1,7 @@
 import { Injectable, OpaqueToken } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { ADD_QUANTITY, REMOVE, REMOVE_QUANTITY, REMOVE_ALL } from '../actions/cart-item-actions';
+import { ADD_QUANTITY, REMOVE_QUANTITY, REMOVE_ALL } from '../actions/cart-item-actions';
 
 import { IAppStore } from '../../appStore';
 import { IProduct } from '../models/product';

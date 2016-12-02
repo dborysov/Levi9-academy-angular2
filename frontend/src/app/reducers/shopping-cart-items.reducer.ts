@@ -1,4 +1,4 @@
-import { ActionReducer, Action, } from '@ngrx/store';
+import { ActionReducer, Action } from '@ngrx/store';
 import { shoppingCartItemReducer } from './shopping-cart-item.reducer';
 import { ADD_QUANTITY, REMOVE, REMOVE_ALL, REMOVE_QUANTITY } from '../actions/cart-item-actions';
 import { ICartPosition } from '../models/cartPosition';
