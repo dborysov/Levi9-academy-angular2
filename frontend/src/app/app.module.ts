@@ -4,7 +4,7 @@ import { Config } from './config';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 
@@ -42,7 +42,7 @@ const cartStoreInitialValue = JSON.parse(localStorage.getItem(Config.localStorag
     ],
     imports: [
         BrowserModule,
-        FormsModule,
+        ReactiveFormsModule,
         HttpModule,
         AppRoutingModule,
         StoreModule.provideStore(
