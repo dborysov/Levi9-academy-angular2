@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { INotificationsService, NotificationsService } from './services/notifications.service';
 import { IProductsApiService, ProductsApiService } from './services/products-api.service';
+import { ICartService, CartService } from './services/cart.service';
 
 import {
     AppComponent,
@@ -62,6 +63,9 @@ const cartStoreInitialValue = JSON.parse(localStorage.getItem(Config.localStorag
     }, {
         provide: IProductsApiService,
         useClass: ProductsApiService
+    }, {
+        provide: ICartService,
+        useClass: CartService
     }],
     bootstrap: [AppComponent]
 })

@@ -1,7 +1,7 @@
 <nav>
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
     <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
-    <a routerLink="/cart" routerLinkActive="active">Cart(10)</a><!-- TODO - remove this stub -->
+    <a routerLink="/cart" routerLinkActive="active">Cart({{cartItemsCount | async}})</a>
     <a routerLink="/admin" routerLinkActive="active">Admin</a>
 </nav>
 
