@@ -34,8 +34,8 @@ function getProductById(id) {
 }
 
 function createNewProduct(newProduct) {
-    newProduct._id = newProduct.id;
-    newProduct.id = null;
+    newProduct._id = +new Date();
+    newProduct.date = +new Date();
 
     return Promise.resolve(new Product(newProduct).save())
         .catch(handleError);

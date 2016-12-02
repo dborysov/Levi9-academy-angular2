@@ -5,7 +5,8 @@ import {
     CartComponent,
     CatalogComponent,
     HomeComponent,
-    ProductDetailsPageComponent
+    ProductDetailsPageComponent,
+    ProductCreateComponent
 } from './components/all';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
     { path: 'catalog/:id', component: ProductDetailsPageComponent },
     { path: 'cart', component: CartComponent },
     { path: 'admin', component: AdminComponent },
+    { path: 'admin/create', component: ProductCreateComponent}
 ];
 
 @NgModule({

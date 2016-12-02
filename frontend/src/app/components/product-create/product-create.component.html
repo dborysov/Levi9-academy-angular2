@@ -1,0 +1,41 @@
+<form [formGroup]="createProductForm">
+    <div>
+        <label>
+            Category
+            <input type="text" formControlName="category">
+        </label>
+    </div>
+    <div>
+        <label>
+            Title
+            <input type="text" formControlName="title">
+        </label>
+    </div>
+    <div>
+        <label>
+            Brand
+            <input type="text" formControlName="brand">
+        </label>
+    </div>
+    <div>
+        <label>
+            Price
+            <input type="number" formControlName="price">
+        </label>
+    </div>
+    <div>
+        <label>
+            Description
+            <input type="text" formControlName="description">
+        </label>
+    </div>
+    <div>
+        <label>
+            details
+            <input type="text" formControlName="details">
+        </label>
+    </div>
+</form>
+
+<button>Back</button>
+<button (click)="createProduct()">Create</button>

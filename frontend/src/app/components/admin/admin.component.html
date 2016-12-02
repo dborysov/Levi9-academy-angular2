@@ -13,9 +13,8 @@
             <td>{{product.title}}</td>
             <td>{{product.brand}}</td>
             <td>{{product.date}}</td>
-            <td><button [routerLink]="['edit', product.id]">Edit</button></td>
             <td><button (click)="removeProduct(product.id)">Remove</button></td>
         </tr>
     </tbody>
 </table>
-<button [routerLink]="create">Create</button>
+<button routerLink="create">Create</button>

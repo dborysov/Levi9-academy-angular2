@@ -1,5 +1,5 @@
 import { OpaqueToken, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 import { IAppStore } from '../../appStore';
 
@@ -39,7 +39,7 @@ export class ProductsApiService implements IProductsApiService {
 
     createProduct(newProduct: IProduct): void {
         this._http
-            .post(`${this._baseUrl}/${this._relativeUrl}`, newProduct)
+            .post(`${this._baseUrl}/${this._relativeUrl}`, JSON.stringify(newProduct), { headers: new Headers({ 'Content-Type': 'application/json' }) })
             .map(response => response.json() as IProduct)
             .map(payload => ({ type: ADD_PRODUCT, payload }))
             .subscribe(action => this._store.dispatch(action));
@@ -63,7 +63,7 @@ export class ProductsApiService implements IProductsApiService {
         this._http
             .get(`${this._baseUrl}/${this._relativeUrl}/${id}`)
             .map(response => response.json() as IProduct)
-            .map(payload => ({type: SELECT_PRODUCT, payload}))
+            .map(payload => ({ type: SELECT_PRODUCT, payload }))
             .subscribe(action => this._store.dispatch(action));
     }
 }

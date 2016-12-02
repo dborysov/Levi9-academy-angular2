@@ -21,7 +21,8 @@ import {
     CatalogComponent,
     CartComponent,
     AdminComponent,
-    ProductDetailsPageComponent
+    ProductDetailsPageComponent,
+    ProductCreateComponent
 } from './components/all';
 
 import { cartStoreReducer } from './reducers/shopping-cart-items.reducer';
@@ -40,6 +41,7 @@ const cartStoreInitialValue = JSON.parse(localStorage.getItem(Config.localStorag
         CartComponent,
         AdminComponent,
         ProductDetailsPageComponent,
+        ProductCreateComponent,
     ],
     imports: [
         BrowserModule,
