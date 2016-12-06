@@ -1,14 +1,14 @@
-import { ActionReducer, Action } from '@ngrx/store';
+import { ActionReducer } from '@ngrx/store';
 
-import { EDIT_PRODUCT } from '../actions/products-actions';
+import * as catalog from '../actions/catalog';
 
 import { IProduct } from '../models/product';
 
-export const catalogItemReducer: ActionReducer<IProduct> = (state: IProduct, {type, payload}: Action) => {
-    switch (type) {
-        case EDIT_PRODUCT:
-            return state.id === payload.id
-                ? Object.assign({}, state, payload)
+export const catalogItemReducer: ActionReducer<IProduct> = (state: IProduct, action: catalog.Actions) => {
+    switch (action.type) {
+        case catalog.ActionTypes.EDIT:
+            return state.id === action.payload.id
+                ? Object.assign({}, state, action.payload)
                 : state;
 
         default:

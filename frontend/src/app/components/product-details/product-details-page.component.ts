@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Observable , Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -26,10 +26,10 @@ export class ProductDetailsPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.paramsSubscription = this._route.params.subscribe((params: Params) => this._productsService.selectItem(+params['id']))
+        this.paramsSubscription = this._route.params.subscribe((params: Params) => this._productsService.selectItem(+params['id']));
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.paramsSubscription.unsubscribe();
     }
 }

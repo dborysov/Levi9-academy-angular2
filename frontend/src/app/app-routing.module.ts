@@ -7,7 +7,7 @@ import {
     HomeComponent,
     ProductDetailsPageComponent,
     ProductCreateComponent
-} from './components/all';
+} from './components';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },

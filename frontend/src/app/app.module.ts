@@ -23,7 +23,7 @@ import {
     AdminComponent,
     ProductDetailsPageComponent,
     ProductCreateComponent
-} from './components/all';
+} from './components';
 
 import { cartStoreReducer } from './reducers/shopping-cart-items.reducer';
 import { catalogItemsReducer } from './reducers/catalog-items.reducer';

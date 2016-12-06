@@ -7,7 +7,7 @@ import { IProduct } from '../models/product';
 
 import { Store } from '@ngrx/store';
 
-import { ADD_PRODUCT, REMOVE_ALL_PRODUCTS, EDIT_PRODUCT, DELETE_PRODUCT, SELECT_PRODUCT } from '../actions/products-actions';
+import * as catalog from '../actions/catalog';
 
 export const IProductsApiService = new OpaqueToken('IProductsApiService');
 export interface IProductsApiService {
@@ -17,6 +17,8 @@ export interface IProductsApiService {
     removeProduct(id: number): void;
     selectItem(id: number): void;
 }
+
+const headers = new Headers({ 'Content-Type': 'application/json' });
 
 @Injectable()
 export class ProductsApiService implements IProductsApiService {
@@ -31,31 +33,31 @@ export class ProductsApiService implements IProductsApiService {
     getAllProducts(): void {
         this._http
             .get(`${this._baseUrl}/${this._relativeUrl}`)
-            .do(() => this._store.dispatch({ type: REMOVE_ALL_PRODUCTS }))
+            .do(() => this._store.dispatch(new catalog.DeleteAllAction()))
             .flatMap(products => products.json() as IProduct[])
-            .map(payload => ({ type: ADD_PRODUCT, payload }))
+            .map(payload => new catalog.AddAction(payload))
             .subscribe(action => this._store.dispatch(action));
     };
 
     createProduct(newProduct: IProduct): void {
         this._http
-            .post(`${this._baseUrl}/${this._relativeUrl}`, JSON.stringify(newProduct), { headers: new Headers({ 'Content-Type': 'application/json' }) })
+            .post(`${this._baseUrl}/${this._relativeUrl}`, JSON.stringify(newProduct), { headers })
             .map(response => response.json() as IProduct)
-            .map(payload => ({ type: ADD_PRODUCT, payload }))
+            .map(payload => new catalog.AddAction(payload))
             .subscribe(action => this._store.dispatch(action));
     };
 
     editProduct(newProduct: IProduct): void {
         this._http
-            .put(`${this._baseUrl}/${this._relativeUrl}/${newProduct.id}`, newProduct)
+            .put(`${this._baseUrl}/${this._relativeUrl}/${newProduct.id}`, JSON.stringify(newProduct), { headers })
             .map(response => response.json() as IProduct)
-            .map(payload => ({ type: EDIT_PRODUCT, payload }))
+            .map(payload => new catalog.EditAction(payload))
             .subscribe(action => this._store.dispatch(action));
     };
 
     removeProduct(id: number): void {
-        this._http.delete(`${this._baseUrl}/${this._relativeUrl}/${id}`)
-            .map(() => ({ type: DELETE_PRODUCT, payload: { id } }))
+        this._http.delete(`${this._baseUrl}/${this._relativeUrl}/${id}`, { headers })
+            .map(() => new catalog.DeleteAction({ id }))
             .subscribe(action => this._store.dispatch(action));
     };
 
@@ -63,7 +65,7 @@ export class ProductsApiService implements IProductsApiService {
         this._http
             .get(`${this._baseUrl}/${this._relativeUrl}/${id}`)
             .map(response => response.json() as IProduct)
-            .map(payload => ({ type: SELECT_PRODUCT, payload }))
+            .map(payload => new catalog.SelectAction(payload))
             .subscribe(action => this._store.dispatch(action));
     }
 }

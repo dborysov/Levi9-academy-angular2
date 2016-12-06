@@ -1,17 +1,17 @@
-import { ActionReducer, Action, } from '@ngrx/store';
+import { ActionReducer } from '@ngrx/store';
 import { ICartPosition } from '../models/cartPosition';
-import { ADD_QUANTITY, REMOVE_QUANTITY } from '../actions/cart-item-actions';
+import * as cart from '../actions/cart';
 
-export const shoppingCartItemReducer: ActionReducer<ICartPosition> = (state: ICartPosition, {type, payload}: Action) => {
-    switch (type) {
-        case ADD_QUANTITY:
-            return state.id === payload.id
-                ? Object.assign({}, state, { quantity: state.quantity + payload.quantity })
+export const shoppingCartItemReducer: ActionReducer<ICartPosition> = (state: ICartPosition, action: cart.Actions) => {
+    switch (action.type) {
+        case cart.ActionTypes.ADD_QUANTITY:
+            return state.id === action.payload.id
+                ? Object.assign({}, state, { quantity: state.quantity + action.payload.quantity })
                 : state;
 
-        case REMOVE_QUANTITY:
-            return state.id === payload.id && state.quantity > payload.quantity
-                ? Object.assign({}, state, { quantity: state.quantity - payload.quantity })
+        case cart.ActionTypes.REMOVE_QUANTITY:
+            return state.id === action.payload.id && state.quantity > action.payload.quantity
+                ? Object.assign({}, state, { quantity: state.quantity - action.payload.quantity })
                 : state;
 
         default:
