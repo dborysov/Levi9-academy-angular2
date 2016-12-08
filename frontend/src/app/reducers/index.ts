@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector, Selector } from 'reselect';
 import { ActionReducer, Action, combineReducers } from '@ngrx/store';
 import { compose } from '@ngrx/core';
 import { storeFreeze } from 'ngrx-store-freeze';
@@ -8,6 +8,9 @@ import * as fromCatalog from './catalog-items.reducer';
 import * as fromSaveToLocalStorage from './save-to-local-storage.meta-reducer';
 import * as fromSelectedProduct from './selected-product-reducer';
 import * as fromCart from './shopping-cart-items.reducer';
+
+import { IProduct } from '../models/product';
+import { ICartPosition } from '../models/cartPosition';
 
 export interface IState {
     catalog: fromCatalog.IState;
@@ -30,14 +33,14 @@ export function reducer(state: any, action: Action) {
         : developmentReducer(state, action);
 };
 
-const getSelectedProductState = (state: IState) => state.selectedProduct;
+export const getSelectedProductState = (state: IState) => state.selectedProduct;
 
-export const getSelectedProduct = createSelector(getSelectedProductState, fromSelectedProduct.getSelectedItem);
+export const getSelectedProduct: Selector<IState, IProduct> = createSelector(getSelectedProductState, fromSelectedProduct.getSelectedItem);
 
-const getCartItemsState = (state: IState) => state.cart;
+export const getCartItemsState = (state: IState) => state.cart;
 
-export const getCartItems = createSelector(getCartItemsState, fromCart.getProducts);
+export const getCartItems: Selector<IState, ICartPosition[]> = createSelector(getCartItemsState, fromCart.getProducts);
 
-const getCatalogItemsState = (state: IState) => state.catalog;
+export const getCatalogItemsState = (state: IState) => state.catalog;
 
-export const getCatalogItems = createSelector(getCatalogItemsState, fromCatalog.getProducts);
+export const getCatalogItems: Selector<IState, IProduct[]> = createSelector(getCatalogItemsState, fromCatalog.getProducts);

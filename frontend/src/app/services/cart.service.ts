@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import * as cart from '../actions/cart';
 
-import { IAppStore } from '../../appStore';
+import { IState } from '../reducers';
 import { IProduct } from '../models/product';
 import { ICartPosition } from '../models/cartPosition';
 
@@ -17,21 +17,19 @@ export interface ICartService {
 @Injectable()
 export class CartService implements ICartService {
 
-    constructor(
-        private _store: Store<IAppStore>
-    ) { }
+    constructor(private store: Store<IState>) { }
 
     add(product: IProduct, quantity = 1) {
         const cartItem = Object.assign({}, product, { quantity }) as ICartPosition;
-        this._store.dispatch(new cart.AddQuantityAction(cartItem));
+        this.store.dispatch(new cart.AddQuantityAction(cartItem));
     }
     remove(product: IProduct, quantity?: number) {
         const cartItem = Object.assign({}, product, { quantity }) as ICartPosition;
-        this._store.dispatch(new cart.RemoveQuantityAction(cartItem));
+        this.store.dispatch(new cart.RemoveQuantityAction(cartItem));
     }
 
     removeAll() {
-        this._store.dispatch(new cart.RemoveAllAction());
+        this.store.dispatch(new cart.RemoveAllAction());
     }
 
 }

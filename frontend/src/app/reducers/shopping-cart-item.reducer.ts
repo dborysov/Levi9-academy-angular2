@@ -2,7 +2,7 @@ import { ActionReducer } from '@ngrx/store';
 import { ICartPosition } from '../models/cartPosition';
 import * as cart from '../actions/cart';
 
-interface IState {
+export interface IState {
     product: ICartPosition;
 }
 

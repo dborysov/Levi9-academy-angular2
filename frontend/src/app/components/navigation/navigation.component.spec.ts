@@ -5,7 +5,7 @@ import { NavigationComponent } from './navigation.component';
 
 describe('Component: Navigation', () => {
     it('should create an instance', () => {
-        let component = new NavigationComponent();
+        let component = new NavigationComponent(null);
         expect(component).toBeTruthy();
     });
 });

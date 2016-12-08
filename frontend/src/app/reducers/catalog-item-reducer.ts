@@ -4,7 +4,7 @@ import * as catalog from '../actions/catalog';
 
 import { IProduct } from '../models/product';
 
-interface IState {
+export interface IState {
     product: IProduct;
 }
 
