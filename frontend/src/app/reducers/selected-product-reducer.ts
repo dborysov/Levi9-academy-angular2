@@ -4,17 +4,27 @@ import * as catalog from '../actions/catalog';
 
 import { IProduct } from '../models/product';
 
-export const selectedProductReducer: ActionReducer<IProduct> = (state: IProduct, action: catalog.Actions) => {
+export interface IState {
+    product: IProduct;
+}
+
+const initialValue: IState = {
+    product: null
+}
+
+export const reducer: ActionReducer<IState> = (state = initialValue, action: catalog.Actions) => {
     switch (action.type) {
         case catalog.ActionTypes.SELECT:
-            return action.payload;
+            return { product: action.payload };
 
         case catalog.ActionTypes.EDIT:
-            return state.id === action.payload.id
-                ? Object.assign({}, state, action.payload)
+            return state.product.id === action.payload.id
+                ? { product: action.payload }
                 : state;
 
         default:
             return state;
     }
 };
+
+export const getSelectedItem = (state: IState) => state.product;

@@ -6,23 +6,33 @@ import { catalogItemReducer } from './catalog-item-reducer';
 
 import { IProduct } from '../models/product';
 
-export const catalogItemsReducer: ActionReducer<IProduct[]> = (state: IProduct[], action: catalog.Actions) => {
+export interface IState {
+    products: IProduct[];
+}
+
+const initialValue: IState = {
+    products: []
+}
+
+export const reducer: ActionReducer<IState> = (state = initialValue, action: catalog.Actions) => {
     switch (action.type) {
         case catalog.ActionTypes.ADD:
-            return state.some(product => product.id === action.payload.id)
+            return state.products.some(product => product.id === action.payload.id)
                 ? state
-                : [...state, action.payload];
+                : { products: [...state.products, action.payload] };
 
         case catalog.ActionTypes.DELETE_ALL:
-            return [];
+            return { products: [] };
 
         case catalog.ActionTypes.EDIT:
-            return state.map(product => catalogItemReducer(product, action));
+            return { products: state.products.map(product => catalogItemReducer({ product }, action).product) };
 
         case catalog.ActionTypes.DELETE:
-            return state.filter(product => product.id !== action.payload.id);
+            return { products: state.products.filter(product => product.id !== action.payload.id) };
 
         default:
             return state;
     }
 };
+
+export const getProducts = (state: IState) => state.products;

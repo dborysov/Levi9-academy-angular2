@@ -9,8 +9,8 @@ import { Store } from '@ngrx/store';
 
 import * as catalog from '../actions/catalog';
 
-export const IProductsApiService = new OpaqueToken('IProductsApiService');
-export interface IProductsApiService {
+export const IProductsService = new OpaqueToken('IProductsApiService');
+export interface IProductsService {
     getAllProducts(): void;
     createProduct(newProduct: IProduct): void;
     editProduct(newProduct: IProduct): void;
@@ -21,7 +21,7 @@ export interface IProductsApiService {
 const headers = new Headers({ 'Content-Type': 'application/json' });
 
 @Injectable()
-export class ProductsApiService implements IProductsApiService {
+export class ProductsService implements IProductsService {
 
     private _baseUrl = 'http://localhost:7778/api';
     private _relativeUrl = 'products';

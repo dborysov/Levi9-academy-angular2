@@ -4,9 +4,9 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { IAppStore } from '../../../appStore';
+import * as fromRoot from '../../reducers';
 import { IProduct } from '../../models/product';
-import { IProductsApiService } from '../../services/products-api.service';
+import { IProductsService } from '../../services/products.service';
 
 @Component({
     selector: 'app-product-details-page',
@@ -14,19 +14,18 @@ import { IProductsApiService } from '../../services/products-api.service';
     styleUrls: ['./product-details-page.component.scss']
 })
 export class ProductDetailsPageComponent implements OnInit, OnDestroy {
-    private product: Observable<IProduct>;
+    private product$: Observable<IProduct>;
     private paramsSubscription: Subscription;
 
     constructor(
-        private _route: ActivatedRoute,
-        private _store: Store<IAppStore>,
-        @Inject(IProductsApiService) private _productsService: IProductsApiService
-    ) {
-        this.product = _store.select<IProduct>('selectedProduct');
-    }
+        private store: Store<fromRoot.IState>,
+        private route: ActivatedRoute,
+        @Inject(IProductsService) private productsService: IProductsService,
+    ) { }
 
     ngOnInit() {
-        this.paramsSubscription = this._route.params.subscribe((params: Params) => this._productsService.selectItem(+params['id']));
+        this.product$ = this.store.select<IProduct>(fromRoot.getSelectedProduct);
+        this.paramsSubscription = this.route.params.subscribe((params: Params) => this.productsService.selectItem(+params['id']));
     }
 
     ngOnDestroy() {
