@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
+import { NOTIFY_PROVIDERS } from '@ngrx/notify';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -43,7 +44,7 @@ import { reducer } from './reducers';
         AppRoutingModule,
         StoreModule.provideStore(reducer)
     ],
-    providers: [{
+    providers: [NOTIFY_PROVIDERS, {
         provide: INotificationsService,
         useClass: NotificationsService
     }, {
