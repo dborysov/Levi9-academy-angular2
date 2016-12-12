@@ -9,7 +9,6 @@ import { NOTIFY_PROVIDERS } from '@ngrx/notify';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { INotificationsService, NotificationsService } from './services/notifications.service';
 import { IProductsService, ProductsService } from './services/products.service';
 import { ICartService, CartService } from './services/cart.service';
 
@@ -45,9 +44,6 @@ import { reducer } from './reducers';
         StoreModule.provideStore(reducer)
     ],
     providers: [NOTIFY_PROVIDERS, {
-        provide: INotificationsService,
-        useClass: NotificationsService
-    }, {
         provide: IProductsService,
         useClass: ProductsService
     }, {
