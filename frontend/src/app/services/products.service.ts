@@ -9,6 +9,8 @@ import { Store } from '@ngrx/store';
 
 import * as catalog from '../actions/catalog';
 
+import * as selectedProduct from '../actions/selectedProduct';
+
 export const IProductsService = new OpaqueToken('IProductsApiService');
 export interface IProductsService {
     getAllProducts(): void;
@@ -62,10 +64,6 @@ export class ProductsService implements IProductsService {
     };
 
     selectItem(id: number): void {
-        this.http
-            .get(`${this.baseUrl}/${this.relativeUrl}/${id}`)
-            .map(response => response.json() as IProduct)
-            .map(payload => new catalog.SelectAction(payload))
-            .subscribe(action => this.store.dispatch(action));
+        this.store.dispatch(new selectedProduct.SelectAction({id}));
     }
 }

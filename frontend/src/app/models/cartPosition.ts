@@ -1,5 +1,4 @@
-import { IProduct } from './product';
-
-export interface ICartPosition extends IProduct {
+export interface ICartPosition {
+    id: number;
     quantity: number;
 }

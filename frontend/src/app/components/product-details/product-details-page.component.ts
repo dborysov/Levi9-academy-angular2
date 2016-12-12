@@ -27,6 +27,7 @@ export class ProductDetailsPageComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.product$ = this.store.select<IProduct>(fromRoot.getSelectedProduct);
         this.paramsSubscription = this.route.params.subscribe((params: Params) => this.productsService.selectItem(+params['id']));
+        this.productsService.getAllProducts();
     }
 
     ngOnDestroy() {

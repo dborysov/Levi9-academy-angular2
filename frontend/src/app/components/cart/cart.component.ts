@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import { ICartService } from '../../services/cart.service';
-import { ICartPosition } from '../../models/cartPosition';
+import { IProduct } from '../../models/product';
+import { ICartPositionsDetails } from '../../models/cartPositionsDetails';
 
 import { } from '../../services/';
 
@@ -14,7 +15,7 @@ import { } from '../../services/';
     styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-    products$: Observable<ICartPosition[]>;
+    products$: Observable<ICartPositionsDetails[]>;
     totalPrice$: Observable<number>;
 
     constructor(
@@ -23,16 +24,16 @@ export class CartComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.products$ = this.store.select<ICartPosition[]>(fromRoot.getCartItems);
+        this.products$ = this.store.select<ICartPositionsDetails[]>(fromRoot.getCartItemsDetails);
         this.totalPrice$ = this.products$.map(positions => positions.reduce((prev, curr) => prev + curr.quantity * curr.price, 0));
     }
 
-    removeFromCart(product: ICartPosition, quantity?: number) {
-        this.cartService.remove(product, quantity);
+    removeFromCart(product: IProduct, quantity?: number) {
+        this.cartService.remove({id: product.id, quantity});
     }
 
-    addToCart(product: ICartPosition, quantity?: number) {
-        this.cartService.add(product, quantity);
+    addToCart(product: IProduct, quantity: number) {
+        this.cartService.add({id: product.id, quantity});
     }
 
     clearCart() {

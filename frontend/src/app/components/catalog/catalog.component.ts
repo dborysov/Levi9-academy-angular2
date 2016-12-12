@@ -44,6 +44,6 @@ export class CatalogComponent implements OnInit {
     }
 
     addToCart(product: IProduct) {
-        this.cartService.add(product);
+        this.cartService.add({ id: product.id, quantity: 1 });
     }
 }

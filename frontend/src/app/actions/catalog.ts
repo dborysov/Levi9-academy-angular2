@@ -7,7 +7,6 @@ export const ActionTypes = {
     DELETE: type('[Catalog] Delete'),
     EDIT: type('[Catalog] Edit'),
     DELETE_ALL: type('[Catalog] Delete All'),
-    SELECT: type('[Catalog] Select'),
 };
 
 export class AddAction implements Action {
@@ -34,15 +33,8 @@ export class DeleteAllAction implements Action {
     constructor() { }
 }
 
-export class SelectAction implements Action {
-    type = ActionTypes.SELECT;
-
-    constructor(public payload: IProduct) { }
-}
-
 export type Actions
     = AddAction
     | DeleteAction
     | EditAction
-    | DeleteAllAction
-    | SelectAction;
+    | DeleteAllAction;

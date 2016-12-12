@@ -18,7 +18,7 @@
             <td>{{product.description}}</td>
             <td>{{product.quantity}}</td>
             <td><button (click)="removeFromCart(product, 1)">-</button></td>
-            <td><button (click)="addToCart(product)">+</button></td>
+            <td><button (click)="addToCart(product, 1)">+</button></td>
             <td><button [routerLink]="['/catalog', product.id]">Details</button></td>
             <td><button (click)="removeFromCart(product)">x</button></td>
         </tr>

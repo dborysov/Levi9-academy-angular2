@@ -4,13 +4,12 @@ import { Store } from '@ngrx/store';
 import * as cart from '../actions/cart';
 
 import { IState } from '../reducers';
-import { IProduct } from '../models/product';
 import { ICartPosition } from '../models/cartPosition';
 
 export const ICartService = new OpaqueToken('ICartService');
 export interface ICartService {
-    add(product: IProduct, quantity?: number): void;
-    remove(product: IProduct, quantity?: number): void;
+    add(cartPosition: ICartPosition): void;
+    remove(cartPosition: ICartPosition): void;
     removeAll(): void;
 }
 
@@ -19,13 +18,11 @@ export class CartService implements ICartService {
 
     constructor(private store: Store<IState>) { }
 
-    add(product: IProduct, quantity = 1) {
-        const cartItem = Object.assign({}, product, { quantity }) as ICartPosition;
-        this.store.dispatch(new cart.AddQuantityAction(cartItem));
+    add(cartPosition: ICartPosition) {
+        this.store.dispatch(new cart.AddQuantityAction(cartPosition));
     }
-    remove(product: IProduct, quantity?: number) {
-        const cartItem = Object.assign({}, product, { quantity }) as ICartPosition;
-        this.store.dispatch(new cart.RemoveQuantityAction(cartItem));
+    remove(cartPosition: ICartPosition) {
+        this.store.dispatch(new cart.RemoveQuantityAction(cartPosition));
     }
 
     removeAll() {

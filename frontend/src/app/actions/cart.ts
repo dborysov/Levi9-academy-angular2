@@ -24,7 +24,7 @@ export class RemoveQuantityAction implements Action {
 export class RemoveItemAction implements Action {
     type = ActionTypes.REMOVE_ITEM;
 
-    constructor(public payload: ICartPosition) { }
+    constructor(public payload: { id: number }) { }
 };
 
 export class RemoveAllAction implements Action {

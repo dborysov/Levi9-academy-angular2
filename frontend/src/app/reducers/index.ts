@@ -5,25 +5,22 @@ import { routerReducer, RouterState } from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../environments/environment';
 
-import * as fromCatalog from './catalog-items.reducer';
-import * as fromSaveToLocalStorage from './save-to-local-storage.meta-reducer';
-import * as fromSelectedProduct from './selected-product-reducer';
-import * as fromCart from './shopping-cart-items.reducer';
-
 import { IProduct } from '../models/product';
 import { ICartPosition } from '../models/cartPosition';
+import { ICartPositionsDetails } from '../models/cartPositionsDetails';
+
+import * as fromProducts from './products';
+
+import * as fromCatalog from './catalog';
+import * as fromSelectedProduct from './selected-product';
 
 export interface IState {
-    catalog: fromCatalog.IState;
-    selectedProduct: fromSelectedProduct.IState;
-    cart: fromCart.IState;
+    products: fromProducts.IState;
     router: RouterState;
 }
 
 const reducers = {
-    catalog: fromCatalog.reducer,
-    selectedProduct: fromSelectedProduct.reducer,
-    cart: fromSaveToLocalStorage.reducer(fromCart.reducer),
+    products: fromProducts.reducer,
     router: routerReducer,
 };
 
@@ -36,14 +33,25 @@ export function reducer(state: any, action: Action) {
         : developmentReducer(state, action);
 };
 
-export const getSelectedProductState = (state: IState) => state.selectedProduct;
+export const getProductsState = (state: IState) => state.products;
 
-export const getSelectedProduct: Selector<IState, IProduct> = createSelector(getSelectedProductState, fromSelectedProduct.getSelectedItem);
+const getSelectedProductId: Selector<IState, fromSelectedProduct.IState> = createSelector(
+    getProductsState,
+    fromProducts.getSelectedProduct);
 
-export const getCartItemsState = (state: IState) => state.cart;
+export const getCartItemsIds: Selector<IState, ICartPosition[]> = createSelector(getProductsState, fromProducts.getCartIds);
 
-export const getCartItems: Selector<IState, ICartPosition[]> = createSelector(getCartItemsState, fromCart.getProducts);
+export const getCatalogItems: Selector<IState, IProduct[]> = createSelector(getProductsState, fromProducts.getCatalog);
 
-export const getCatalogItemsState = (state: IState) => state.catalog;
+export const getSelectedProduct: Selector<IState, IProduct> = createSelector(
+    getSelectedProductId,
+    getCatalogItems,
+    (selectedProductId: fromSelectedProduct.IState, catalog: IProduct[]) => catalog.find(item => item.id === selectedProductId.id));
 
-export const getCatalogItems: Selector<IState, IProduct[]> = createSelector(getCatalogItemsState, fromCatalog.getProducts);
+export const getCartItemsDetails: Selector<IState, ICartPositionsDetails[]> = createSelector(
+    getCartItemsIds,
+    getCatalogItems,
+    (cartItems, catalogItems) => cartItems.map(cartItem => Object.assign({},
+        (catalogItems.find(catalogItem => catalogItem.id === cartItem.id) || cartItem),
+        { quantity: cartItem.quantity }) as ICartPositionsDetails)
+);
