@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { NOTIFY_PROVIDERS } from '@ngrx/notify';
+import { RouterStoreModule } from '@ngrx/router-store';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -41,6 +42,7 @@ import { reducer } from './reducers';
         ReactiveFormsModule,
         HttpModule,
         AppRoutingModule,
+        RouterStoreModule.connectRouter(),
         StoreModule.provideStore(reducer)
     ],
     providers: [NOTIFY_PROVIDERS, {

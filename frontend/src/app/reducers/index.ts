@@ -1,6 +1,7 @@
 import { createSelector, Selector } from 'reselect';
 import { ActionReducer, Action, combineReducers } from '@ngrx/store';
 import { compose } from '@ngrx/core';
+import { routerReducer, RouterState } from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../environments/environment';
 
@@ -16,12 +17,14 @@ export interface IState {
     catalog: fromCatalog.IState;
     selectedProduct: fromSelectedProduct.IState;
     cart: fromCart.IState;
+    router: RouterState;
 }
 
 const reducers = {
     catalog: fromCatalog.reducer,
     selectedProduct: fromSelectedProduct.reducer,
     cart: fromSaveToLocalStorage.reducer(fromCart.reducer),
+    router: routerReducer,
 };
 
 const developmentReducer: ActionReducer<IState> = compose(storeFreeze, combineReducers)(reducers);

@@ -1,5 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { back } from '@ngrx/router-store';
+
+import * as fromRoot from '../../reducers';
 
 import { IProductsService } from '../../services/products.service';
 
@@ -18,7 +22,9 @@ export class ProductCreateComponent implements OnInit {
         details: new FormControl('', [Validators.required])
     });
 
-    constructor( @Inject(IProductsService) private productsService: IProductsService) { }
+    constructor(
+        private store: Store<fromRoot.IState>,
+        @Inject(IProductsService) private productsService: IProductsService) { }
 
     ngOnInit() { }
 
@@ -26,6 +32,9 @@ export class ProductCreateComponent implements OnInit {
         this.productsService.createProduct(this.createProductForm.value);
     }
 
+    back() {
+        this.store.dispatch(back());
+    }
 }
 
 function validatePrice(control: FormControl) {

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { back } from '@ngrx/router-store';
 
 import { Store } from '@ngrx/store';
 
@@ -30,5 +31,9 @@ export class ProductDetailsPageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.paramsSubscription.unsubscribe();
+    }
+
+    back() {
+        this.store.dispatch(back());
     }
 }
