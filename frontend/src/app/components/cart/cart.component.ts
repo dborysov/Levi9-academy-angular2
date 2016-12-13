@@ -7,16 +7,14 @@ import { ICartService } from '../../services/cart.service';
 import { IProduct } from '../../models/product';
 import { ICartPositionsDetails } from '../../models/cartPositionsDetails';
 
-import { } from '../../services/';
-
 @Component({
     selector: 'app-cart',
     templateUrl: './cart.component.html',
     styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-    products$: Observable<ICartPositionsDetails[]>;
-    totalPrice$: Observable<number>;
+    public products$: Observable<ICartPositionsDetails[]>;
+    public totalPrice$: Observable<number>;
 
     constructor(
         private store: Store<fromRoot.IState>,

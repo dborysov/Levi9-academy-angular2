@@ -10,7 +10,7 @@ import * as fromRoot from '../../reducers';
     styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
-    cartItemsCount$: Observable<number>;
+    public cartItemsCount$: Observable<number>;
 
     constructor(private store: Store<fromRoot.IState>) { }
 

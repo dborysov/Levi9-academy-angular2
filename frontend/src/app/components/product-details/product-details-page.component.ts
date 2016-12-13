@@ -15,8 +15,8 @@ import { IProductsService } from '../../services/products.service';
     styleUrls: ['./product-details-page.component.scss']
 })
 export class ProductDetailsPageComponent implements OnInit, OnDestroy {
-    private product$: Observable<IProduct>;
-    private paramsSubscription: Subscription;
+    public product$: Observable<IProduct>;
+    public paramsSubscription: Subscription;
 
     constructor(
         private store: Store<fromRoot.IState>,

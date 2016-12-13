@@ -13,7 +13,7 @@ import { IProductsService } from '../../services/products.service';
     styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-    products$: Observable<IProduct[]>;
+    public products$: Observable<IProduct[]>;
 
     constructor(
         private store: Store<fromRoot.IState>,

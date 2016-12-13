@@ -11,7 +11,6 @@ import { ICartPositionsDetails } from '../models/cartPositionsDetails';
 
 import * as fromProducts from './products';
 
-import * as fromCatalog from './catalog';
 import * as fromSelectedProduct from './selected-product';
 
 export interface IState {

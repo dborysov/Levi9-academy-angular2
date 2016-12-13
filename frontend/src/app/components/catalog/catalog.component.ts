@@ -17,9 +17,9 @@ import { ICartService } from '../../services/cart.service';
     providers: [FormControlDirective]
 })
 export class CatalogComponent implements OnInit {
-    catalog$: Observable<IProduct[]>;
-    catalogFiltered$: Observable<IProduct[]>;
-    selectedItem$: Observable<IProduct>;
+    public catalog$: Observable<IProduct[]>;
+    public catalogFiltered$: Observable<IProduct[]>;
+    public selectedItem$: Observable<IProduct>;
 
     searchTerm: FormControl = new FormControl();
 

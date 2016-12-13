@@ -60,5 +60,6 @@ export const reducer: ActionReducer<IState> = (state = initialValue, action: act
 };
 
 export const getCatalog = (state: IState) => Object.keys(state.catalog).map(item => state.catalog[item]) as IProduct[];
-export const getCartIds = (state: IState) => Object.keys(state.cart).map(item => ({ id: +item, quantity: state.cart[item] })) as ICartPosition[];
+export const getCartIds = (state: IState) => Object.keys(state.cart)
+    .map(item => ({ id: +item, quantity: state.cart[item] })) as ICartPosition[];
 export const getSelectedProduct = (state: IState) => state.selectedProduct;

@@ -1,4 +1,4 @@
-import { Config } from '../config';
+// import { Config } from '../config';
 
 import { ActionReducer, Action } from '@ngrx/store';
 
