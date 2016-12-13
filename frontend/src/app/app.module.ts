@@ -7,8 +7,11 @@ import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { NOTIFY_PROVIDERS } from '@ngrx/notify';
 import { RouterStoreModule } from '@ngrx/router-store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { AppRoutingModule } from './app-routing.module';
+
+import { ProductsEffects } from './effects/products';
 
 import { IProductsService, ProductsService } from './services/products.service';
 import { ICartService, CartService } from './services/cart.service';
@@ -43,7 +46,8 @@ import { reducer } from './reducers';
         HttpModule,
         AppRoutingModule,
         RouterStoreModule.connectRouter(),
-        StoreModule.provideStore(reducer)
+        StoreModule.provideStore(reducer),
+        EffectsModule.run(ProductsEffects),
     ],
     providers: [NOTIFY_PROVIDERS, {
         provide: IProductsService,

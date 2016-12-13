@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import { ICartService } from '../../services/cart.service';
+import { IProductsService } from '../../services/products.service';
 import { IProduct } from '../../models/product';
 import { ICartPositionsDetails } from '../../models/cartPositionsDetails';
 
@@ -19,11 +20,14 @@ export class CartComponent implements OnInit {
     constructor(
         private store: Store<fromRoot.IState>,
         @Inject(ICartService) private cartService: ICartService,
+        @Inject(IProductsService) private productsService: IProductsService,
     ) { }
 
     ngOnInit() {
         this.products$ = this.store.select<ICartPositionsDetails[]>(fromRoot.getCartItemsDetails);
         this.totalPrice$ = this.products$.map(positions => positions.reduce((prev, curr) => prev + curr.quantity * curr.price, 0));
+
+        this.productsService.getAllProducts();
     }
 
     removeFromCart(product: IProduct, quantity?: number) {

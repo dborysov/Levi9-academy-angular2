@@ -8,6 +8,8 @@ import * as catalog from './catalog';
 import * as cart from './cart';
 import * as selectedProduct from './selected-product';
 
+import { reducer as saveToLocalStorage } from './save-to-local-storage.meta-reducer';
+
 import { IProduct } from '../models/product';
 import { ICartPosition } from '../models/cartPosition';
 
@@ -37,12 +39,13 @@ export const reducer: ActionReducer<IState> = (state = initialValue, action: act
                 selectedProduct: state.selectedProduct,
             };
 
+        case cartActions.ActionTypes.LOAD_SUCCESS:
         case cartActions.ActionTypes.ADD_QUANTITY:
         case cartActions.ActionTypes.REMOVE_QUANTITY:
         case cartActions.ActionTypes.REMOVE_ITEM:
         case cartActions.ActionTypes.REMOVE_ALL:
             return {
-                cart: cart.reducer(state.cart, action),
+                cart: saveToLocalStorage(cart.reducer)(state.cart, action),
                 catalog: state.catalog,
                 selectedProduct: state.selectedProduct,
             };

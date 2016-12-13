@@ -5,8 +5,16 @@ export interface IState {
     [id: number]: number;
 }
 
-export const reducer: ActionReducer<IState> = (state: IState = {}, action: cart.Actions) => {
+const initialState = {};
+
+export const reducer: ActionReducer<IState> = (state: IState = initialState, action: cart.Actions) => {
     switch (action.type) {
+        case cart.ActionTypes.LOAD_SUCCESS:
+            return (action.payload || [])
+                .reduce(
+                    (newState, cartItem) => reducer(newState, new cart.AddQuantityAction(cartItem)),
+                    initialState);
+
         case cart.ActionTypes.ADD_QUANTITY:
             return Object.assign({}, state, { [action.payload.id]: (state[action.payload.id] || 0) + action.payload.quantity || 1 });
 
@@ -28,7 +36,7 @@ export const reducer: ActionReducer<IState> = (state: IState = {}, action: cart.
             return removeItemResult;
 
         case cart.ActionTypes.REMOVE_ALL:
-            return {};
+            return initialState;
 
         default:
             return state;

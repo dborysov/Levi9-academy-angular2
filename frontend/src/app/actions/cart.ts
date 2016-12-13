@@ -3,10 +3,22 @@ import { type } from '../util';
 import { ICartPosition } from '../models/cartPosition';
 
 export const ActionTypes = {
+    LOAD: type('[Cart] Load'),
+    LOAD_SUCCESS: type('[Cart] Load Success'),
     ADD_QUANTITY: type('[Cart] Add Quantity'),
     REMOVE_QUANTITY: type('[Cart] Remove Quantity'),
     REMOVE_ITEM: type('[Cart] Remove Item'),
     REMOVE_ALL: type('[Cart] Remove All'),
+};
+
+export class LoadAction implements Action {
+    type = ActionTypes.LOAD;
+};
+
+export class LoadSuccessAction implements Action {
+    type = ActionTypes.LOAD_SUCCESS;
+
+    constructor(public payload: ICartPosition[]) { }
 };
 
 export class AddQuantityAction implements Action {
@@ -29,12 +41,12 @@ export class RemoveItemAction implements Action {
 
 export class RemoveAllAction implements Action {
     type = ActionTypes.REMOVE_ALL;
-
-    constructor() { }
 };
 
 export type Actions
-    = AddQuantityAction
+    = LoadAction
+    | LoadSuccessAction
+    | AddQuantityAction
     | RemoveQuantityAction
     | RemoveItemAction
     | RemoveAllAction;
