@@ -1,10 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
-import { ICartService } from '../../services/cart.service';
-import { IProductsService } from '../../services/products.service';
+import * as cartActions from '../../actions/cart';
+
 import { IProduct } from '../../models/product';
 import { ICartPositionsDetails } from '../../models/cartPositionsDetails';
 
@@ -17,28 +17,22 @@ export class CartComponent implements OnInit {
     public products$: Observable<ICartPositionsDetails[]>;
     public totalPrice$: Observable<number>;
 
-    constructor(
-        private store: Store<fromRoot.IState>,
-        @Inject(ICartService) private cartService: ICartService,
-        @Inject(IProductsService) private productsService: IProductsService,
-    ) { }
+    constructor(private store: Store<fromRoot.IState>, ) { }
 
     ngOnInit() {
         this.products$ = this.store.select<ICartPositionsDetails[]>(fromRoot.getCartItemsDetails);
         this.totalPrice$ = this.products$.map(positions => positions.reduce((prev, curr) => prev + curr.quantity * curr.price, 0));
-
-        this.productsService.getAllProducts();
     }
 
     removeFromCart(product: IProduct, quantity?: number) {
-        this.cartService.remove({id: product.id, quantity});
+        this.store.dispatch(new cartActions.RemoveQuantityAction({ id: product.id, quantity }));
     }
 
     addToCart(product: IProduct, quantity: number) {
-        this.cartService.add({id: product.id, quantity});
+        this.store.dispatch(new cartActions.AddQuantityAction({ id: product.id, quantity }));
     }
 
     clearCart() {
-        this.cartService.removeAll();
+        this.store.dispatch(new cartActions.RemoveAllAction());
     }
 }

@@ -13,8 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { ProductsEffects } from './effects/products';
 
-import { IProductsService, ProductsService } from './services/products.service';
-import { ICartService, CartService } from './services/cart.service';
+import { IProductsService, ProductsService } from './services/products';
 
 import {
     AppComponent,
@@ -52,9 +51,6 @@ import { reducer } from './reducers';
     providers: [NOTIFY_PROVIDERS, {
         provide: IProductsService,
         useClass: ProductsService
-    }, {
-        provide: ICartService,
-        useClass: CartService
     }],
     bootstrap: [AppComponent]
 })

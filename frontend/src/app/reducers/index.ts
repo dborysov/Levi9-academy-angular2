@@ -50,7 +50,9 @@ export const getSelectedProduct: Selector<IState, IProduct> = createSelector(
 export const getCartItemsDetails: Selector<IState, ICartPositionsDetails[]> = createSelector(
     getCartItemsIds,
     getCatalogItems,
-    (cartItems, catalogItems) => cartItems.map(cartItem => Object.assign({},
-        (catalogItems.find(catalogItem => catalogItem.id === cartItem.id) || cartItem),
-        { quantity: cartItem.quantity }) as ICartPositionsDetails)
+    (cartItems, catalogItems) => cartItems
+        .filter(cartItem => catalogItems.some(catalogItem => catalogItem.id === cartItem.id))
+        .map(cartItem => Object.assign({},
+            (catalogItems.find(catalogItem => catalogItem.id === cartItem.id) || cartItem),
+            { quantity: cartItem.quantity }) as ICartPositionsDetails)
 );

@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromRoot from '../../reducers';
+import * as catalogActions from '../../actions/catalog';
 
 import { IProduct } from '../../models/product';
-import { IProductsService } from '../../services/products.service';
 
 @Component({
     selector: 'app-admin',
@@ -15,17 +15,13 @@ import { IProductsService } from '../../services/products.service';
 export class AdminComponent implements OnInit {
     public products$: Observable<IProduct[]>;
 
-    constructor(
-        private store: Store<fromRoot.IState>,
-        @Inject(IProductsService) private productsService: IProductsService,
-    ) { }
+    constructor(private store: Store<fromRoot.IState>, ) { }
 
     ngOnInit() {
         this.products$ = this.store.select(fromRoot.getCatalogItems);
-        this.productsService.getAllProducts();
     }
 
-    removeProduct(id: number) {
-        this.productsService.removeProduct(id);
+    removeProduct(product: IProduct) {
+        this.store.dispatch(new catalogActions.DeleteAction(product));
     }
 }

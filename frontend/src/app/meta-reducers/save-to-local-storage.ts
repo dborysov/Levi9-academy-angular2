@@ -2,7 +2,7 @@ import { Config } from '../config';
 
 import { ActionReducer, Action } from '@ngrx/store';
 
-import { IState } from './cart';
+import { IState } from '../reducers/cart';
 
 export function reducer(reducer: ActionReducer<IState>) {
     return function (state: IState, action: Action) {

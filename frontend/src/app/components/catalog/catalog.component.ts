@@ -1,14 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControlDirective, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
+import * as cartActions from '../../actions/cart';
 
 import { IProduct } from '../../models/product';
-
-import { IProductsService } from '../../services/products.service';
-import { ICartService } from '../../services/cart.service';
 
 @Component({
     selector: 'app-catalog',
@@ -23,27 +21,21 @@ export class CatalogComponent implements OnInit {
 
     searchTerm: FormControl = new FormControl();
 
-    constructor(
-        private store: Store<fromRoot.IState>,
-        @Inject(IProductsService) private productsApi: IProductsService,
-        @Inject(ICartService) private cartService: ICartService
-    ) { }
+    constructor(private store: Store<fromRoot.IState>, ) { }
 
     ngOnInit() {
         this.catalog$ = this.store.select<IProduct[]>(fromRoot.getCatalogItems);
 
-        const searchTerm$ = (this.searchTerm.valueChanges as Observable<string>)
-            .startWith('')
-            .debounceTime(500)
-            .distinctUntilChanged();
+        const searchTerm$ = Observable.of('').merge(
+            (this.searchTerm.valueChanges as Observable<string>)
+                .debounceTime(300)
+                .distinctUntilChanged());
 
         this.catalogFiltered$ = this.catalog$.combineLatest<string>(searchTerm$)
             .map(([products, searchTerm]) => products.filter(product => !searchTerm || (product.category.indexOf(searchTerm) > -1)));
-
-        this.productsApi.getAllProducts();
     }
 
     addToCart(product: IProduct) {
-        this.cartService.add({ id: product.id, quantity: 1 });
+        this.store.dispatch(new cartActions.AddQuantityAction({ id: product.id, quantity: 1 }));
     }
 }

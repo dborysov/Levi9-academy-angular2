@@ -15,6 +15,6 @@ export class NavigationComponent implements OnInit {
     constructor(private store: Store<fromRoot.IState>) { }
 
     ngOnInit() {
-        this.cartItemsCount$ = this.store.select(fromRoot.getCartItemsIds).map(products => products.length);
+        this.cartItemsCount$ = this.store.select(fromRoot.getCartItemsDetails).map(products => products.length);
     }
 }

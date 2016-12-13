@@ -8,7 +8,7 @@ import * as catalog from './catalog';
 import * as cart from './cart';
 import * as selectedProduct from './selected-product';
 
-import { reducer as saveToLocalStorage } from './save-to-local-storage.meta-reducer';
+import { reducer as saveToLocalStorage } from '../meta-reducers/save-to-local-storage';
 
 import { IProduct } from '../models/product';
 import { ICartPosition } from '../models/cartPosition';
@@ -29,10 +29,14 @@ type actionType = catalogActions.Actions | cartActions.Actions | selectedProduct
 
 export const reducer: ActionReducer<IState> = (state = initialValue, action: actionType) => {
     switch (action.type) {
-        case catalogActions.ActionTypes.ADD:
+        case catalogActions.ActionTypes.LOAD_SUCCESS:
+        case catalogActions.ActionTypes.LOAD_FAILED:
+        case catalogActions.ActionTypes.ADD_SUCCESS:
+        case catalogActions.ActionTypes.ADD_FAILED:
+        case catalogActions.ActionTypes.DELETE_SUCCESS:
+        case catalogActions.ActionTypes.DELETE_FAILED:
         case catalogActions.ActionTypes.DELETE_ALL:
         case catalogActions.ActionTypes.EDIT:
-        case catalogActions.ActionTypes.DELETE:
             return {
                 cart: state.cart,
                 catalog: catalog.reducer(state.catalog, action),

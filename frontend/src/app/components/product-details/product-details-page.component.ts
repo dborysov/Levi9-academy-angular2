@@ -1,13 +1,13 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { back } from '@ngrx/router-store';
 
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
+import * as selectedProductActions from '../../actions/selectedProduct';
 import { IProduct } from '../../models/product';
-import { IProductsService } from '../../services/products.service';
 
 @Component({
     selector: 'app-product-details-page',
@@ -21,13 +21,13 @@ export class ProductDetailsPageComponent implements OnInit, OnDestroy {
     constructor(
         private store: Store<fromRoot.IState>,
         private route: ActivatedRoute,
-        @Inject(IProductsService) private productsService: IProductsService,
     ) { }
 
     ngOnInit() {
         this.product$ = this.store.select<IProduct>(fromRoot.getSelectedProduct);
-        this.paramsSubscription = this.route.params.subscribe((params: Params) => this.productsService.selectItem(+params['id']));
-        this.productsService.getAllProducts();
+        this.paramsSubscription = this.route.params
+            .map(params => +params['id'])
+            .subscribe(id => this.store.dispatch(new selectedProductActions.SelectAction({ id })));
     }
 
     ngOnDestroy() {

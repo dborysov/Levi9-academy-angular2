@@ -5,7 +5,7 @@ import { ProductDetailsPageComponent } from './product-details-page.component';
 
 describe('Component: ProductDetails', () => {
     it('should create an instance', () => {
-        let component = new ProductDetailsPageComponent(null, null, null);
+        let component = new ProductDetailsPageComponent(null, null);
         expect(component).toBeTruthy();
     });
 });

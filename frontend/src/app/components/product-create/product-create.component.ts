@@ -1,11 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { back } from '@ngrx/router-store';
 
 import * as fromRoot from '../../reducers';
-
-import { IProductsService } from '../../services/products.service';
+import * as catalogActions from '../../actions/catalog';
 
 @Component({
     selector: 'app-product-create',
@@ -22,14 +21,12 @@ export class ProductCreateComponent implements OnInit {
         details: new FormControl('', [Validators.required])
     });
 
-    constructor(
-        private store: Store<fromRoot.IState>,
-        @Inject(IProductsService) private productsService: IProductsService) { }
+    constructor(private store: Store<fromRoot.IState>, ) { }
 
     ngOnInit() { }
 
     createProduct() {
-        this.productsService.createProduct(this.createProductForm.value);
+        this.store.dispatch(new catalogActions.AddAction(this.createProductForm.value));
     }
 
     back() {

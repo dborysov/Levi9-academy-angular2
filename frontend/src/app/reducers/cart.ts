@@ -10,10 +10,9 @@ const initialState = {};
 export const reducer: ActionReducer<IState> = (state: IState = initialState, action: cart.Actions) => {
     switch (action.type) {
         case cart.ActionTypes.LOAD_SUCCESS:
-            return (action.payload || [])
-                .reduce(
-                    (newState, cartItem) => reducer(newState, new cart.AddQuantityAction(cartItem)),
-                    initialState);
+            return action.payload.reduce(
+                (newState, cartItem) => reducer(newState, new cart.AddQuantityAction(cartItem)),
+                initialState);
 
         case cart.ActionTypes.ADD_QUANTITY:
             return Object.assign({}, state, { [action.payload.id]: (state[action.payload.id] || 0) + action.payload.quantity || 1 });
