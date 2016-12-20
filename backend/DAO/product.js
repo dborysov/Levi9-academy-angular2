@@ -1,25 +1,13 @@
-const mongoose = require('mongoose');
-const serverConfig = require('../server.config');
 const Product = require('../models/product.db.model');
 const ProductDto = require('../models/productDto.model');
 
 module.exports = {
-    setUpConnection,
     getAllProducts,
     getProductById,
     createNewProduct,
     deleteExistingProduct,
     updateExistingProduct
 };
-
-function setUpConnection() {
-    mongoose.connect(`mongodb://${serverConfig.db.host}:${serverConfig.db.port}/${serverConfig.db.name}`);
-
-    const db = mongoose.connection;
-
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', console.log.bind(console, 'Successfully connected to the database'));
-}
 
 function getAllProducts() {
     return Promise.resolve(Product.find())

@@ -1,5 +1,7 @@
 const express = require('express');
 const productDb = require('../DAO/product');
+const userDb = require('../DAO/user');
+const dbHelper = require('../dbHelper');
 const Product = require('../models/product.view.model');
 const HttpStatus = require('http-status-codes');
 
@@ -9,7 +11,7 @@ module.exports = () => {
     const apiRouter = express.Router();
 
     //Connecting to the database
-    productDb.setUpConnection();
+    dbHelper.setUpConnection();
 
     //Middleware for Logging each request to the console
     apiRouter.use((request, response, next) => {
@@ -62,6 +64,17 @@ module.exports = () => {
             .then(() => response.sendStatus(HttpStatus.NO_CONTENT))
             .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`Cannot delete the product! ${error || ''}`));
     });
+
+    apiRouter.post('/users/register', (request, response) => {
+        userDb.register(request.body.email, request.body.password)
+            .then(() => response.sendStatus(HttpStatus.CREATED));
+    })
+
+    apiRouter.post('/users/login', (request, response) => {
+        userDb.login(request.body.email, request.body.password)
+            .then(token => response.status(HttpStatus.OK).json(token))
+            .catch(err => response.status(HttpStatus.UNAUTHORIZED).json(err.message));
+    })
 
     return apiRouter;
 };
