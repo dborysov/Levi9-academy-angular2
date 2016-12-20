@@ -67,7 +67,7 @@ module.exports = () => {
 
     apiRouter.post('/users/register', (request, response) => {
         userDb.register(request.body.email, request.body.password)
-            .then(() => response.sendStatus(HttpStatus.CREATED))
+            .then(token => response.status(HttpStatus.CREATED).json(token))
             .catch(err => response.status(HttpStatus.BAD_REQUEST).json(err));
     })
 

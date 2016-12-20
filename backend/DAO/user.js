@@ -10,7 +10,7 @@ module.exports = {
 
 function register(email, password) {
     return email && password
-        ? Promise.resolve(User.create({ email, password }))
+        ? Promise.resolve(User.create({ email, password })).then(() => jwt.sign({ email }, serverConfig.jwtToken))
         : Promise.reject('Email and password required')
 }
 
