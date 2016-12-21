@@ -12,8 +12,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppRoutingModule } from './app-routing.module';
 
 import { ProductsEffects } from './effects/products';
+import { UserEffects } from './effects/user';
 
 import { IProductsService, ProductsService } from './services/products';
+import { IUserService, UserService } from './services/user';
 
 import {
     AppComponent,
@@ -47,10 +49,14 @@ import { reducer } from './reducers';
         RouterStoreModule.connectRouter(),
         StoreModule.provideStore(reducer),
         EffectsModule.run(ProductsEffects),
+        EffectsModule.run(UserEffects),
     ],
     providers: [NOTIFY_PROVIDERS, {
         provide: IProductsService,
         useClass: ProductsService
+    }, {
+        provide: IUserService,
+        useClass: UserService
     }],
     bootstrap: [AppComponent]
 })

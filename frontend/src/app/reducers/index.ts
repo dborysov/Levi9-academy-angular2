@@ -10,16 +10,19 @@ import { ICartPosition } from '../models/cartPosition';
 import { ICartPositionsDetails } from '../models/cartPositionsDetails';
 
 import * as fromProducts from './products';
+import * as fromUser from './user';
 
 import * as fromSelectedProduct from './selected-product';
 
 export interface IState {
     products: fromProducts.IState;
+    user: fromUser.IState;
     router: RouterState;
 }
 
 const reducers = {
     products: fromProducts.reducer,
+    user: fromUser.reducer,
     router: routerReducer,
 };
 

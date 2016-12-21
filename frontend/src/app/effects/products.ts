@@ -16,7 +16,7 @@ export class ProductsEffects {
     loadCart$: Observable<Action> = this.actions$
         .ofType(cart.ActionTypes.LOAD)
         .startWith(new cart.LoadAction())
-        .switchMap(() => Observable.of(JSON.parse(localStorage.getItem(Config.localStorageKeyChart)))
+        .switchMap(() => Observable.of(JSON.parse(localStorage.getItem(Config.localStorageKeyCart)))
             .map((cartItems: ICartPosition[]) => new cart.LoadSuccessAction(cartItems || [])));
 
     @Effect()
@@ -47,7 +47,6 @@ export class ProductsEffects {
         .switchMap(product => this.productsService.createProduct(product)
             .map(() => new catalog.AddSuccessAction(product))
             .catch(() => Observable.of(new catalog.AddFailedAction(product))));
-
 
     constructor(
         private actions$: Actions,

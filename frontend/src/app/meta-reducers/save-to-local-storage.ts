@@ -9,7 +9,7 @@ export function reducer(reducer: ActionReducer<IState>) {
         const nextState = reducer(state, action);
 
         localStorage.setItem(
-            Config.localStorageKeyChart,
+            Config.localStorageKeyCart,
             JSON.stringify(Object.keys(nextState).map(key => ({ id: key, quantity: nextState[key] }))));
 
         return nextState;
