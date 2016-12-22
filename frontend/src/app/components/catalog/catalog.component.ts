@@ -31,7 +31,7 @@ export class CatalogComponent implements OnInit {
                 .debounceTime(300)
                 .distinctUntilChanged());
 
-        this.catalogFiltered$ = this.catalog$.combineLatest<string>(searchTerm$)
+        this.catalogFiltered$ = this.catalog$.combineLatest(searchTerm$)
             .map(([products, searchTerm]) => products.filter(product => !searchTerm || (product.category.indexOf(searchTerm) > -1)));
     }
 

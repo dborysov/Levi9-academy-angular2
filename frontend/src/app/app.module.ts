@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
-import { NOTIFY_PROVIDERS } from '@ngrx/notify';
 import { RouterStoreModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -51,7 +50,7 @@ import { reducer } from './reducers';
         EffectsModule.run(ProductsEffects),
         EffectsModule.run(UserEffects),
     ],
-    providers: [NOTIFY_PROVIDERS, {
+    providers: [{
         provide: IProductsService,
         useClass: ProductsService
     }, {
