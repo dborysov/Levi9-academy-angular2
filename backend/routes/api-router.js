@@ -4,6 +4,8 @@ const userDb = require('../DAO/user');
 const dbHelper = require('../dbHelper');
 const Product = require('../models/product.view.model');
 const HttpStatus = require('http-status-codes');
+const jwt = require('express-jwt');
+const config = require('../server.config');
 
 module.exports = () => {
 
@@ -27,7 +29,7 @@ module.exports = () => {
     });
 
     //Creating new product
-    apiRouter.post('/products', (request, response) => {
+    apiRouter.post('/products', jwt({ secret: config.jwtToken }), (request, response) => {
         const newProduct = new Product(request.body).toDto();
 
         productDb.createNewProduct(newProduct)
@@ -45,7 +47,7 @@ module.exports = () => {
     });
 
     //Updating existing product
-    apiRouter.put('/products/:id', (request, response) => {
+    apiRouter.put('/products/:id', jwt({ secret: config.jwtToken }), (request, response) => {
         const productToUpdate = new Product(request.body);
         const id = request.params.id;
 
@@ -57,7 +59,7 @@ module.exports = () => {
     });
 
     //Deleting existing product
-    apiRouter.delete('/products/:id', (request, response) => {
+    apiRouter.delete('/products/:id', jwt({ secret: config.jwtToken }), (request, response) => {
         const id = request.params.id;
 
         productDb.deleteExistingProduct(id)

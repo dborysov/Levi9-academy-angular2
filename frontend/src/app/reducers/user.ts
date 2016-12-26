@@ -28,3 +28,4 @@ export const reducer: ActionReducer<IState> = (state = initialState, action: use
 };
 
 export const getEmail = (state: IState) => state.email;
+export const getToken = (state: IState) => state.token;

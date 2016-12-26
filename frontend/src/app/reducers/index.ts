@@ -65,4 +65,9 @@ export const getUserState = (state: IState) => state.user;
 export const getUserEmail: Selector<IState, string> = createSelector(
     getUserState,
     fromUser.getEmail
-)
+);
+
+export const getUserToken: Selector<IState, string> = createSelector(
+    getUserState,
+    fromUser.getToken
+);

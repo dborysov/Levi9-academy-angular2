@@ -1,17 +1,19 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
 import { Config } from '../config';
 import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';
+import { IState, getUserToken } from '../reducers';
 
 import { IProductsService } from '../services/products';
 import { ICartPosition } from '../models/cartPosition';
 
 @Injectable()
 export class ProductsEffects {
+
     @Effect()
     loadCart$: Observable<Action> = this.actions$
         .ofType(cart.ActionTypes.LOAD)
@@ -36,7 +38,8 @@ export class ProductsEffects {
     deleteCatalogProduct$: Observable<Action> = this.actions$
         .ofType(catalog.ActionTypes.DELETE)
         .map(action => action.payload)
-        .switchMap(product => this.productsService.removeProduct(product)
+        .combineLatest(this.store.select(getUserToken))
+        .switchMap(([product, token]) => this.productsService.removeProduct(product, token)
             .map(() => new catalog.DeleteSuccessAction(product))
             .catch(() => Observable.of(new catalog.DeleteFailedAction(product))));
 
@@ -44,12 +47,14 @@ export class ProductsEffects {
     addCatalogProduct$: Observable<Action> = this.actions$
         .ofType(catalog.ActionTypes.ADD)
         .map((action: catalog.AddAction) => action.payload)
-        .switchMap(product => this.productsService.createProduct(product)
+        .combineLatest(this.store.select(getUserToken))
+        .switchMap(([product, token]) => this.productsService.createProduct(product, token)
             .map(() => new catalog.AddSuccessAction(product))
             .catch(() => Observable.of(new catalog.AddFailedAction(product))));
 
     constructor(
         private actions$: Actions,
+        private store: Store<IState>,
         @Inject(IProductsService) private productsService: IProductsService,
     ) { }
 }

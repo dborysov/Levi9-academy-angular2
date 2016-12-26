@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { back } from '@ngrx/router-store';
 
 import { isValidPrice } from '../../validators';
@@ -14,16 +14,21 @@ import * as catalogActions from '../../actions/catalog';
     styleUrls: ['./product-create.component.scss']
 })
 export class ProductCreateComponent implements OnInit {
-    createProductForm = new FormGroup({
-        category: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-        title: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-        brand: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-        price: new FormControl(0, [isValidPrice]),
-        description: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
-        details: new FormControl('', [Validators.required])
-    });
+    public createProductForm: FormGroup;
 
-    constructor(private store: Store<fromRoot.IState>, ) { }
+    constructor(
+        private store: Store<fromRoot.IState>,
+        private fb: FormBuilder,
+    ) {
+        this.createProductForm = fb.group({
+            category: ['', [Validators.required, Validators.maxLength(20)]],
+            title: ['', [Validators.required, Validators.maxLength(20)]],
+            brand: ['', [Validators.required, Validators.maxLength(20)]],
+            price: [0, [isValidPrice]],
+            description: ['', [Validators.required, Validators.maxLength(1000)]],
+            details: ['', [Validators.required]]
+        });
+    }
 
     ngOnInit() { }
 
