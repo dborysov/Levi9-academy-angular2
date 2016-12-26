@@ -26,3 +26,5 @@ export const reducer: ActionReducer<IState> = (state = initialState, action: use
             return state;
     }
 };
+
+export const getEmail = (state: IState) => state.email;

@@ -12,11 +12,13 @@ import * as fromRoot from '../../reducers';
 })
 export class NavigationComponent implements OnInit {
     public cartItemsCount$: Observable<number>;
+    public userEmail$: Observable<string>;
 
     constructor(private store: Store<fromRoot.IState>) { }
 
     ngOnInit() {
         this.cartItemsCount$ = this.store.select(fromRoot.getCartItemsDetails).map(products => products.length);
+        this.userEmail$ = this.store.select(fromRoot.getUserEmail);
     }
 
     logout() {

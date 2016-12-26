@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { back } from '@ngrx/router-store';
 
+import { isValidPrice } from '../../validators';
+
 import * as fromRoot from '../../reducers';
 import * as catalogActions from '../../actions/catalog';
 
@@ -16,7 +18,7 @@ export class ProductCreateComponent implements OnInit {
         category: new FormControl('', [Validators.required, Validators.maxLength(20)]),
         title: new FormControl('', [Validators.required, Validators.maxLength(20)]),
         brand: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-        price: new FormControl(0, [validatePrice]),
+        price: new FormControl(0, [isValidPrice]),
         description: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
         details: new FormControl('', [Validators.required])
     });
@@ -32,14 +34,4 @@ export class ProductCreateComponent implements OnInit {
     back() {
         this.store.dispatch(back());
     }
-}
-
-function validatePrice(control: FormControl) {
-    return parseInt(control.value, 10) >= 0 && parseInt(control.value, 10) <= 100000
-        ? null
-        : {
-            validatePrice: {
-                valid: false
-            }
-        };
 }

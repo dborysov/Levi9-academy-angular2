@@ -6,6 +6,7 @@
     <a routerLink="/login" routerLinkActive="active">Login</a>
     <a routerLink="/register" routerLinkActive="active">Register</a>
     <a href="javascript:void(0);" (click)="logout()">Logout</a>
+    <span class="user-email">{{userEmail$ | async}}</span>
 </nav>
 
 <router-outlet></router-outlet>

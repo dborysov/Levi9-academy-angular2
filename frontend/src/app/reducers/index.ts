@@ -59,3 +59,10 @@ export const getCartItemsDetails: Selector<IState, ICartPositionsDetails[]> = cr
             (catalogItems.find(catalogItem => catalogItem.id === cartItem.id) || cartItem),
             { quantity: cartItem.quantity }) as ICartPositionsDetails)
 );
+
+export const getUserState = (state: IState) => state.user;
+
+export const getUserEmail: Selector<IState, string> = createSelector(
+    getUserState,
+    fromUser.getEmail
+)
