@@ -33,7 +33,6 @@ export class RegisterComponent implements OnInit {
 
     register() {
         const credentials = { email: this.registerForm.value.email, password: this.registerForm.value.matchingPasswords.password };
-debugger;
         this.store.dispatch(new userActions.RegistrationAction(credentials));
     }
 
