@@ -24,7 +24,9 @@ import {
     CartComponent,
     AdminComponent,
     ProductDetailsPageComponent,
-    ProductCreateComponent
+    ProductCreateComponent,
+    LoginComponent,
+    RegisterComponent
 } from './components';
 
 import { reducer } from './reducers';
@@ -39,6 +41,8 @@ import { reducer } from './reducers';
         AdminComponent,
         ProductDetailsPageComponent,
         ProductCreateComponent,
+        LoginComponent,
+        RegisterComponent,
     ],
     imports: [
         BrowserModule,

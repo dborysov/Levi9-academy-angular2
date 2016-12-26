@@ -3,6 +3,9 @@
     <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
     <a routerLink="/cart" routerLinkActive="active">Cart({{cartItemsCount$ | async}})</a>
     <a routerLink="/admin" routerLinkActive="active">Admin</a>
+    <a routerLink="/login" routerLinkActive="active">Login</a>
+    <a routerLink="/register" routerLinkActive="active">Register</a>
+    <a href="javascript:void(0);" (click)="logout()">Logout</a>
 </nav>
 
 <router-outlet></router-outlet>

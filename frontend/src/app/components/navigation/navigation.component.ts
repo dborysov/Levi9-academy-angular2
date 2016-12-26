@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import * as userActions from '../../actions/user';
 import * as fromRoot from '../../reducers';
 
 @Component({
@@ -16,5 +17,9 @@ export class NavigationComponent implements OnInit {
 
     ngOnInit() {
         this.cartItemsCount$ = this.store.select(fromRoot.getCartItemsDetails).map(products => products.length);
+    }
+
+    logout() {
+        this.store.dispatch(new userActions.LogoutAction());
     }
 }
