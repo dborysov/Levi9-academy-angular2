@@ -9,7 +9,7 @@ import {
     ProductCreateComponent,
     LoginComponent,
     RegisterComponent
-} from './components';
+} from './containers';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },

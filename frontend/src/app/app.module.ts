@@ -17,7 +17,6 @@ import { IProductsService, ProductsService } from './services/products';
 import { IUserService, UserService } from './services/user';
 
 import {
-    AppComponent,
     NavigationComponent,
     HomeComponent,
     CatalogComponent,
@@ -27,13 +26,12 @@ import {
     ProductCreateComponent,
     LoginComponent,
     RegisterComponent
-} from './components';
+} from './containers';
 
 import { reducer } from './reducers';
 
 @NgModule({
     declarations: [
-        AppComponent,
         NavigationComponent,
         HomeComponent,
         CatalogComponent,
