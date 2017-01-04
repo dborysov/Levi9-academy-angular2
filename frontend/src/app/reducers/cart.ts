@@ -1,5 +1,6 @@
 import { ActionReducer } from '@ngrx/store';
 import * as cart from '../actions/cart';
+import * as catalog from '../actions/catalog';
 
 export interface IState {
     [id: number]: number;
@@ -7,7 +8,7 @@ export interface IState {
 
 const initialState = {};
 
-export const reducer: ActionReducer<IState> = (state: IState = initialState, action: cart.Actions) => {
+export const reducer: ActionReducer<IState> = (state: IState = initialState, action: cart.Actions | catalog.Actions) => {
     switch (action.type) {
         case cart.ActionTypes.LOAD_SUCCESS:
             return action.payload.reduce(
@@ -29,6 +30,7 @@ export const reducer: ActionReducer<IState> = (state: IState = initialState, act
                 : Object.assign({}, state, { [action.payload.id]: Math.max((state[action.payload.id] || 0) - action.payload.quantity) });
 
         case cart.ActionTypes.REMOVE_ITEM:
+        case catalog.ActionTypes.DELETE_SUCCESS:
             const removeItemResult = Object.assign({}, state);
             delete removeItemResult[action.payload.id];
 
