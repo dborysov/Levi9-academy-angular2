@@ -61,6 +61,6 @@ import { reducer } from './reducers';
         provide: IUserService,
         useClass: UserService
     }],
-    bootstrap: [AppComponent]
+    bootstrap: [NavigationComponent]
 })
 export class AppModule { }
