@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { back } from '@ngrx/router-store';
@@ -11,7 +11,8 @@ import * as catalogActions from '../../actions/catalog';
 @Component({
     selector: 'app-product-create',
     templateUrl: './product-create.component.html',
-    styleUrls: ['./product-create.component.scss']
+    styleUrls: ['./product-create.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCreateComponent implements OnInit {
     public createProductForm: FormGroup;

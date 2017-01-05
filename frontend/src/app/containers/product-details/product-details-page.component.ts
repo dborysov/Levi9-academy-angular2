@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { back } from '@ngrx/router-store';
@@ -12,7 +12,8 @@ import { IProduct } from '../../models/product';
 @Component({
     selector: 'app-product-details-page',
     templateUrl: './product-details-page.component.html',
-    styleUrls: ['./product-details-page.component.scss']
+    styleUrls: ['./product-details-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDetailsPageComponent implements OnInit, OnDestroy {
     public product$: Observable<IProduct>;

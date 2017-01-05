@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -11,7 +11,8 @@ import { ICartPositionsDetails } from '../../models/cartPositionsDetails';
 @Component({
     selector: 'app-cart',
     templateUrl: './cart.component.html',
-    styleUrls: ['./cart.component.scss']
+    styleUrls: ['./cart.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent implements OnInit {
     public products$: Observable<ICartPositionsDetails[]>;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControlDirective, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -12,7 +12,8 @@ import { IProduct } from '../../models/product';
     selector: 'app-catalog',
     templateUrl: './catalog.component.html',
     styleUrls: ['./catalog.component.scss'],
-    providers: [FormControlDirective]
+    providers: [FormControlDirective],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CatalogComponent implements OnInit {
     public catalog$: Observable<IProduct[]>;
