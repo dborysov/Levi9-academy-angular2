@@ -1,0 +1,20 @@
+<table>
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Title</th>
+            <th>Brand</th>
+            <th>Creation date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of products">
+            <td>{{product.category}}</td>
+            <td>{{product.title}}</td>
+            <td>{{product.brand}}</td>
+            <td>{{product.date}}</td>
+            <td><button (click)="remove.emit(product)">Remove</button></td>
+        </tr>
+    </tbody>
+</table>
+<button routerLink="/admin/create">Create</button>

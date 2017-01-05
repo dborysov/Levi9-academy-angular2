@@ -16,31 +16,25 @@ import { UserEffects } from './effects/user';
 import { IProductsService, ProductsService } from './services/products';
 import { IUserService, UserService } from './services/user';
 
-import {
-    NavigationComponent,
-    HomeComponent,
-    CatalogComponent,
-    CartComponent,
-    AdminComponent,
-    ProductDetailsPageComponent,
-    ProductCreateComponent,
-    LoginComponent,
-    RegisterComponent
-} from './containers';
+import * as containers from './containers';
+import * as components from './components';
 
 import { reducer } from './reducers';
+import { ProductsAdminComponent } from './components/products-admin/products-admin.component';
 
 @NgModule({
     declarations: [
-        NavigationComponent,
-        HomeComponent,
-        CatalogComponent,
-        CartComponent,
-        AdminComponent,
-        ProductDetailsPageComponent,
-        ProductCreateComponent,
-        LoginComponent,
-        RegisterComponent,
+        containers.AdminComponent,
+        containers.CartComponent,
+        containers.CatalogComponent,
+        containers.HomeComponent,
+        containers.LoginComponent,
+        containers.NavigationComponent,
+        containers.ProductCreateComponent,
+        containers.ProductDetailsPageComponent,
+        containers.RegisterComponent,
+
+        components.ProductsAdminComponent
     ],
     imports: [
         BrowserModule,
@@ -59,6 +53,6 @@ import { reducer } from './reducers';
         provide: IUserService,
         useClass: UserService
     }],
-    bootstrap: [NavigationComponent]
+    bootstrap: [containers.NavigationComponent]
 })
 export class AppModule { }
