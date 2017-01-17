@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { ProductsEffects } from './effects/products';
 import { UserEffects } from './effects/user';
 
+import * as guards from './guards';
+
 import { IProductsService, ProductsService } from './services/products';
 import { IUserService, UserService } from './services/user';
 
@@ -52,7 +54,7 @@ import { ProductsAdminComponent } from './components/products-admin/products-adm
     }, {
         provide: IUserService,
         useClass: UserService
-    }],
+    }, guards.LoggedInGuard],
     bootstrap: [containers.NavigationComponent]
 })
 export class AppModule { }

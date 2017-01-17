@@ -27,6 +27,6 @@ export class NavigationComponent implements OnInit {
 
     logout() {
         this.store.dispatch(new userActions.LogoutAction());
-        this.store.dispatch(go('/home'));
+        this.store.dispatch(go(''));
     }
 }

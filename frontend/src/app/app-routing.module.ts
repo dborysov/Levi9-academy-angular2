@@ -1,25 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {
-    AdminComponent,
-    CartComponent,
-    CatalogComponent,
-    HomeComponent,
-    ProductDetailsPageComponent,
-    ProductCreateComponent,
-    LoginComponent,
-    RegisterComponent
-} from './containers';
+import * as containers from './containers';
+import * as guards from './guards';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'catalog', component: CatalogComponent },
-    { path: 'catalog/:id', component: ProductDetailsPageComponent },
-    { path: 'cart', component: CartComponent },
-    { path: 'admin', component: AdminComponent },
-    { path: 'admin/create', component: ProductCreateComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: '', component: containers.HomeComponent },
+    { path: 'catalog', component: containers.CatalogComponent },
+    { path: 'catalog/:id', component: containers.ProductDetailsPageComponent },
+    { path: 'cart', component: containers.CartComponent },
+    { path: 'admin', component: containers.AdminComponent, canActivate: [guards.LoggedInGuard] },
+    { path: 'admin/create', component: containers.ProductCreateComponent, canActivate: [guards.LoggedInGuard] },
+    { path: 'login', component: containers.LoginComponent },
+    { path: 'register', component: containers.RegisterComponent },
 ];
 
 @NgModule({

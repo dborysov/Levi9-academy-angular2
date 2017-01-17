@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
+import { go } from '@ngrx/router-store';
 
 import { Config } from '../config';
 import * as user from '../actions/user';
@@ -35,6 +36,7 @@ export class UserEffects {
         .switchMap((credentials: ICredentials) => this.userService.login(credentials.email, credentials.password)
             .do(loggedInUser => { localStorage.setItem(Config.localStorageKeyUser, loggedInUser.token); })
             .map((loggedInUser) => new user.LoginSuccessAction({ email: loggedInUser.email, token: loggedInUser.token }))
+            .merge(Observable.of(go('')))
             .catch(() => Observable.of(new user.LoginFailedAction())));
 
     @Effect()
@@ -44,6 +46,7 @@ export class UserEffects {
         .switchMap((credentials: ICredentials) => this.userService.register(credentials.email, credentials.password)
             .do(loggedInUser => { localStorage.setItem(Config.localStorageKeyUser, loggedInUser.token); })
             .map((loggedInUser) => new user.RegistrationSuccessAction({ email: loggedInUser.email, token: loggedInUser.token }))
+            .merge(Observable.of(go('')))
             .catch(() => Observable.of(new user.RegistrationFailedAction())));
 
     @Effect()
