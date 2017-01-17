@@ -10,20 +10,13 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { ProductsEffects } from './effects/products';
-import { UserEffects } from './effects/user';
-
+import * as effects from './effects';
 import * as guards from './guards';
-
-import { IProductsService, ProductsService } from './services/products';
-import { IUserService, UserService } from './services/user';
-
+import * as services from './services';
 import * as containers from './containers';
 import * as components from './components';
 
 import { reducer } from './reducers';
-import { ProductsAdminComponent } from './components/products-admin/products-admin.component';
-import { CartTableComponent } from './components/cart-table/cart-table.component';
 
 @NgModule({
     declarations: [
@@ -39,8 +32,6 @@ import { CartTableComponent } from './components/cart-table/cart-table.component
 
         components.ProductsAdminComponent,
         components.CartTableComponent,
-
-        CartTableComponent
     ],
     imports: [
         BrowserModule,
@@ -49,15 +40,15 @@ import { CartTableComponent } from './components/cart-table/cart-table.component
         AppRoutingModule,
         RouterStoreModule.connectRouter(),
         StoreModule.provideStore(reducer),
-        EffectsModule.run(ProductsEffects),
-        EffectsModule.run(UserEffects),
+        EffectsModule.run(effects.ProductsEffects),
+        EffectsModule.run(effects.UserEffects),
     ],
     providers: [{
-        provide: IProductsService,
-        useClass: ProductsService
+        provide: services.IProductsService,
+        useClass: services.ProductsService
     }, {
-        provide: IUserService,
-        useClass: UserService
+        provide: services.IUserService,
+        useClass: services.UserService
     }, guards.LoggedInGuard],
     bootstrap: [containers.NavigationComponent]
 })
