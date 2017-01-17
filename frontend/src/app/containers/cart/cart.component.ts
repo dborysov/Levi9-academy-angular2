@@ -16,21 +16,19 @@ import { ICartPositionsDetails } from '../../models/cartPositionsDetails';
 })
 export class CartComponent implements OnInit {
     public products$: Observable<ICartPositionsDetails[]>;
-    public totalPrice$: Observable<number>;
 
     constructor(private store: Store<fromRoot.IState>, ) { }
 
     ngOnInit() {
         this.products$ = this.store.select<ICartPositionsDetails[]>(fromRoot.getCartItemsDetails);
-        this.totalPrice$ = this.products$.map(positions => positions.reduce((prev, curr) => prev + curr.quantity * curr.price, 0));
     }
 
-    removeFromCart(product: IProduct, quantity?: number) {
-        this.store.dispatch(new cartActions.RemoveQuantityAction({ id: product.id, quantity }));
+    removeFromCart({productId, quantity}: { productId: number, quantity?: number }) {
+        this.store.dispatch(new cartActions.RemoveQuantityAction({ id: productId, quantity }));
     }
 
-    addToCart(product: IProduct, quantity: number) {
-        this.store.dispatch(new cartActions.AddQuantityAction({ id: product.id, quantity }));
+    addToCart({productId, quantity}: { productId: number, quantity?: number }) {
+        this.store.dispatch(new cartActions.AddQuantityAction({ id: productId, quantity }));
     }
 
     clearCart() {

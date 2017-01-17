@@ -23,6 +23,7 @@ import * as components from './components';
 
 import { reducer } from './reducers';
 import { ProductsAdminComponent } from './components/products-admin/products-admin.component';
+import { CartTableComponent } from './components/cart-table/cart-table.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,10 @@ import { ProductsAdminComponent } from './components/products-admin/products-adm
         containers.ProductDetailsPageComponent,
         containers.RegisterComponent,
 
-        components.ProductsAdminComponent
+        components.ProductsAdminComponent,
+        components.CartTableComponent,
+
+        CartTableComponent
     ],
     imports: [
         BrowserModule,

@@ -9,5 +9,4 @@ import { IProduct } from '../../models/product';
 export class ProductsAdminComponent {
     @Input() products: IProduct[];
     @Output() remove = new EventEmitter<IProduct>();
-    constructor() { }
 }
