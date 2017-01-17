@@ -61,6 +61,10 @@ export const getCartItemsDetails: Selector<IState, ICartPositionsDetails[]> = cr
 );
 
 export const getUserState = (state: IState) => state.user;
+export const getUserIsSignedIn: Selector<IState, boolean> = createSelector(
+    getUserState,
+    fromUser.getIsSignedIn
+)
 
 export const getUserEmail: Selector<IState, string> = createSelector(
     getUserState,

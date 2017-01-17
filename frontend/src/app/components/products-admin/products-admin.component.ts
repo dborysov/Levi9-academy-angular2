@@ -7,7 +7,6 @@ import { IProduct } from '../../models/product';
     styleUrls: ['./products-admin.component.scss']
 })
 export class ProductsAdminComponent {
-
     @Input() products: IProduct[];
     @Output() remove = new EventEmitter<IProduct>();
     constructor() { }
