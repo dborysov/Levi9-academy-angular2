@@ -32,6 +32,7 @@ import { reducer } from './reducers';
 
         components.ProductsAdminComponent,
         components.CartTableComponent,
+        components.ProductsComponent,
     ],
     imports: [
         BrowserModule,
