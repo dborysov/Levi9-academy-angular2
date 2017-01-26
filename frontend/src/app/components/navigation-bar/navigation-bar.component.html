@@ -1,0 +1,10 @@
+<nav>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+    <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
+    <a routerLink="/cart" routerLinkActive="active">Cart({{cartItemsCount}})</a>
+    <a *ngIf="userIsSignedIn" routerLink="/admin" routerLinkActive="active">Admin</a>
+    <a *ngIf="!userIsSignedIn" routerLink="/login" routerLinkActive="active">Login</a>
+    <a *ngIf="!userIsSignedIn" routerLink="/register" routerLinkActive="active">Register</a>
+    <a *ngIf="userIsSignedIn" href="javascript:void(0);" (click)="logout.emit()">Logout</a>
+    <span *ngIf="userIsSignedIn" class="user-email">{{userEmail}}</span>
+</nav>

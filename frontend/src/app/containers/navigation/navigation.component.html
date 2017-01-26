@@ -1,12 +1,7 @@
-<nav>
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
-    <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
-    <a routerLink="/cart" routerLinkActive="active">Cart({{cartItemsCount$ | async}})</a>
-    <a *ngIf="userIsSignedIn$ | async" routerLink="/admin" routerLinkActive="active">Admin</a>
-    <a *ngIf="!(userIsSignedIn$ | async)" routerLink="/login" routerLinkActive="active">Login</a>
-    <a *ngIf="!(userIsSignedIn$ | async)" routerLink="/register" routerLinkActive="active">Register</a>
-    <a *ngIf="userIsSignedIn$ | async" href="javascript:void(0);" (click)="logout()">Logout</a>
-    <span *ngIf="userIsSignedIn$ | async" class="user-email">{{userEmail$ | async}}</span>
-</nav>
+<app-navigation-bar
+    [cartItemsCount]="cartItemsCount$ | async"
+    [userIsSignedIn]="userIsSignedIn$ | async"
+    [userEmail]="userEmail$ | async"
+    (logout)="logout()"></app-navigation-bar>
 
 <router-outlet></router-outlet>

@@ -34,6 +34,7 @@ import { reducer } from './reducers';
         components.CartTableComponent,
         components.ProductsComponent,
         components.LoginFormComponent,
+        components.NavigationBarComponent,
     ],
     imports: [
         BrowserModule,
