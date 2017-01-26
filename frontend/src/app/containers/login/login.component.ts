@@ -1,8 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { back } from '@ngrx/router-store';
 
-import { isEmail } from '../../validators';
 import { Store } from '@ngrx/store';
 import { IState } from '../../reducers';
 import * as userActions from '../../actions/user';

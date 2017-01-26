@@ -35,6 +35,7 @@ import { reducer } from './reducers';
         components.ProductsComponent,
         components.LoginFormComponent,
         components.NavigationBarComponent,
+        components.ProductCreateFormComponent,
     ],
     imports: [
         BrowserModule,

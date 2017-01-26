@@ -1,0 +1,41 @@
+<form [formGroup]="createProductForm" (submit)="createProduct.emit(createProductForm.value)">
+    <div>
+        <label>
+            Category
+            <input type="text" formControlName="category">
+        </label>
+    </div>
+    <div>
+        <label>
+            Title
+            <input type="text" formControlName="title">
+        </label>
+    </div>
+    <div>
+        <label>
+            Brand
+            <input type="text" formControlName="brand">
+        </label>
+    </div>
+    <div>
+        <label>
+            Price
+            <input type="number" formControlName="price">
+        </label>
+    </div>
+    <div>
+        <label>
+            Description
+            <input type="text" formControlName="description">
+        </label>
+    </div>
+    <div>
+        <label>
+            details
+            <input type="text" formControlName="details">
+        </label>
+    </div>
+
+    <button type="button" (click)="back.emit()">Back</button>
+    <button type="submit">Create</button>
+</form>
