@@ -6,6 +6,7 @@ import { isEmail } from '../../validators';
 import { Store } from '@ngrx/store';
 import { IState } from '../../reducers';
 import * as userActions from '../../actions/user';
+import { ICredentials } from '../../models/credentials';
 
 @Component({
     selector: 'app-login',
@@ -14,23 +15,12 @@ import * as userActions from '../../actions/user';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
-    loginForm: FormGroup;
-
-    constructor(
-        private store: Store<IState>,
-        fb: FormBuilder,
-    ) {
-        this.loginForm = fb.group({
-            email: ['', [Validators.required, isEmail]],
-            password: ['', [Validators.required, Validators.minLength(6)]],
-        });
-    }
+    constructor(private store: Store<IState>, ) { }
 
     ngOnInit() {
     }
 
-    login() {
-        const credentials = { email: this.loginForm.value.email, password: this.loginForm.value.password };
+    login(credentials: ICredentials) {
         this.store.dispatch(new userActions.LoginAction(credentials));
     }
 

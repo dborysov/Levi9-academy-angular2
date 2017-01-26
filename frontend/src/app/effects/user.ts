@@ -33,20 +33,24 @@ export class UserEffects {
     login$: Observable<Action> = this.actions$
         .ofType(user.ActionTypes.LOGIN)
         .map(action => action.payload)
-        .switchMap((credentials: ICredentials) => this.userService.login(credentials.email, credentials.password)
+        .switchMap((credentials: ICredentials) => this.userService.login(credentials)
             .do(loggedInUser => { localStorage.setItem(Config.localStorageKeyUser, loggedInUser.token); })
-            .map((loggedInUser) => new user.LoginSuccessAction({ email: loggedInUser.email, token: loggedInUser.token }))
-            .merge(Observable.of(go('')))
+            .mergeMap(loggedInUser =>
+                Observable.of(
+                    new user.LoginSuccessAction(loggedInUser))
+                        .merge(Observable.of(go(''))))
             .catch(() => Observable.of(new user.LoginFailedAction())));
 
     @Effect()
     register$: Observable<Action> = this.actions$
         .ofType(user.ActionTypes.REGISTRATION)
         .map(action => action.payload)
-        .switchMap((credentials: ICredentials) => this.userService.register(credentials.email, credentials.password)
+        .switchMap((credentials: ICredentials) => this.userService.register(credentials)
             .do(loggedInUser => { localStorage.setItem(Config.localStorageKeyUser, loggedInUser.token); })
-            .map((loggedInUser) => new user.RegistrationSuccessAction({ email: loggedInUser.email, token: loggedInUser.token }))
-            .merge(Observable.of(go('')))
+            .mergeMap(loggedInUser =>
+                Observable.of(
+                    new user.RegistrationSuccessAction(loggedInUser))
+                        .merge(Observable.of(go(''))))
             .catch(() => Observable.of(new user.RegistrationFailedAction())));
 
     @Effect()

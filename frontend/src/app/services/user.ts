@@ -5,12 +5,13 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 import { IUser } from '../models/user';
+import { ICredentials } from '../models/credentials';
 
 
 export const IUserService = new OpaqueToken('IUserService');
 export interface IUserService {
-    login(email: string, password: string): Observable<IUser>;
-    register(email: string, password: string): Observable<IUser>;
+    login(credentials: ICredentials): Observable<IUser>;
+    register(credentials: ICredentials): Observable<IUser>;
 }
 
 const headers = new Headers({ 'Content-Type': 'application/json' });
@@ -22,21 +23,21 @@ export class UserService implements IUserService {
     private relativeUrl = 'users';
     constructor(private http: Http, ) { }
 
-    login(email: string, password: string): Observable<IUser> {
+    login(credentials: ICredentials): Observable<IUser> {
         const methodUrl = 'login';
 
         return this.http
-            .post(`${this.baseUrl}/${this.relativeUrl}/${methodUrl}`, JSON.stringify({ email, password }), { headers })
+            .post(`${this.baseUrl}/${this.relativeUrl}/${methodUrl}`, JSON.stringify(credentials), { headers })
             .map((response: Response) => response.json() as string)
-            .map(token => ({ email, token }));
+            .map(token => ({ email: credentials.email, token }));
     }
 
-    register(email: string, password: string): Observable<IUser> {
+    register(credentials: ICredentials): Observable<IUser> {
         const methodUrl = 'register';
 
         return this.http
-            .post(`${this.baseUrl}/${this.relativeUrl}/${methodUrl}`, JSON.stringify({ email, password }), { headers })
+            .post(`${this.baseUrl}/${this.relativeUrl}/${methodUrl}`, JSON.stringify(credentials), { headers })
             .map((response: Response) => response.json() as string)
-            .map(token => ({ email, token }));
+            .map(token => ({ email: credentials.email, token }));
     }
 }
