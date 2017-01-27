@@ -1,0 +1,25 @@
+<form [formGroup]="registerForm" (submit)="register.emit({email: registerForm.value.email, password: registerForm.value.matchingPasswords.password})">
+    <div>
+        <label>
+            Email
+            <input type="email" formControlName="email">
+        </label>
+    </div>
+    <div formGroupName="matchingPasswords">
+        <div>
+            <label>
+            Password
+                <input type="password" formControlName="password">
+            </label>
+        </div>
+        <div>
+            <label>
+            Repeat Password
+                <input type="password" formControlName="repeatPassword">
+            </label>
+        </div>
+    </div>
+
+    <button type="button" (click)="back.emit()">Back</button>
+    <button type="submit" [disabled]='!registerForm.valid'>Register</button>
+</form>
