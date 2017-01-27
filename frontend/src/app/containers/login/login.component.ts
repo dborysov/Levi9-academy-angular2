@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { back } from '@ngrx/router-store';
 
 import { Store } from '@ngrx/store';
@@ -12,11 +12,8 @@ import { ICredentials } from '../../models/credentials';
     styleUrls: ['./login.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
     constructor(private store: Store<IState>, ) { }
-
-    ngOnInit() {
-    }
 
     login(credentials: ICredentials) {
         this.store.dispatch(new userActions.LoginAction(credentials));

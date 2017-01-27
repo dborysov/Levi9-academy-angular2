@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { areEqual, isEmail } from '../../validators';
@@ -9,14 +9,12 @@ import { ICredentials } from '../../models/credentials';
     templateUrl: './registration-form.component.html',
     styleUrls: ['./registration-form.component.scss']
 })
-export class RegistrationFormComponent implements OnInit {
+export class RegistrationFormComponent {
     @Output() back = new EventEmitter<void>();
     @Output() register = new EventEmitter<ICredentials>();
     registerForm: FormGroup;
 
-    constructor(
-        fb: FormBuilder,
-    ) {
+    constructor(fb: FormBuilder, ) {
         this.registerForm = fb.group({
             email: ['', [Validators.required, isEmail]],
             matchingPasswords: fb.group({
@@ -25,6 +23,4 @@ export class RegistrationFormComponent implements OnInit {
             }, { validator: areEqual })
         });
     }
-
-    ngOnInit() { }
 }

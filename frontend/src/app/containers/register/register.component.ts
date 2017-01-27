@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { back } from '@ngrx/router-store';
 
@@ -12,10 +12,8 @@ import { ICredentials } from '../../models/credentials';
     styleUrls: ['./register.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
     constructor(private store: Store<IState>, ) { }
-
-    ngOnInit() { }
 
     register(credentials: ICredentials) {
         this.store.dispatch(new userActions.RegistrationAction(credentials));

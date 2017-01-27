@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { back } from '@ngrx/router-store';
 
@@ -13,10 +13,8 @@ import * as catalogActions from '../../actions/catalog';
     styleUrls: ['./product-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductCreateComponent implements OnInit {
+export class ProductCreateComponent {
     constructor(private store: Store<fromRoot.IState>, ) { }
-
-    ngOnInit() { }
 
     createProduct(product: IProduct) {
         this.store.dispatch(new catalogActions.AddAction(product));
