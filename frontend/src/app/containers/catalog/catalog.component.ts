@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControlDirective, FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';

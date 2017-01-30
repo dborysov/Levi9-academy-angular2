@@ -6,23 +6,23 @@ import { DebugElement } from '@angular/core';
 import { CartTableComponent } from './cart-table.component';
 
 describe('CartTableComponent', () => {
-  let component: CartTableComponent;
-  let fixture: ComponentFixture<CartTableComponent>;
+    let component: CartTableComponent;
+    let fixture: ComponentFixture<CartTableComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CartTableComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CartTableComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CartTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CartTableComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

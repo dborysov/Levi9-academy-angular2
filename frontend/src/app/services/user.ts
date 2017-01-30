@@ -1,6 +1,6 @@
 import { OpaqueToken, Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
 

@@ -5,7 +5,7 @@ import { ProductCreateComponent } from './product-create.component';
 
 describe('Component: ProductCreate', () => {
     it('should create an instance', () => {
-        let component = new ProductCreateComponent(null);
+        const component = new ProductCreateComponent(null);
         expect(component).toBeTruthy();
     });
 });

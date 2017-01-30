@@ -6,23 +6,23 @@ import { DebugElement } from '@angular/core';
 import { ProductsAdminComponent } from './products-admin.component';
 
 describe('ProductsAdminComponent', () => {
-  let component: ProductsAdminComponent;
-  let fixture: ComponentFixture<ProductsAdminComponent>;
+    let component: ProductsAdminComponent;
+    let fixture: ComponentFixture<ProductsAdminComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ProductsAdminComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ProductsAdminComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProductsAdminComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ProductsAdminComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

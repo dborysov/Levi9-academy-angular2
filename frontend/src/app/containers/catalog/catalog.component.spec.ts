@@ -5,7 +5,7 @@ import { CatalogComponent } from './catalog.component';
 
 describe('Component: Catalog', () => {
     it('should create an instance', () => {
-        let component = new CatalogComponent(null);
+        const component = new CatalogComponent(null);
         expect(component).toBeTruthy();
     });
 });

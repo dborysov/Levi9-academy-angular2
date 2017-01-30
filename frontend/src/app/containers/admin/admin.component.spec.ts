@@ -5,7 +5,7 @@ import { AdminComponent } from './admin.component';
 
 describe('Component: Admin', () => {
     it('should create an instance', () => {
-        let component = new AdminComponent(null);
+        const component = new AdminComponent(null);
         expect(component).toBeTruthy();
     });
 });
