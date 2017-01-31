@@ -4,6 +4,7 @@ const ProductDto = require('../models/productDto.model');
 module.exports = {
     getAllProducts,
     getProductById,
+    getProductsByIds,
     createNewProduct,
     deleteExistingProduct,
     updateExistingProduct
@@ -19,6 +20,12 @@ function getProductById(id) {
     return Promise.resolve(Product.findById(id))
         .then(response => new ProductDto(response))
         .catch(handleError);
+}
+
+function getProductsByIds(ids) {
+    return Promise.resolve(Product.find({ _id: { $in: ids } }))
+        .then(response => response.map(product => new ProductDto(product)))
+        .catch(handleError)
 }
 
 function createNewProduct(newProduct) {

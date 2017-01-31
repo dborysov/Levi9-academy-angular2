@@ -23,9 +23,22 @@ module.exports = () => {
 
     //Getting all products
     apiRouter.get('/products', (request, response) => {
-        productDb.getAllProducts()
-            .then(products => response.json(products.map(product => Product.fromDto(product))))
-            .catch(error => response.status(HttpStatus.NOT_FOUND).json(`Couldn't fetch data:  ${error || ''}`));
+        if (request.query.ids === undefined) {
+            return productDb.getAllProducts()
+                .then(products => response.json(products.map(product => Product.fromDto(product))))
+                .catch(error => response.status(HttpStatus.NOT_FOUND).json(`Couldn't fetch data:  ${error || ''}`));
+        }
+        const ids = request.query.ids;
+
+        if (Array.isArray(ids)) {
+            return productDb.getProductsByIds(ids)
+                .then(products => response.json(products.map(product => Product.fromDto(product))))
+                .catch(error => response.status(HttpStatus.NOT_FOUND).json(`Couldn't fetch data:  ${error || ''}`));
+        }
+
+        return productDb.getProductById(ids)
+            .then(product => response.json([new Product(product)]))
+            .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`The data wasn't found! ${error || ''}`));
     });
 
     //Creating new product
@@ -37,19 +50,10 @@ module.exports = () => {
             .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`Couldn't create product: ${error || ''}`));
     });
 
-    //Getting single product by id
-    apiRouter.get('/products/:id', (request, response) => {
-        const id = request.params.id;
-
-        productDb.getProductById(id)
-            .then(product => response.json(new Product(product)))
-            .catch(error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(`The data wasn't found! ${error || ''}`));
-    });
-
     //Updating existing product
     apiRouter.put('/products/:id', jwt({ secret: config.jwtToken }), (request, response) => {
         const productToUpdate = new Product(request.body);
-        const id = request.params.id;
+        const id = JSON.parse(request.params.id);
 
         productToUpdate.id = null;
 
