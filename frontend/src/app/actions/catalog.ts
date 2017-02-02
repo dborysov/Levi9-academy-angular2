@@ -19,8 +19,6 @@ export const ActionTypes = {
 
 export class LoadAction implements Action {
     type = ActionTypes.LOAD;
-
-    constructor() { }
 }
 
 export class LoadSuccessAction implements Action {
@@ -31,8 +29,6 @@ export class LoadSuccessAction implements Action {
 
 export class LoadFailedAction implements Action {
     type = ActionTypes.LOAD_FAILED;
-
-    constructor() { }
 }
 
 export class AddAction implements Action {
@@ -79,8 +75,6 @@ export class EditAction implements Action {
 
 export class DeleteAllAction implements Action {
     type = ActionTypes.DELETE_ALL;
-
-    constructor() { }
 }
 
 export class SetFilterTermAction implements Action {
