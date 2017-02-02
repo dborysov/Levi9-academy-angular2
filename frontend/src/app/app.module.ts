@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { RouterStoreModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -48,6 +49,7 @@ import { reducer } from './reducers';
         StoreModule.provideStore(reducer),
         EffectsModule.run(effects.ProductsEffects),
         EffectsModule.run(effects.UserEffects),
+        StoreDevtoolsModule.instrumentOnlyWithExtension(),
     ],
     providers: [{
         provide: services.IProductsService,

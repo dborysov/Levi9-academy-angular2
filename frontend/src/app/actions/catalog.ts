@@ -14,7 +14,7 @@ export const ActionTypes = {
     DELETE_FAILED: type('[Catalog] Delete Failed'),
     EDIT: type('[Catalog] Edit'),
     DELETE_ALL: type('[Catalog] Delete All'),
-    SET_FILTER_TERM: type('[Cart] Set Filter Term'),
+    SET_FILTER_TERM: type('[Catalog] Set Filter Term'),
 };
 
 export class LoadAction implements Action {
