@@ -1,3 +1,4 @@
 <app-products
-    [products]="catalog$ | async"
-    (addToCart)="addToCart($event)"></app-products>
+    [products]="filteredCatalog$ | async"
+    (addToCart)="addToCart($event)"
+    (search)="search($event)"></app-products>

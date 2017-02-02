@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import * as cartActions from '../../actions/cart';
+import * as catalogActions from '../../actions/catalog';
 
 import { IProduct } from '../../models/product';
 
@@ -17,23 +18,19 @@ import { IProduct } from '../../models/product';
 })
 export class CatalogComponent implements OnInit {
     public catalog$: Observable<IProduct[]>;
-    public catalogFiltered$: Observable<IProduct[]>;
+    public filteredCatalog$: Observable<IProduct[]>;
     public selectedItem$: Observable<IProduct>;
-
-    searchTerm: FormControl = new FormControl();
 
     constructor(private store: Store<fromRoot.IState>, ) { }
 
     ngOnInit() {
-        this.catalog$ = this.store.select<IProduct[]>(fromRoot.getCatalogItems);
+        this.filteredCatalog$ = this.store.select<IProduct[]>(fromRoot.getFilteredCatalog);
 
-        const searchTerm$ = Observable.of('').merge(
-            (this.searchTerm.valueChanges as Observable<string>)
-                .debounceTime(300)
-                .distinctUntilChanged());
+        this.store.dispatch(new catalogActions.LoadAction());
+    }
 
-        this.catalogFiltered$ = this.catalog$.combineLatest(searchTerm$)
-            .map(([products, searchTerm]) => products.filter(product => !searchTerm || (product.category.indexOf(searchTerm) > -1)));
+    search(filterTerm) {
+        this.store.dispatch(new catalogActions.SetFilterTermAction({ filterTerm }));
     }
 
     addToCart(product: IProduct) {

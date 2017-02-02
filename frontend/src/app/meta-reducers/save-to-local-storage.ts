@@ -8,10 +8,10 @@ export function reducer(reducer: ActionReducer<IState>) {
     return function (state: IState, action: Action) {
         const nextState = reducer(state, action);
 
-        if (nextState !== state) {
+        if (nextState.quantity !== state.quantity) {
             localStorage.setItem(
                 Config.localStorageKeyCart,
-                JSON.stringify(Object.keys(nextState).map(key => ({ id: key, quantity: nextState[key] }))));
+                JSON.stringify(Object.keys(nextState.quantity).map(key => ({ id: key, quantity: nextState.quantity[key] }))));
         }
 
         return nextState;

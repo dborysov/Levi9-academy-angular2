@@ -42,21 +42,28 @@ const getSelectedProductId: Selector<IState, fromSelectedProduct.IState> = creat
     fromProducts.getSelectedProduct);
 
 export const getCartItemsIds: Selector<IState, ICartPosition[]> = createSelector(getProductsState, fromProducts.getCartIds);
+export const getCartItemsDetails: Selector<IState, IProduct[]> = createSelector(getProductsState, fromProducts.getCartDetails);
 
 export const getCatalogItems: Selector<IState, IProduct[]> = createSelector(getProductsState, fromProducts.getCatalog);
+export const getCatalogFilterTerm: Selector<IState, string> = createSelector(getProductsState, fromProducts.getCatalogFilterTerm);
+
+export const getFilteredCatalog: Selector<IState, IProduct[]> = createSelector(
+    getCatalogItems,
+    getCatalogFilterTerm,
+    (items, term) => items.filter(item => !term || item.category.indexOf(term) > -1));
 
 export const getSelectedProduct: Selector<IState, IProduct> = createSelector(
     getSelectedProductId,
     getCatalogItems,
     (selectedProductId: fromSelectedProduct.IState, catalog: IProduct[]) => catalog.find(item => item.id === selectedProductId.id));
 
-export const getCartItemsDetails: Selector<IState, ICartPositionsDetails[]> = createSelector(
+export const getCartItems: Selector<IState, ICartPositionsDetails[]> = createSelector(
     getCartItemsIds,
-    getCatalogItems,
-    (cartItems, catalogItems) => cartItems
-        .filter(cartItem => catalogItems.some(catalogItem => catalogItem.id === cartItem.id))
+    getCartItemsDetails,
+    (cartItems, cartItemsDetails) => cartItems
+        .filter(cartItem => cartItemsDetails.some(cartItemDetails => cartItemDetails.id === cartItem.id))
         .map(cartItem => Object.assign({},
-            (catalogItems.find(catalogItem => catalogItem.id === cartItem.id) || cartItem),
+            (cartItemsDetails.find(cartItemDetails => cartItemDetails.id === cartItem.id) || cartItem),
             { quantity: cartItem.quantity }) as ICartPositionsDetails)
 );
 

@@ -3,10 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
+import * as fromRoot from '../reducers';
 import { Config } from '../config';
 import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';
-import { IState, getUserToken } from '../reducers';
+import { IState, getUserToken, getCartItemsDetails } from '../reducers';
 
 import { IProductsService } from '../services/products';
 import { ICartPosition } from '../models/cartPosition';
@@ -22,17 +23,34 @@ export class ProductsEffects {
             .map((cartItems: ICartPosition[]) => new cart.LoadSuccessAction(cartItems || [])));
 
     @Effect()
+    loadCartDetails$: Observable<Action> = this.actions$
+        .ofType(cart.ActionTypes.LOAD_DETAILS, cart.ActionTypes.LOAD_SUCCESS)
+        .map((action: cart.LoadDetailsAction | cart.LoadSuccessAction) => action.payload)
+        .filter(payload => payload.length > 0)
+        .switchMap(payload => this.productsService.getProducts(payload.map(item => item.id))
+            .map(products => new cart.LoadDetailsSuccessAction(products))
+            .catch(() => Observable.of(new cart.LoadDetailsFailedAction())));
+
+    @Effect()
+    addItemToCart$: Observable<Action> = this.actions$
+        .ofType(cart.ActionTypes.ADD_QUANTITY)
+        .map((action: cart.AddQuantityAction) => action.payload)
+        .withLatestFrom(this.store.select(getCartItemsDetails))
+        .filter(([payload, savedPositions]) => savedPositions.every(p => p.id !== payload.id))
+        .distinctUntilChanged()
+        .map(([payload]) => new cart.LoadDetailsAction([payload]));
+
+    @Effect()
     loadCatalog$: Observable<Action> = this.actions$
         .ofType(catalog.ActionTypes.LOAD)
-        .startWith(new catalog.LoadAction())
-        .switchMap(() => this.productsService.getAllProducts()
+        .switchMap(() => this.productsService.getProducts()
             .map(products => new catalog.LoadSuccessAction(products))
             .catch(() => Observable.of(new catalog.LoadFailedAction())));
 
     @Effect()
     reloadCatalog$: Observable<Action> = this.actions$
         .ofType(catalog.ActionTypes.ADD_SUCCESS, catalog.ActionTypes.DELETE_SUCCESS)
-        .map(t => new catalog.LoadAction());
+        .map(() => new catalog.LoadAction());
 
     @Effect()
     deleteCatalogProduct$: Observable<Action> = this.actions$

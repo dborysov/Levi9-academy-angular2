@@ -1,4 +1,4 @@
-<input #searchCriteriaInput type="search" (keyup)="searchCriteria = searchCriteriaInput.value" placeholder="Search">
+<input [formControl]="searchInput" type="search" placeholder="Search">
 
 <table>
     <thead>
@@ -13,7 +13,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let product of productsFiltered">
+        <tr *ngFor="let product of products">
             <td>{{product.category}}</td>
             <td>{{product.title}}</td>
             <td>{{product.brand}}</td>

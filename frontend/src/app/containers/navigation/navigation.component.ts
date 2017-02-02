@@ -20,7 +20,7 @@ export class NavigationComponent implements OnInit {
     constructor(private store: Store<fromRoot.IState>) { }
 
     ngOnInit() {
-        this.cartItemsCount$ = this.store.select(fromRoot.getCartItemsDetails).map(products => products.length);
+        this.cartItemsCount$ = this.store.select(fromRoot.getCartItems).map(products => products.length);
         this.userEmail$ = this.store.select(fromRoot.getUserEmail);
         this.userIsSignedIn$ = this.store.select(fromRoot.getUserIsSignedIn);
     }

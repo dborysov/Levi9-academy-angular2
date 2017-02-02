@@ -20,6 +20,8 @@ export class AdminComponent implements OnInit {
 
     ngOnInit() {
         this.products$ = this.store.select(fromRoot.getCatalogItems);
+
+        this.store.dispatch(new catalogActions.LoadAction());
     }
 
     removeProduct(product: IProduct) {

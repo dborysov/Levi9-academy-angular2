@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 import { back } from '@ngrx/router-store';
 
 import { Store } from '@ngrx/store';
@@ -16,9 +15,8 @@ import { IProduct } from '../../models/product';
     styleUrls: ['./product-details-page.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductDetailsPageComponent implements OnInit, OnDestroy {
+export class ProductDetailsPageComponent implements OnInit {
     public product$: Observable<IProduct>;
-    public paramsSubscription: Subscription;
 
     constructor(
         private store: Store<fromRoot.IState>,
@@ -27,13 +25,7 @@ export class ProductDetailsPageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.product$ = this.store.select<IProduct>(fromRoot.getSelectedProduct);
-        this.paramsSubscription = this.route.params
-            .map(params => +params['id'])
-            .subscribe(id => this.store.dispatch(new selectedProductActions.SelectAction({ id })));
-    }
-
-    ngOnDestroy() {
-        this.paramsSubscription.unsubscribe();
+        this.store.dispatch(new selectedProductActions.SelectAction({ id: +this.route.snapshot.params['id'] }));
     }
 
     back() {

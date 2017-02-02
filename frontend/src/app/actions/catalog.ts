@@ -14,6 +14,7 @@ export const ActionTypes = {
     DELETE_FAILED: type('[Catalog] Delete Failed'),
     EDIT: type('[Catalog] Edit'),
     DELETE_ALL: type('[Catalog] Delete All'),
+    SET_FILTER_TERM: type('[Cart] Set Filter Term'),
 };
 
 export class LoadAction implements Action {
@@ -82,6 +83,12 @@ export class DeleteAllAction implements Action {
     constructor() { }
 }
 
+export class SetFilterTermAction implements Action {
+    type = ActionTypes.SET_FILTER_TERM;
+
+    constructor(public payload: { filterTerm: string }) { }
+};
+
 export type Actions
     = LoadAction
     | LoadSuccessAction
@@ -93,4 +100,5 @@ export type Actions
     | DeleteSuccessAction
     | DeleteFailedAction
     | EditAction
-    | DeleteAllAction;
+    | DeleteAllAction
+    | SetFilterTermAction;

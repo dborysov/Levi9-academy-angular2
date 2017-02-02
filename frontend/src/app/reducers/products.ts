@@ -20,8 +20,14 @@ export interface IState {
 };
 
 const initialValue: IState = {
-    catalog: {},
-    cart: {},
+    catalog: {
+        products: {},
+        filterTerm: '',
+    },
+    cart: {
+        quantity: {},
+        details: {},
+    },
     selectedProduct: { id: null },
 };
 
@@ -35,7 +41,10 @@ export const reducer: ActionReducer<IState> = (state = initialValue, action: act
     };
 };
 
-export const getCatalog = (state: IState) => Object.keys(state.catalog).map(item => state.catalog[item]) as IProduct[];
-export const getCartIds = (state: IState) => Object.keys(state.cart)
-    .map(item => ({ id: +item, quantity: state.cart[item] })) as ICartPosition[];
+export const getCatalog = (state: IState) => Object.keys(state.catalog.products).map(item => state.catalog.products[item]) as IProduct[];
+export const getCatalogFilterTerm = (state: IState) => state.catalog.filterTerm;
+export const getCartIds = (state: IState) => Object.keys(state.cart.quantity)
+    .map(key => ({ id: +key, quantity: state.cart.quantity[key] })) as ICartPosition[];
+export const getCartDetails = (state: IState) => Object.keys(state.cart.details)
+    .map(key => state.cart.details[key] as IProduct);
 export const getSelectedProduct = (state: IState) => state.selectedProduct;

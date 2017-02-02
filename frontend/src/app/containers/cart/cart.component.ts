@@ -20,7 +20,7 @@ export class CartComponent implements OnInit {
     constructor(private store: Store<fromRoot.IState>, ) { }
 
     ngOnInit() {
-        this.products$ = this.store.select<ICartPositionsDetails[]>(fromRoot.getCartItemsDetails);
+        this.products$ = this.store.select<ICartPositionsDetails[]>(fromRoot.getCartItems);
     }
 
     removeFromCart({productId, quantity}: { productId: number, quantity?: number }) {

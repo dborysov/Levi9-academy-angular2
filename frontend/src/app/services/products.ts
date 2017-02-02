@@ -1,5 +1,5 @@
 import { OpaqueToken, Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers, Response, URLSearchParams, QueryEncoder } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
@@ -8,7 +8,7 @@ import { IProduct } from '../models/product';
 
 export const IProductsService = new OpaqueToken('IProductsApiService');
 export interface IProductsService {
-    getAllProducts(): Observable<IProduct[]>;
+    getProducts(ids?: number[]): Observable<IProduct[]>;
     createProduct(newProduct: IProduct, token: string): Observable<Response>;
     editProduct(newProduct: IProduct): Observable<Response>;
     removeProduct(product: IProduct, token: string): Observable<Response>;
@@ -21,9 +21,9 @@ export class ProductsService implements IProductsService {
     private relativeUrl = 'products';
     constructor(private http: Http, ) { }
 
-    getAllProducts(): Observable<IProduct[]> {
+    getProducts(ids?: number[]): Observable<IProduct[]> {
         return this.http
-            .get(`${this.baseUrl}/${this.relativeUrl}`)
+            .get(`${this.baseUrl}/${this.relativeUrl}`, ids && ids.length ? { search: ids.map(id => `ids=${id}`).join('&') } : null)
             .map(products => products.json() as IProduct[]);
     };
 

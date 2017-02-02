@@ -1,4 +1,5 @@
 <app-cart-table
     [products]="products$ | async"
     (removeFromCart)="removeFromCart($event)"
-    (addToCart)="addToCart($event)"></app-cart-table>
+    (addToCart)="addToCart($event)"
+    (clearCart)="clearCart()"></app-cart-table>
