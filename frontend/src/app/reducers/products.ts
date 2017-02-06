@@ -8,9 +8,6 @@ import * as catalog from './catalog';
 import * as cart from './cart';
 import * as selectedProduct from './selected-product';
 
-import { IProduct } from '../models/product';
-import { ICartPosition } from '../models/cartPosition';
-
 export interface IState {
     catalog: catalog.IState;
     cart: cart.IState;
@@ -38,11 +35,3 @@ export const reducer: ActionReducer<IState> = (state = initialValue, action: act
         selectedProduct: selectedProduct.reducer(state.selectedProduct, action),
     };
 };
-
-export const getCatalog = (state: IState) => Object.keys(state.catalog.products).map(item => state.catalog.products[item]) as IProduct[];
-export const getCatalogFilterTerm = (state: IState) => state.catalog.filterTerm;
-export const getCartIds = (state: IState) => Object.keys(state.cart.quantity)
-    .map(key => ({ id: +key, quantity: state.cart.quantity[key] })) as ICartPosition[];
-export const getCartDetails = (state: IState) => Object.keys(state.cart.details)
-    .map(key => state.cart.details[key] as IProduct);
-export const getSelectedProduct = (state: IState) => state.selectedProduct;

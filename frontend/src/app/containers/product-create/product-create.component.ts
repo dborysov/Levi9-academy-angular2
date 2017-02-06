@@ -2,9 +2,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { back } from '@ngrx/router-store';
 
-import { IProduct } from '../../models/product';
-
-import * as fromRoot from '../../reducers';
+import { IProduct } from '../../models';
+import { IState } from '../../reducers';
 import * as catalogActions from '../../actions/catalog';
 
 @Component({
@@ -14,7 +13,7 @@ import * as catalogActions from '../../actions/catalog';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCreateComponent {
-    constructor(private store: Store<fromRoot.IState>, ) { }
+    constructor(private store: Store<IState>, ) { }
 
     createProduct(product: IProduct) {
         this.store.dispatch(new catalogActions.AddAction(product));

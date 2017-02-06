@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 import { type } from '../util';
-import { ICartPosition } from '../models/cartPosition';
-import { IProduct } from '../models/product';
+import { ICartPosition, IProduct } from '../models';
 
 export const ActionTypes = {
     LOAD: type('[Cart] Load'),

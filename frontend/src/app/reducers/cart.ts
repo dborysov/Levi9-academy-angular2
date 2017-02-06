@@ -1,6 +1,5 @@
 import { ActionReducer } from '@ngrx/store';
-import { IProduct } from '../models/product';
-import { ICartPosition } from '../models/cartPosition';
+import { IProduct } from '../models';
 import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';
 

@@ -4,9 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
 
-import { IUser } from '../models/user';
-import { ICredentials } from '../models/credentials';
-
+import { IUser, ICredentials } from '../models';
 
 export const IUserService = new OpaqueToken('IUserService');
 export interface IUserService {

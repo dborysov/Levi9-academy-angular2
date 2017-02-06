@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
 
-import { IProduct } from '../models/product';
+import { IProduct } from '../models';
 
 export const IProductsService = new OpaqueToken('IProductsApiService');
 export interface IProductsService {

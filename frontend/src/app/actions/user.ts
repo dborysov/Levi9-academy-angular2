@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
 import { type } from '../util';
 
-import { IUser } from '../models/user';
-import { ICredentials } from '../models/credentials';
+import { IUser, ICredentials } from '../models';
 
 export const ActionTypes = {
     LOAD_CURRENT: type('[User] Load Current'),

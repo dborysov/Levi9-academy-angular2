@@ -9,7 +9,7 @@ import * as user from '../actions/user';
 
 import { IUserService } from '../services/user';
 
-import { ICredentials } from '../models/credentials';
+import { ICredentials } from '../models';
 
 @Injectable()
 export class UserEffects {

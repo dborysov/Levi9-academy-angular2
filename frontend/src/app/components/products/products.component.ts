@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angu
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { IProduct } from '../../models/product';
+import { IProduct } from '../../models';
 
 @Component({
     selector: 'app-products',

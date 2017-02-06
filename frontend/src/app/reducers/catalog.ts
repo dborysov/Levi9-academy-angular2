@@ -1,8 +1,7 @@
 import { ActionReducer } from '@ngrx/store';
 
 import * as catalog from '../actions/catalog';
-
-import { IProduct } from '../models/product';
+import { IProduct } from '../models';
 
 export interface IState {
     products: { [id: number]: IProduct };

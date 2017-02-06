@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { type } from '../util';
-import { IProduct } from '../models/product';
+import { IProduct } from '../models';
 
 export const ActionTypes = {
     LOAD: type('[Catalog] Load'),

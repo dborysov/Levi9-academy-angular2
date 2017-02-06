@@ -3,11 +3,11 @@ import { FormControlDirective, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
+import { IState } from '../../reducers';
 import * as cartActions from '../../actions/cart';
 import * as catalogActions from '../../actions/catalog';
-
-import { IProduct } from '../../models/product';
+import { getFilteredCatalogSelector } from '../../selectors';
+import { IProduct } from '../../models';
 
 @Component({
     selector: 'app-catalog',
@@ -21,10 +21,10 @@ export class CatalogComponent implements OnInit {
     public filteredCatalog$: Observable<IProduct[]>;
     public selectedItem$: Observable<IProduct>;
 
-    constructor(private store: Store<fromRoot.IState>, ) { }
+    constructor(private store: Store<IState>, ) { }
 
     ngOnInit() {
-        this.filteredCatalog$ = this.store.select<IProduct[]>(fromRoot.getFilteredCatalog);
+        this.filteredCatalog$ = this.store.select<IProduct[]>(getFilteredCatalogSelector);
 
         this.store.dispatch(new catalogActions.LoadAction());
     }

@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { areEqual, isEmail } from '../../validators';
-import { ICredentials } from '../../models/credentials';
+import { ICredentials } from '../../models';
 
 @Component({
     selector: 'app-registration-form',

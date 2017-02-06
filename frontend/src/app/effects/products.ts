@@ -7,10 +7,11 @@ import * as fromRoot from '../reducers';
 import { Config } from '../config';
 import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';
-import { IState, getUserToken, getCartItemsDetails } from '../reducers';
+import { getUserTokenSelector, getCartItemsDetailsSelector, getCartItemsIdsSelector } from '../selectors';
+import { IState } from '../reducers';
 
 import { IProductsService } from '../services/products';
-import { ICartPosition } from '../models/cartPosition';
+import { ICartPosition } from '../models';
 
 @Injectable()
 export class ProductsEffects {
@@ -35,13 +36,13 @@ export class ProductsEffects {
     addItemToCart$ = this.actions$
         .ofType(cart.ActionTypes.ADD_QUANTITY)
         .map((action: cart.AddQuantityAction) => action.payload)
-        .withLatestFrom(this.store.select(getCartItemsDetails))
+        .withLatestFrom(this.store.select(getCartItemsDetailsSelector))
         .filter(([payload, savedPositions]) => savedPositions.every(p => p.id !== payload.id))
         .distinctUntilChanged()
         .map(([payload]) => new cart.LoadDetailsAction([payload]));
 
     @Effect({ dispatch: false })
-    saveCart$ = this.store.select(fromRoot.getCartItemsIds)
+    saveCart$ = this.store.select(getCartItemsIdsSelector)
         .do(cartItemsIds => {
             localStorage.setItem(
                 Config.localStorageKeyCart,
@@ -65,7 +66,7 @@ export class ProductsEffects {
     deleteCatalogProduct$ = this.actions$
         .ofType(catalog.ActionTypes.DELETE)
         .map(action => action.payload)
-        .combineLatest(this.store.select(getUserToken))
+        .combineLatest(this.store.select(getUserTokenSelector))
         .switchMap(([product, token]) => this.productsService.removeProduct(product, token)
             .map(() => new catalog.DeleteSuccessAction(product))
             .catch(() => Observable.of(new catalog.DeleteFailedAction(product))));
@@ -74,7 +75,7 @@ export class ProductsEffects {
     addCatalogProduct$ = this.actions$
         .ofType(catalog.ActionTypes.ADD)
         .map((action: catalog.AddAction) => action.payload)
-        .combineLatest(this.store.select(getUserToken))
+        .combineLatest(this.store.select(getUserTokenSelector))
         .switchMap(([product, token]) => this.productsService.createProduct(product, token)
             .map(() => new catalog.AddSuccessAction(product))
             .catch(() => Observable.of(new catalog.AddFailedAction(product))));

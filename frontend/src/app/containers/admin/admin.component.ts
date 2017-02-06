@@ -2,10 +2,10 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromRoot from '../../reducers';
+import { IState } from '../../reducers';
 import * as catalogActions from '../../actions/catalog';
-
-import { IProduct } from '../../models/product';
+import { getCatalogItemsSelector } from '../../selectors';
+import { IProduct } from '../../models';
 
 @Component({
     selector: 'app-admin',
@@ -16,10 +16,10 @@ import { IProduct } from '../../models/product';
 export class AdminComponent implements OnInit {
     public products$: Observable<IProduct[]>;
 
-    constructor(private store: Store<fromRoot.IState>, ) { }
+    constructor(private store: Store<IState>, ) { }
 
     ngOnInit() {
-        this.products$ = this.store.select(fromRoot.getCatalogItems);
+        this.products$ = this.store.select(getCatalogItemsSelector);
 
         this.store.dispatch(new catalogActions.LoadAction());
     }

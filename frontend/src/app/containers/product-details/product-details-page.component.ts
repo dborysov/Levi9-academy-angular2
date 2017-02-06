@@ -5,9 +5,10 @@ import { back } from '@ngrx/router-store';
 
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
+import { getSelectedProductSelector } from '../../selectors';
+import { IState } from '../../reducers';
 import * as selectedProductActions from '../../actions/selectedProduct';
-import { IProduct } from '../../models/product';
+import { IProduct } from '../../models';
 
 @Component({
     selector: 'app-product-details-page',
@@ -19,12 +20,12 @@ export class ProductDetailsPageComponent implements OnInit {
     public product$: Observable<IProduct>;
 
     constructor(
-        private store: Store<fromRoot.IState>,
+        private store: Store<IState>,
         private route: ActivatedRoute,
     ) { }
 
     ngOnInit() {
-        this.product$ = this.store.select<IProduct>(fromRoot.getSelectedProduct);
+        this.product$ = this.store.select<IProduct>(getSelectedProductSelector);
         this.store.dispatch(new selectedProductActions.SelectAction({ id: +this.route.snapshot.params['id'] }));
     }
 

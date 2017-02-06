@@ -2,9 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { go } from '@ngrx/router-store';
 import { Observable } from 'rxjs/Observable';
-
+import * as selectors from '../../selectors';
 import * as userActions from '../../actions/user';
-import * as fromRoot from '../../reducers';
+import { IState } from '../../reducers';
 
 @Component({
     selector: 'app-navigation',
@@ -17,12 +17,12 @@ export class NavigationComponent implements OnInit {
     public userEmail$: Observable<string>;
     public userIsSignedIn$: Observable<boolean>;
 
-    constructor(private store: Store<fromRoot.IState>) { }
+    constructor(private store: Store<IState>) { }
 
     ngOnInit() {
-        this.cartItemsCount$ = this.store.select(fromRoot.getCartItems).map(products => products.length);
-        this.userEmail$ = this.store.select(fromRoot.getUserEmail);
-        this.userIsSignedIn$ = this.store.select(fromRoot.getUserIsSignedIn);
+        this.cartItemsCount$ = this.store.select(selectors.getCartItemsSelector).map(products => products.length);
+        this.userEmail$ = this.store.select(selectors.getUserEmailSelector);
+        this.userIsSignedIn$ = this.store.select(selectors.getUserIsSignedInSelector);
     }
 
     logout() {

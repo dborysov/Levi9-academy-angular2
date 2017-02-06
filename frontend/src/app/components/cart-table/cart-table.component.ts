@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { ICartPositionsDetails } from '../../models/cartPositionsDetails';
-import { IProduct } from '../../models/product';
+import { ICartPositionsDetails } from '../../models';
 
 @Component({
     selector: 'app-cart-table',

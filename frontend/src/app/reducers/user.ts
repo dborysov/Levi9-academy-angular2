@@ -26,7 +26,3 @@ export const reducer: ActionReducer<IState> = (state = initialState, action: use
             return state;
     }
 };
-
-export const getEmail = (state: IState) => state.email;
-export const getToken = (state: IState) => state.token;
-export const getIsSignedIn = (state: IState) => state.isSignedIn;

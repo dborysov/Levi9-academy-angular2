@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { isValidPrice } from '../../validators';
-import { IProduct } from '../../models/product';
+import { IProduct } from '../../models';
 
 @Component({
     selector: 'app-product-create-form',

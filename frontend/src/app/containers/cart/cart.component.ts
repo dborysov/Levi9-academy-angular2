@@ -2,11 +2,10 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
+import { IState } from '../../reducers';
 import * as cartActions from '../../actions/cart';
-
-import { IProduct } from '../../models/product';
-import { ICartPositionsDetails } from '../../models/cartPositionsDetails';
+import { getCartItemsSelector } from '../../selectors';
+import { ICartPositionsDetails } from '../../models';
 
 @Component({
     selector: 'app-cart',
@@ -17,10 +16,10 @@ import { ICartPositionsDetails } from '../../models/cartPositionsDetails';
 export class CartComponent implements OnInit {
     public products$: Observable<ICartPositionsDetails[]>;
 
-    constructor(private store: Store<fromRoot.IState>, ) { }
+    constructor(private store: Store<IState>, ) { }
 
     ngOnInit() {
-        this.products$ = this.store.select<ICartPositionsDetails[]>(fromRoot.getCartItems);
+        this.products$ = this.store.select<ICartPositionsDetails[]>(getCartItemsSelector);
     }
 
     removeFromCart({productId, quantity}: { productId: number, quantity?: number }) {

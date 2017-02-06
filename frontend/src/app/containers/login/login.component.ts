@@ -4,7 +4,7 @@ import { back } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { IState } from '../../reducers';
 import * as userActions from '../../actions/user';
-import { ICredentials } from '../../models/credentials';
+import { ICredentials } from '../../models';
 
 @Component({
     selector: 'app-login',
