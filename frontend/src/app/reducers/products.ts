@@ -8,8 +8,6 @@ import * as catalog from './catalog';
 import * as cart from './cart';
 import * as selectedProduct from './selected-product';
 
-import { reducer as saveToLocalStorage } from '../meta-reducers/save-to-local-storage';
-
 import { IProduct } from '../models/product';
 import { ICartPosition } from '../models/cartPosition';
 
@@ -35,7 +33,7 @@ type actionType = catalogActions.Actions | cartActions.Actions | selectedProduct
 
 export const reducer: ActionReducer<IState> = (state = initialValue, action: actionType) => {
     return {
-        cart: saveToLocalStorage(cart.reducer)(state.cart, action),
+        cart: cart.reducer(state.cart, action),
         catalog: catalog.reducer(state.catalog, action),
         selectedProduct: selectedProduct.reducer(state.selectedProduct, action),
     };
