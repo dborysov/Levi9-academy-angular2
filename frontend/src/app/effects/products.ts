@@ -66,7 +66,7 @@ export class ProductsEffects {
     deleteCatalogProduct$ = this.actions$
         .ofType(catalog.ActionTypes.DELETE)
         .map(action => action.payload)
-        .combineLatest(this.store.select(getUserTokenSelector))
+        .withLatestFrom(this.store.select(getUserTokenSelector))
         .switchMap(([product, token]) => this.productsService.removeProduct(product, token)
             .map(() => new catalog.DeleteSuccessAction(product))
             .catch(() => Observable.of(new catalog.DeleteFailedAction(product))));
@@ -75,7 +75,7 @@ export class ProductsEffects {
     addCatalogProduct$ = this.actions$
         .ofType(catalog.ActionTypes.ADD)
         .map((action: catalog.AddAction) => action.payload)
-        .combineLatest(this.store.select(getUserTokenSelector))
+        .withLatestFrom(this.store.select(getUserTokenSelector))
         .switchMap(([product, token]) => this.productsService.createProduct(product, token)
             .map(() => new catalog.AddSuccessAction(product))
             .catch(() => Observable.of(new catalog.AddFailedAction(product))));
