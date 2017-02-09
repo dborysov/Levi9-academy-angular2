@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { IProduct } from '../../models';
 
+import 'rxjs/add/operator/debounceTime';
+
 @Component({
     selector: 'app-products',
     templateUrl: './products.component.html',

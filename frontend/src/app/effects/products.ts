@@ -9,9 +9,12 @@ import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';
 import { getUserTokenSelector, getCartItemsDetailsSelector, getCartItemsIdsSelector } from '../selectors';
 import { IState } from '../reducers';
-
 import { IProductsService } from '../services/products';
 import { ICartPosition } from '../models';
+
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Injectable()
 export class ProductsEffects {

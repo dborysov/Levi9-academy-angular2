@@ -6,10 +6,17 @@ import { go } from '@ngrx/router-store';
 
 import { Config } from '../config';
 import * as user from '../actions/user';
-
 import { IUserService } from '../services/user';
-
 import { ICredentials } from '../models';
+
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class UserEffects {
