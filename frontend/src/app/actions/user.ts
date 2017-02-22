@@ -3,72 +3,72 @@ import { type } from '../util';
 
 import { IUser, ICredentials } from '../models';
 
-export const ActionTypes = {
-    LOAD_CURRENT: type('[User] Load Current'),
-    LOAD_CURRENT_SUCCESS: type('[User] Load Current Success'),
-    LOAD_CURRENT_FAILED: type('[User] Load Current Failed'),
-    LOGIN: type('[User] Login'),
-    LOGIN_SUCCESS: type('[User] Login Success'),
-    LOGIN_FAILED: type('[User] Login Failed'),
-    REGISTRATION: type('[User] Registration'),
-    REGISTRATION_SUCCESS: type('[User] Registration Success'),
-    REGISTRATION_FAILED: type('[User] Registration Failed'),
-    LOGOUT: type('[User] Logout'),
-    LOGOUT_SUCCESS: type('[User] Logout Success'),
+export class ActionTypes {
+    static readonly LOAD_CURRENT = type('[User] Load Current');
+    static readonly LOAD_CURRENT_SUCCESS = type('[User] Load Current Success');
+    static readonly LOAD_CURRENT_FAILED = type('[User] Load Current Failed');
+    static readonly LOGIN = type('[User] Login');
+    static readonly LOGIN_SUCCESS = type('[User] Login Success');
+    static readonly LOGIN_FAILED = type('[User] Login Failed');
+    static readonly REGISTRATION = type('[User] Registration');
+    static readonly REGISTRATION_SUCCESS = type('[User] Registration Success');
+    static readonly REGISTRATION_FAILED = type('[User] Registration Failed');
+    static readonly LOGOUT = type('[User] Logout');
+    static readonly LOGOUT_SUCCESS = type('[User] Logout Success');
 };
 
 export class LoadCurrentAction implements Action {
-    type = ActionTypes.LOAD_CURRENT;
+    readonly type = ActionTypes.LOAD_CURRENT;
 };
 
 export class LoadCurrentSuccessAction implements Action {
-    type = ActionTypes.LOAD_CURRENT_SUCCESS;
+    readonly type = ActionTypes.LOAD_CURRENT_SUCCESS;
 
-    constructor(public payload: IUser) { }
+    constructor(public readonly payload: IUser) { }
 };
 
 export class LoadCurrentFailedAction implements Action {
-    type = ActionTypes.LOAD_CURRENT_FAILED;
+    readonly type = ActionTypes.LOAD_CURRENT_FAILED;
 };
 
 export class LoginAction implements Action {
-    type = ActionTypes.LOGIN;
+    readonly type = ActionTypes.LOGIN;
 
-    constructor(public payload: ICredentials) { }
+    constructor(public readonly payload: ICredentials) { }
 };
 
 export class LoginSuccessAction implements Action {
-    type = ActionTypes.LOGIN_SUCCESS;
+    readonly type = ActionTypes.LOGIN_SUCCESS;
 
-    constructor(public payload: IUser) { }
+    constructor(public readonly payload: IUser) { }
 };
 
 export class LoginFailedAction implements Action {
-    type = ActionTypes.LOGIN_FAILED;
+    readonly type = ActionTypes.LOGIN_FAILED;
 };
 
 export class RegistrationAction implements Action {
-    type = ActionTypes.REGISTRATION;
+    readonly type = ActionTypes.REGISTRATION;
 
-    constructor(public payload: ICredentials) { }
+    constructor(public readonly payload: ICredentials) { }
 };
 
 export class RegistrationSuccessAction implements Action {
-    type = ActionTypes.REGISTRATION_SUCCESS;
+    readonly type = ActionTypes.REGISTRATION_SUCCESS;
 
-    constructor(public payload: IUser) { }
+    constructor(public readonly payload: IUser) { }
 };
 
 export class RegistrationFailedAction implements Action {
-    type = ActionTypes.REGISTRATION_FAILED;
+    readonly type = ActionTypes.REGISTRATION_FAILED;
 };
 
 export class LogoutAction implements Action {
-    type = ActionTypes.LOGOUT;
+    readonly type = ActionTypes.LOGOUT;
 };
 
 export class LogoutSuccessAction implements Action {
-    type = ActionTypes.LOGOUT_SUCCESS;
+    readonly type = ActionTypes.LOGOUT_SUCCESS;
 };
 
 export type Actions

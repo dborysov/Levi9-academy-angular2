@@ -2,85 +2,85 @@ import { Action } from '@ngrx/store';
 import { type } from '../util';
 import { IProduct } from '../models';
 
-export const ActionTypes = {
-    LOAD: type('[Catalog] Load'),
-    LOAD_SUCCESS: type('[Catalog] Load Success'),
-    LOAD_FAILED: type('[Catalog] Load Failed'),
-    ADD: type('[Catalog] Add'),
-    ADD_SUCCESS: type('[Catalog] Add Success'),
-    ADD_FAILED: type('[Catalog] Add Failed'),
-    DELETE: type('[Catalog] Delete'),
-    DELETE_SUCCESS: type('[Catalog] Delete Success'),
-    DELETE_FAILED: type('[Catalog] Delete Failed'),
-    EDIT: type('[Catalog] Edit'),
-    DELETE_ALL: type('[Catalog] Delete All'),
-    SET_FILTER_TERM: type('[Catalog] Set Filter Term'),
+export class ActionTypes {
+    static readonly LOAD = type('[Catalog] Load');
+    static readonly LOAD_SUCCESS = type('[Catalog] Load Success');
+    static readonly LOAD_FAILED = type('[Catalog] Load Failed');
+    static readonly ADD = type('[Catalog] Add');
+    static readonly ADD_SUCCESS = type('[Catalog] Add Success');
+    static readonly ADD_FAILED = type('[Catalog] Add Failed');
+    static readonly DELETE = type('[Catalog] Delete');
+    static readonly DELETE_SUCCESS = type('[Catalog] Delete Success');
+    static readonly DELETE_FAILED = type('[Catalog] Delete Failed');
+    static readonly EDIT = type('[Catalog] Edit');
+    static readonly DELETE_ALL = type('[Catalog] Delete All');
+    static readonly SET_FILTER_TERM = type('[Catalog] Set Filter Term');
 };
 
 export class LoadAction implements Action {
-    type = ActionTypes.LOAD;
+    readonly type = ActionTypes.LOAD;
 }
 
 export class LoadSuccessAction implements Action {
-    type = ActionTypes.LOAD_SUCCESS;
+    readonly type = ActionTypes.LOAD_SUCCESS;
 
-    constructor(public payload: IProduct[]) { }
+    constructor(public readonly payload: IProduct[]) { }
 }
 
 export class LoadFailedAction implements Action {
-    type = ActionTypes.LOAD_FAILED;
+    readonly type = ActionTypes.LOAD_FAILED;
 }
 
 export class AddAction implements Action {
-    type = ActionTypes.ADD;
+    readonly type = ActionTypes.ADD;
 
-    constructor(public payload: IProduct) { }
+    constructor(public readonly payload: IProduct) { }
 }
 
 export class AddSuccessAction implements Action {
-    type = ActionTypes.ADD_SUCCESS;
+    readonly type = ActionTypes.ADD_SUCCESS;
 
-    constructor(public payload: IProduct) { }
+    constructor(public readonly payload: IProduct) { }
 }
 
 export class AddFailedAction implements Action {
-    type = ActionTypes.ADD_FAILED;
+    readonly type = ActionTypes.ADD_FAILED;
 
-    constructor(public payload: IProduct) { }
+    constructor(public readonly payload: IProduct) { }
 }
 
 export class DeleteAction implements Action {
-    type = ActionTypes.DELETE;
+    readonly type = ActionTypes.DELETE;
 
-    constructor(public payload: IProduct) { }
+    constructor(public readonly payload: IProduct) { }
 }
 
 export class DeleteSuccessAction implements Action {
-    type = ActionTypes.DELETE_SUCCESS;
+    readonly type = ActionTypes.DELETE_SUCCESS;
 
-    constructor(public payload: IProduct) { }
+    constructor(public readonly payload: IProduct) { }
 }
 
 export class DeleteFailedAction implements Action {
-    type = ActionTypes.DELETE_FAILED;
+    readonly type = ActionTypes.DELETE_FAILED;
 
-    constructor(public payload: IProduct) { }
+    constructor(public readonly payload: IProduct) { }
 }
 
 export class EditAction implements Action {
-    type = ActionTypes.EDIT;
+    readonly type = ActionTypes.EDIT;
 
-    constructor(public payload: IProduct) { }
+    constructor(public readonly payload: IProduct) { }
 }
 
 export class DeleteAllAction implements Action {
-    type = ActionTypes.DELETE_ALL;
+    readonly type = ActionTypes.DELETE_ALL;
 }
 
 export class SetFilterTermAction implements Action {
-    type = ActionTypes.SET_FILTER_TERM;
+    readonly type = ActionTypes.SET_FILTER_TERM;
 
-    constructor(public payload: { filterTerm: string }) { }
+    constructor(public readonly payload: { filterTerm: string }) { }
 };
 
 export type Actions
