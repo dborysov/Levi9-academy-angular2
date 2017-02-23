@@ -21,19 +21,19 @@ export class LoadAction implements Action {
 export class LoadSuccessAction implements Action {
     readonly type = ActionTypes.LOAD_SUCCESS;
 
-    constructor(public payload: ICartPosition[]) { }
+    constructor(public readonly payload: ICartPosition[]) { }
 };
 
 export class LoadDetailsAction implements Action {
     readonly type = ActionTypes.LOAD_DETAILS;
 
-    constructor(public payload: ICartPosition[]) { }
+    constructor(public readonly payload: ICartPosition[]) { }
 };
 
 export class LoadDetailsSuccessAction implements Action {
     readonly type = ActionTypes.LOAD_DETAILS_SUCCESS;
 
-    constructor(public payload: IProduct[]) { }
+    constructor(public readonly payload: IProduct[]) { }
 };
 
 export class LoadDetailsFailedAction implements Action {
@@ -43,19 +43,19 @@ export class LoadDetailsFailedAction implements Action {
 export class AddQuantityAction implements Action {
     readonly type = ActionTypes.ADD_QUANTITY;
 
-    constructor(public payload: ICartPosition) { }
+    constructor(public readonly payload: ICartPosition) { }
 };
 
 export class RemoveQuantityAction implements Action {
     readonly type = ActionTypes.REMOVE_QUANTITY;
 
-    constructor(public payload: ICartPosition) { }
+    constructor(public readonly payload: ICartPosition) { }
 };
 
 export class RemoveItemAction implements Action {
     readonly type = ActionTypes.REMOVE_ITEM;
 
-    constructor(public payload: { id: number }) { }
+    constructor(public readonly payload: { id: number }) { }
 };
 
 export class RemoveAllAction implements Action {

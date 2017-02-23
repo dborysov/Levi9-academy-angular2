@@ -47,6 +47,7 @@ import { reducer } from './reducers';
         StoreModule.provideStore(reducer),
         EffectsModule.run(effects.ProductsEffects),
         EffectsModule.run(effects.UserEffects),
+        EffectsModule.run(effects.SelectedProductEffects),
         StoreDevtoolsModule.instrumentOnlyWithExtension(),
     ],
     providers: [{

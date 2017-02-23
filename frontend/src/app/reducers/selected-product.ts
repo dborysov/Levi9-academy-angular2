@@ -1,15 +1,18 @@
 import { ActionReducer } from '@ngrx/store';
 
 import * as selectedProduct from '../actions/selectedProduct';
+import { IProduct } from '../models';
 
 export interface IState {
-    id: number;
+    product: IProduct;
 }
 
-export const reducer: ActionReducer<IState> = (state: IState = null, action: selectedProduct.Actions) => {
+export const initialState: IState = { product: null };
+
+export const reducer: ActionReducer<IState> = (state: IState = initialState, action: selectedProduct.Actions) => {
     switch (action.type) {
-        case selectedProduct.ActionTypes.SELECT:
-            return { id: action.payload.id };
+        case selectedProduct.ActionTypes.SELECT_SUCCESS:
+            return { ...state, product: action.payload};
 
         default:
             return state;

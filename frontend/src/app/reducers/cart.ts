@@ -8,34 +8,32 @@ export interface IState {
     details: { [id: number]: IProduct };
 }
 
-const initialState = { quantity: {}, details: {} };
+export const initialState = { quantity: {}, details: {} };
 
 export const reducer: ActionReducer<IState> = (state: IState = initialState, action: cart.Actions | catalog.Actions) => {
     switch (action.type) {
         case cart.ActionTypes.LOAD_SUCCESS:
             return {
-                quantity: action.payload.reduce((prev, curr) => Object.assign(prev, { [curr.id]: curr.quantity }), {}),
-                details: state.details,
+                ...state,
+                quantity: action.payload.reduce((prev, curr) => ({ ...prev, [curr.id]: curr.quantity }), {}),
             };
 
         case cart.ActionTypes.LOAD_DETAILS_SUCCESS:
             return {
-                quantity: state.quantity,
-                details: Object.assign(
-                    {},
-                    state.details,
-                    action.payload.reduce((prev, curr) => Object.assign(prev, { [curr.id]: curr }), {})
-                ),
+                ...state,
+                details: {
+                    ...state.details,
+                    ...action.payload.reduce((prev, curr) => ({ ...prev, [curr.id]: curr }), {})
+                }
             };
 
         case cart.ActionTypes.ADD_QUANTITY:
             return {
-                quantity: Object.assign(
-                    {},
-                    state.quantity,
-                    { [action.payload.id]: (state.quantity[action.payload.id] || 0) + action.payload.quantity || 1 }
-                ),
-                details: state.details,
+                ...state,
+                quantity: {
+                    ...state.quantity,
+                    [action.payload.id]: (state.quantity[action.payload.id] || 0) + action.payload.quantity || 1
+                }
             };
 
         case cart.ActionTypes.REMOVE_QUANTITY:
@@ -48,19 +46,18 @@ export const reducer: ActionReducer<IState> = (state: IState = initialState, act
             return shouldRemoveItem
                 ? reducer(state, new cart.RemoveItemAction({ id: action.payload.id }))
                 : {
-                    quantity: Object.assign(
-                        {},
-                        state.quantity,
-                        { [action.payload.id]: Math.max((state.quantity[action.payload.id] || 0) - action.payload.quantity) }
-                    ),
-                    details: state.details,
+                    ...state,
+                    quantity: {
+                        ...state.quantity,
+                        [action.payload.id]: Math.max((state.quantity[action.payload.id] || 0) - action.payload.quantity)
+                    },
                 };
 
         case cart.ActionTypes.REMOVE_ITEM:
         case catalog.ActionTypes.DELETE_SUCCESS:
             const removeItemResult = {
-                quantity: Object.assign({}, state.quantity),
-                details: Object.assign({}, state.details),
+                quantity: { ...state.quantity },
+                details: { ...state.details },
             };
 
             delete removeItemResult.quantity[action.payload.id];

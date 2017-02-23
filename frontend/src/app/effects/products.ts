@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
-import * as fromRoot from '../reducers';
 import { Config } from '../config';
 import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';

@@ -14,13 +14,13 @@ export const reducer: ActionReducer<IState> = (state = initialState, action: use
         case user.ActionTypes.LOGIN_SUCCESS:
         case user.ActionTypes.LOAD_CURRENT_SUCCESS:
         case user.ActionTypes.REGISTRATION_SUCCESS:
-            return { isSignedIn: true, email: action.payload.email, token: action.payload.token };
+            return { ...state, isSignedIn: true, email: action.payload.email, token: action.payload.token };
 
         case user.ActionTypes.LOGIN_FAILED:
         case user.ActionTypes.REGISTRATION_FAILED:
         case user.ActionTypes.LOAD_CURRENT_FAILED:
         case user.ActionTypes.LOGOUT_SUCCESS:
-            return Object.assign({}, initialState);
+            return { ...initialState };
 
         default:
             return state;

@@ -15,15 +15,9 @@ export interface IState {
 };
 
 const initialValue: IState = {
-    catalog: {
-        products: {},
-        filterTerm: '',
-    },
-    cart: {
-        quantity: {},
-        details: {},
-    },
-    selectedProduct: { id: null },
+    catalog: catalog.initialState,
+    cart: cart.initialState,
+    selectedProduct: selectedProduct.initialState,
 };
 
 type actionType = catalogActions.Actions | cartActions.Actions | selectedProductActions.Actions;

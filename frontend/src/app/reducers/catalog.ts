@@ -8,7 +8,7 @@ export interface IState {
     filterTerm: string;
 }
 
-const initialState = { products: {}, filterTerm: '' };
+export const initialState = { products: {}, filterTerm: '' };
 
 export const reducer: ActionReducer<IState> = (state: IState = initialState, action: catalog.Actions) => {
     switch (action.type) {
@@ -21,15 +21,18 @@ export const reducer: ActionReducer<IState> = (state: IState = initialState, act
         case catalog.ActionTypes.ADD_SUCCESS:
         case catalog.ActionTypes.DELETE_FAILED:
             return {
-                products: Object.assign({}, state.products, { [action.payload.id]: action.payload }),
-                filterTerm: state.filterTerm,
+                ...state,
+                products: {
+                    ...state.products,
+                    [action.payload.id]: action.payload
+                }
             };
 
         case catalog.ActionTypes.ADD_FAILED:
         case catalog.ActionTypes.DELETE_SUCCESS:
             const deleteResult = {
-                products: Object.assign({}, state.products),
-                filterTerm: state.filterTerm
+                ...state,
+                products: { ...state.products }
             };
             delete deleteResult.products[action.payload.id];
 
@@ -37,16 +40,19 @@ export const reducer: ActionReducer<IState> = (state: IState = initialState, act
 
         case catalog.ActionTypes.EDIT:
             return {
-                products: Object.assign({}, state.products, { [action.payload.id]: action.payload }),
-                filterTerm: state.filterTerm,
+                ...state,
+                products: {
+                    ...state.products,
+                    [action.payload.id]: action.payload
+                }
             };
 
         case catalog.ActionTypes.DELETE_ALL:
-            return { products: {}, filterTerm: state.filterTerm };
+            return { ...state, products: {} };
 
         case catalog.ActionTypes.SET_FILTER_TERM:
             return {
-                products: state.products,
+                ...state,
                 filterTerm: action.payload.filterTerm,
             };
 
