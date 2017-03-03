@@ -20,8 +20,6 @@ services:
       - "4200:4200"
     depends_on:
       - be
-    networks:
-      - node_network
 
 networks:
   node_network:
