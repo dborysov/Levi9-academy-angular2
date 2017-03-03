@@ -3,7 +3,7 @@ module.exports = {
     port: 7778,
     db: {
         name: "products",
-        host: "localhost",
+        host: "db",
         port: 27017
     }
 };

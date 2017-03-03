@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    image: mongo:3.0
+    command: ["mongod", "--smallfiles", "--nojournal"]
+    networks:
+      - node_network
+  be:
+    build: ./backend
+    ports:
+      - "7778:7778"
+    depends_on:
+      - db
+    networks:
+      - node_network
+  fe:
+    build: ./frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - be
+    networks:
+      - node_network
+
+networks:
+  node_network:
+    driver: bridge
