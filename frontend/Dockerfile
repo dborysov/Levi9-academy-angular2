@@ -1,9 +1,8 @@
-FROM node:7.6
+FROM node:7.7-alpine
 
 RUN mkdir -p /opt/app
 
 WORKDIR /opt/app
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 
 # Copy the code
 ADD . /opt/app
