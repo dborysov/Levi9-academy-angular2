@@ -1,4 +1,4 @@
-const ProductDTO = require('./productDto.model');
+const ProductDTO = require('./productDTO.model');
 
 module.exports = class Product {
     constructor({id, category, title, brand, price, image, description, details, date}) {

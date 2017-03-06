@@ -1,5 +1,5 @@
 const Product = require('../models/product.db.model');
-const ProductDto = require('../models/productDto.model');
+const ProductDto = require('../models/productDTO.model');
 
 module.exports = {
     getAllProducts,
