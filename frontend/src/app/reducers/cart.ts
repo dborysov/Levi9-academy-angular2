@@ -3,67 +3,63 @@ import { IProduct } from '../models';
 import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';
 
+import { ICartPositionsDetails } from '../models';
+
 export interface IState {
-    quantity: { [id: number]: number };
-    details: { [id: number]: IProduct };
+    cartItems: ICartPositionsDetails[]
 }
 
-export const initialState = { quantity: {}, details: {} };
+export const initialState = { cartItems: [] };
 
 export const reducer: ActionReducer<IState> = (state: IState = initialState, action: cart.Actions | catalog.Actions) => {
     switch (action.type) {
         case cart.ActionTypes.LOAD_SUCCESS:
             return {
-                ...state,
-                quantity: action.payload.reduce((prev, curr) => ({ ...prev, [curr.id]: curr.quantity }), {}),
-            };
+                cartItems: action.payload
+            }
 
         case cart.ActionTypes.LOAD_DETAILS_SUCCESS:
             return {
-                ...state,
-                details: {
-                    ...state.details,
-                    ...action.payload.reduce((prev, curr) => ({ ...prev, [curr.id]: curr }), {})
-                }
-            };
+                cartItems: state.cartItems.map(cartItem => {
+                    const cartItemDetails = action.payload.find(cartItemDetails => cartItemDetails.id === cartItem.id);
+
+                    return cartItemDetails
+                        ? { ...cartItem, ...cartItemDetails, detailsLoaded: true }
+                        : cartItem;
+                })
+            }
 
         case cart.ActionTypes.ADD_QUANTITY:
+            const existingItem = state.cartItems.find(cartItem => cartItem.id === action.payload.id);
+
             return {
-                ...state,
-                quantity: {
-                    ...state.quantity,
-                    [action.payload.id]: (state.quantity[action.payload.id] || 0) + action.payload.quantity || 1
-                }
-            };
+                cartItems: existingItem
+                    ? state.cartItems.map(cartItem =>
+                        cartItem.id === action.payload.id
+                            ? { ...cartItem, quantity: (cartItem.quantity || 0) + (action.payload.quantity || 1) }
+                            : cartItem)
+                    : [...state.cartItems, action.payload]
+            }
 
         case cart.ActionTypes.REMOVE_QUANTITY:
-            const shouldIgnore = !state.quantity[action.payload.id];
-            if (shouldIgnore) { return state; }
+            const cartItem = state.cartItems.find(cartItem => cartItem.id === action.payload.id);
+
+            if (!cartItem) return state;
 
             const shouldRemoveItem = !action.payload.quantity
-                || action.payload.quantity >= state.quantity[action.payload.id];
+                || action.payload.quantity >= cartItem.quantity;
 
             return shouldRemoveItem
                 ? reducer(state, new cart.RemoveItemAction({ id: action.payload.id }))
                 : {
-                    ...state,
-                    quantity: {
-                        ...state.quantity,
-                        [action.payload.id]: Math.max((state.quantity[action.payload.id] || 0) - action.payload.quantity)
-                    },
+                    cartItems: state.cartItems.map(cartItem => cartItem.id === action.payload.id ? { ...cartItem, quantity: cartItem.quantity - action.payload.quantity } : cartItem)
                 };
 
         case cart.ActionTypes.REMOVE_ITEM:
         case catalog.ActionTypes.DELETE_SUCCESS:
-            const removeItemResult = {
-                quantity: { ...state.quantity },
-                details: { ...state.details },
-            };
-
-            delete removeItemResult.quantity[action.payload.id];
-            delete removeItemResult.details[action.payload.id];
-
-            return removeItemResult;
+            return {
+                cartItems: state.cartItems.filter(cartItem => cartItem.id !== action.payload.id)
+            }
 
         case cart.ActionTypes.REMOVE_ALL:
             return initialState;

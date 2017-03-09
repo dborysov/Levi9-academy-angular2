@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { IState } from '../../reducers';
 import * as cartActions from '../../actions/cart';
-import { getCartItemsSelector } from '../../selectors';
+import { getLoadedCartItemsSelector } from '../../selectors';
 import { ICartPositionsDetails } from '../../models';
 
 @Component({
@@ -19,7 +19,7 @@ export class CartComponent implements OnInit {
     constructor(private store: Store<IState>, ) { }
 
     ngOnInit() {
-        this.products$ = this.store.select<ICartPositionsDetails[]>(getCartItemsSelector);
+        this.products$ = this.store.select<ICartPositionsDetails[]>(getLoadedCartItemsSelector);
     }
 
     removeFromCart({productId, quantity}: { productId: number, quantity?: number }) {
