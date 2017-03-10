@@ -4,51 +4,45 @@ import * as catalog from '../actions/catalog';
 import { IProduct } from '../models';
 
 export interface IState {
-    products: { [id: number]: IProduct };
+    products: IProduct[];
     filterTerm: string;
 }
 
-export const initialState = { products: {}, filterTerm: '' };
+export const initialState = { products: [], filterTerm: '' };
 
 export const reducer: ActionReducer<IState> = (state: IState = initialState, action: catalog.Actions) => {
     switch (action.type) {
         case catalog.ActionTypes.LOAD_SUCCESS:
-            return action.payload.reduce(
-                (newState, catalogItem) => reducer(newState, new catalog.AddSuccessAction(catalogItem)),
-                initialState
-            );
+            return {
+                ...state,
+                products: action.payload
+            };
 
         case catalog.ActionTypes.ADD_SUCCESS:
         case catalog.ActionTypes.DELETE_FAILED:
             return {
                 ...state,
-                products: {
+                products: [
                     ...state.products,
-                    [action.payload.id]: action.payload
-                }
+                    action.payload
+                ]
             };
 
         case catalog.ActionTypes.ADD_FAILED:
         case catalog.ActionTypes.DELETE_SUCCESS:
-            const deleteResult = {
+            return {
                 ...state,
-                products: { ...state.products }
+                products: state.products.filter(product => product.id !== action.payload.id)
             };
-            delete deleteResult.products[action.payload.id];
-
-            return deleteResult;
 
         case catalog.ActionTypes.EDIT:
             return {
                 ...state,
-                products: {
-                    ...state.products,
-                    [action.payload.id]: action.payload
-                }
+                products: state.products.map(product => product.id !== action.payload.id ? product : action.payload)
             };
 
         case catalog.ActionTypes.DELETE_ALL:
-            return { ...state, products: {} };
+            return initialState;
 
         case catalog.ActionTypes.SET_FILTER_TERM:
             return {

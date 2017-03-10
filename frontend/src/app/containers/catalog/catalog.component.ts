@@ -27,6 +27,7 @@ export class CatalogComponent implements OnInit {
         this.filteredCatalog$ = this.store.select<IProduct[]>(getFilteredCatalogSelector);
 
         this.store.dispatch(new catalogActions.LoadAction());
+        this.store.dispatch(new catalogActions.SetFilterTermAction({ filterTerm: '' }));
     }
 
     search(filterTerm) {

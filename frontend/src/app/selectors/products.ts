@@ -9,8 +9,7 @@ import { IState } from '../reducers';
 
 const getProductsState = (state: IState) => state.products;
 
-const getCatalog = (state: fromProducts.IState) => Object.keys(state.catalog.products)
-    .map(item => state.catalog.products[item]) as IProduct[];
+const getCatalog = (state: fromProducts.IState) => state.catalog.products;
 const getCatalogFilterTerm = (state: fromProducts.IState) => state.catalog.filterTerm;
 const getLoadedCartItems = (state: fromProducts.IState) => state.cart.cartItems.filter(cartItem => cartItem.detailsLoaded);
 const getSelectedProduct = (state: fromProducts.IState) => state.selectedProduct.product;
