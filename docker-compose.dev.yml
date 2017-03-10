@@ -12,6 +12,8 @@ services:
       - "7778:7778"
     depends_on:
       - db
+    volumes:
+      - ./backend:/opt/app
     networks:
       - node_network
   fe:
