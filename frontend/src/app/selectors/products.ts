@@ -20,7 +20,7 @@ export const getLoadedCartItemsSelector: Selector<IState, ICartPositionsDetails[
 
 export const getCatalogItemsSelector: Selector<IState, IProduct[]> = createSelector(getProductsState, getCatalog);
 
-export const getSelectedProductSelector: Selector<IState, any> = createSelector(getProductsState, getSelectedProduct);
+export const getSelectedProductSelector: Selector<IState, IProduct> = createSelector(getProductsState, getSelectedProduct);
 
 export const getFilteredCatalogSelector: Selector<IState, IProduct[]> = createSelector(
     getCatalogItemsSelector,

@@ -5,22 +5,38 @@ services:
     image: mongo:3.4
     command: ["mongod", "--smallfiles", "--nojournal"]
     networks:
-      - node_network
+      - db-be_network
   be:
     build: ./backend
-    ports:
-      - "7778:7778"
     depends_on:
       - db
     networks:
-      - node_network
+      - db-be_network
+      - nginx-be_network
   fe:
     build: ./frontend
-    ports:
-      - "4200:4200"
     depends_on:
       - be
+    volumes:
+      - fe_statics:/opt/app/dist
+  nginx:
+    build: ./nginx
+    ports:
+      - "4200:4200"
+      - "7778:7778"
+    depends_on:
+      - fe
+      - be
+    networks:
+      - nginx-be_network
+    volumes:
+      - fe_statics:/opt/app/dist
 
 networks:
-  node_network:
+  db-be_network:
     driver: bridge
+  nginx-be_network:
+    driver: bridge
+
+volumes:
+  fe_statics:

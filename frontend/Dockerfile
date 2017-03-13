@@ -7,4 +7,4 @@ ADD . /opt/app
 
 RUN yarn
 
-CMD yarn start -- --host 0.0.0.0
+CMD yarn build -- --prod
