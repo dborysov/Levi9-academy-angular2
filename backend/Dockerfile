@@ -3,7 +3,7 @@ FROM node:7.7-alpine
 WORKDIR /opt/app
 EXPOSE 7778
 
-ADD . /opt/app
+COPY . /opt/app
 
 RUN yarn
 

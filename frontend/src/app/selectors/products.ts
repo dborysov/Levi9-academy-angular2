@@ -12,11 +12,13 @@ const getProductsState = (state: IState) => state.products;
 const getCatalog = (state: fromProducts.IState) => state.catalog.products;
 const getCatalogFilterTerm = (state: fromProducts.IState) => state.catalog.filterTerm;
 const getLoadedCartItems = (state: fromProducts.IState) => state.cart.cartItems.filter(cartItem => cartItem.detailsLoaded);
+const getCartItems = (state: fromProducts.IState) => state.cart.cartItems.map(cartItem => ({ id: cartItem.id, quantity: cartItem.quantity } as ICartPosition));
 const getSelectedProduct = (state: fromProducts.IState) => state.selectedProduct.product;
 
 const getCatalogFilterTermSelectorSelector: Selector<IState, string> = createSelector(getProductsState, getCatalogFilterTerm);
 
 export const getLoadedCartItemsSelector: Selector<IState, ICartPositionsDetails[]> = createSelector(getProductsState, getLoadedCartItems);
+export const getCartItemsSelector: Selector<IState, ICartPosition[]> = createSelector(getProductsState, getCartItems);
 
 export const getCatalogItemsSelector: Selector<IState, IProduct[]> = createSelector(getProductsState, getCatalog);
 

@@ -7,7 +7,9 @@ services:
     networks:
       - node_network
   be:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
     ports:
       - "7778:7778"
     depends_on:

@@ -23,7 +23,6 @@ services:
     build: ./nginx
     ports:
       - "4200:4200"
-      - "7778:7778"
     depends_on:
       - fe
       - be

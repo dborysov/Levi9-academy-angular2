@@ -6,7 +6,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Config } from '../config';
 import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';
-import { getUserTokenSelector, getLoadedCartItemsSelector } from '../selectors';
+import { getUserTokenSelector, getLoadedCartItemsSelector, getCartItemsSelector } from '../selectors';
 import { IState } from '../reducers';
 import { IProductsService } from '../services/products';
 import { ICartPosition } from '../models';
@@ -44,7 +44,7 @@ export class ProductsEffects {
         .map(([payload]) => new cart.LoadDetailsAction([payload]));
 
     @Effect({ dispatch: false })
-    saveCart$ = this.store.select(getLoadedCartItemsSelector)
+    saveCart$ = this.store.select(getCartItemsSelector)
         .do(cartItemsIds => {
             localStorage.setItem(
                 Config.localStorageKeyCart,
