@@ -6,6 +6,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Config } from '../config';
 import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';
+import * as notification from '../actions/notification';
 import { getUserTokenSelector, getLoadedCartItemsSelector, getCartItemsSelector } from '../selectors';
 import { IState } from '../reducers';
 import { IProductsService } from '../services/products';
@@ -63,6 +64,18 @@ export class ProductsEffects {
     reloadCatalog$ = this.actions$
         .ofType(catalog.ActionTypes.ADD_SUCCESS, catalog.ActionTypes.DELETE_SUCCESS)
         .map(() => new catalog.LoadAction());
+
+    @Effect()
+    showSuccessOnCreate$ = this.actions$
+        .ofType(catalog.ActionTypes.ADD_SUCCESS)
+        .map((action: catalog.AddSuccessAction) =>
+            new notification.ShowSuccessAction({ message: `Position ${action.payload.title} created` }));
+
+    @Effect()
+    showSuccessOnDelete$ = this.actions$
+        .ofType(catalog.ActionTypes.DELETE_SUCCESS)
+        .map((action: catalog.AddSuccessAction) =>
+            new notification.ShowSuccessAction({ message: `Position ${action.payload.title} deleted` }));
 
     @Effect()
     deleteCatalogProduct$ = this.actions$

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 
 services:
   db:
@@ -22,10 +22,14 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - "4200:4200"
+      - "80:80"
+      - "443:443"
     depends_on:
       - fe
       - be
+    secrets:
+      - site.key
+      - site.crt
     networks:
       - nginx-be_network
     volumes:
@@ -39,3 +43,9 @@ networks:
 
 volumes:
   fe_statics:
+
+secrets:
+  site.key:
+    file: secrets/site.key
+  site.crt:
+    file: secrets/site.crt

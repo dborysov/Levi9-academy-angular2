@@ -6,6 +6,7 @@ import { go } from '@ngrx/router-store';
 
 import { Config } from '../config';
 import * as user from '../actions/user';
+import * as notification from '../actions/notification';
 import { IUserService } from '../services/user';
 import { ICredentials } from '../models';
 
@@ -45,7 +46,7 @@ export class UserEffects {
             .mergeMap(loggedInUser =>
                 Observable.of(
                     new user.LoginSuccessAction(loggedInUser))
-                        .merge(Observable.of(go(''))))
+                    .merge(Observable.of(go(''))))
             .catch(() => Observable.of(new user.LoginFailedAction())));
 
     @Effect()
@@ -57,8 +58,18 @@ export class UserEffects {
             .mergeMap(loggedInUser =>
                 Observable.of(
                     new user.RegistrationSuccessAction(loggedInUser))
-                        .merge(Observable.of(go(''))))
+                    .merge(Observable.of(go(''))))
             .catch(() => Observable.of(new user.RegistrationFailedAction())));
+
+    @Effect()
+    showErrorOnLoginFailed$ = this.actions$
+        .ofType(user.ActionTypes.LOGIN_FAILED)
+        .map(() => new notification.ShowErrorAction({ message: `Could not login` }));
+
+    @Effect()
+    showErrorOnRegisterFailed$ = this.actions$
+        .ofType(user.ActionTypes.REGISTRATION_FAILED)
+        .map(() => new notification.ShowErrorAction({ message: `Could not register` }));
 
     @Effect()
     logout$: Observable<Action> = this.actions$
