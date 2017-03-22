@@ -18,7 +18,7 @@ export const reducer: ActionReducer<IState> = (state: IState = initialState, act
                 products: action.payload
             };
 
-        case catalog.ActionTypes.ADD_SUCCESS:
+        case catalog.ActionTypes.ADD:
         case catalog.ActionTypes.DELETE_FAILED:
             return {
                 ...state,
@@ -28,8 +28,8 @@ export const reducer: ActionReducer<IState> = (state: IState = initialState, act
                 ]
             };
 
+        case catalog.ActionTypes.DELETE:
         case catalog.ActionTypes.ADD_FAILED:
-        case catalog.ActionTypes.DELETE_SUCCESS:
             return {
                 ...state,
                 products: state.products.filter(product => product.id !== action.payload.id)

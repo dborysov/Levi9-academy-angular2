@@ -1,5 +1,7 @@
+const fs = require('fs');
+
 module.exports = {
-    jwtToken: 'this is just a super-mega-secret string',
+    get jwtToken() { return Buffer.from(fs.readFileSync('/run/secrets/jwt.key'), 'hex'); },
     port: 7778,
     db: {
         name: "products",

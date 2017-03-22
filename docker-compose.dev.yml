@@ -10,6 +10,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
+    secrets:
+      - jwt.key
     ports:
       - "7778:7778"
     depends_on:
@@ -32,3 +34,7 @@ services:
 networks:
   node_network:
     driver: bridge
+
+secrets:
+  jwt.key:
+    file: secrets/jwt.key
