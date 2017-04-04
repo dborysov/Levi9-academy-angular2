@@ -48,8 +48,8 @@ volumes:
 
 secrets:
   site.key:
-    file: secrets/site.key
+    file: secrets/siteCertificate/site.key
   site.crt:
-    file: secrets/site.crt
+    file: secrets/siteCertificate/site.crt
   jwt.key:
     file: secrets/jwt.key
