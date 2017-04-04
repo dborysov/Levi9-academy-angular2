@@ -1,4 +1,4 @@
-FROM node:7.7-alpine
+FROM node:7.8-alpine
 
 WORKDIR /opt/app
 EXPOSE 7778

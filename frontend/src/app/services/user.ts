@@ -1,4 +1,4 @@
-import { OpaqueToken, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -6,16 +6,10 @@ import { environment } from '../../environments/environment';
 
 import { IUser, ICredentials } from '../models';
 
-export const IUserService = new OpaqueToken('IUserService');
-export interface IUserService {
-    login(credentials: ICredentials): Observable<IUser>;
-    register(credentials: ICredentials): Observable<IUser>;
-}
-
 const headers = new Headers({ 'Content-Type': 'application/json' });
 
 @Injectable()
-export class UserService implements IUserService {
+export class UserService {
 
     private baseUrl = environment.apiBaseUrl;
     private relativeUrl = 'users';

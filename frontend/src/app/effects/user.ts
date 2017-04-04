@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
@@ -7,7 +7,7 @@ import { go } from '@ngrx/router-store';
 import { Config } from '../config';
 import * as user from '../actions/user';
 import * as notification from '../actions/notification';
-import { IUserService } from '../services/user';
+import { UserService } from '../services/user';
 import { ICredentials } from '../models';
 
 import 'rxjs/add/operator/startWith';
@@ -79,6 +79,6 @@ export class UserEffects {
 
     constructor(
         private actions$: Actions,
-        @Inject(IUserService) private userService: IUserService,
+        private userService: UserService,
     ) { }
 }

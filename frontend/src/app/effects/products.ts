@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
@@ -9,7 +9,7 @@ import * as catalog from '../actions/catalog';
 import * as notification from '../actions/notification';
 import { getUserTokenSelector, getLoadedCartItemsSelector, getCartItemsSelector } from '../selectors';
 import { IState } from '../reducers';
-import { IProductsService } from '../services/products';
+import { ProductsService } from '../services/products';
 import { ICartPosition } from '../models';
 
 import 'rxjs/add/operator/filter';
@@ -98,6 +98,6 @@ export class ProductsEffects {
     constructor(
         private actions$: Actions,
         private store: Store<IState>,
-        @Inject(IProductsService) private productsService: IProductsService,
+        private productsService: ProductsService,
     ) { }
 }

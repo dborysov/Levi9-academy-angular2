@@ -1,21 +1,13 @@
-import { OpaqueToken, Injectable } from '@angular/core';
-import { Http, Headers, Response, URLSearchParams, QueryEncoder } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
 
 import { IProduct } from '../models';
 
-export const IProductsService = new OpaqueToken('IProductsApiService');
-export interface IProductsService {
-    getProducts(ids?: number[]): Observable<IProduct[]>;
-    createProduct(newProduct: IProduct, token: string): Observable<Response>;
-    editProduct(newProduct: IProduct): Observable<Response>;
-    removeProduct(product: IProduct, token: string): Observable<Response>;
-}
-
 @Injectable()
-export class ProductsService implements IProductsService {
+export class ProductsService {
 
     private baseUrl = environment.apiBaseUrl;
     private relativeUrl = 'products';

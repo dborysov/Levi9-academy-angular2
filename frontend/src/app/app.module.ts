@@ -51,13 +51,7 @@ import { reducer } from './reducers';
         EffectsModule.run(effects.NotificationsEffects),
         StoreDevtoolsModule.instrumentOnlyWithExtension(),
     ],
-    providers: [{
-        provide: services.IProductsService,
-        useClass: services.ProductsService
-    }, {
-        provide: services.IUserService,
-        useClass: services.UserService
-    }, guards.LoggedInGuard],
+    providers: [guards.LoggedInGuard, services.ProductsService, services.UserService],
     bootstrap: [containers.NavigationComponent]
 })
 export class AppModule { }

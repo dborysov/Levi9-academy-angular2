@@ -1,10 +1,10 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
 import * as selectedProduct from '../actions/selectedProduct';
-import { IProductsService } from '../services';
+import { ProductsService } from '../services';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
@@ -23,6 +23,6 @@ export class SelectedProductEffects {
 
     constructor(
         private actions$: Actions,
-        @Inject(IProductsService) private productsService: IProductsService,
+        private productsService: ProductsService,
     ) { }
 }
