@@ -15,7 +15,7 @@ export class ProductCreateFormComponent {
     @Output() createProduct = new EventEmitter<IProduct>();
     @Output() back = new EventEmitter<void>();
 
-    constructor(private fb: FormBuilder, ) {
+    constructor(fb: FormBuilder, ) {
         this.createProductForm = fb.group({
             category: ['', [Validators.required, Validators.maxLength(20)]],
             title: ['', [Validators.required, Validators.maxLength(20)]],

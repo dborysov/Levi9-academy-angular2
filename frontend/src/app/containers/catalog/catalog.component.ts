@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormControlDirective, FormControl } from '@angular/forms';
+import { FormControlDirective } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -30,7 +30,7 @@ export class CatalogComponent implements OnInit {
         this.store.dispatch(new catalogActions.SetFilterTermAction({ filterTerm: '' }));
     }
 
-    search(filterTerm) {
+    search(filterTerm: string) {
         this.store.dispatch(new catalogActions.SetFilterTermAction({ filterTerm }));
     }
 

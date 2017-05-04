@@ -3,7 +3,6 @@ import { createSelector, Selector } from 'reselect';
 import { IProduct, ICartPosition, ICartPositionsDetails } from '../models';
 
 import * as fromProducts from '../reducers/products';
-import * as fromSelectedProduct from '../reducers/selected-product';
 
 import { IState } from '../reducers';
 

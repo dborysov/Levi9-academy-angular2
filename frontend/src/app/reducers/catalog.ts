@@ -8,9 +8,9 @@ export interface IState {
     filterTerm: string;
 }
 
-export const initialState = { products: [], filterTerm: '' };
+export const initialState: IState = { products: [], filterTerm: '' };
 
-export const reducer: ActionReducer<IState> = (state: IState = initialState, action: catalog.Actions) => {
+export const reducer: ActionReducer<IState> = (state = initialState, action: catalog.Actions) => {
     switch (action.type) {
         case catalog.ActionTypes.LOAD_SUCCESS:
             return {

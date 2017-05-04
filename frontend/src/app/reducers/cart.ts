@@ -1,5 +1,4 @@
 import { ActionReducer } from '@ngrx/store';
-import { IProduct } from '../models';
 import * as cart from '../actions/cart';
 import * as catalog from '../actions/catalog';
 
@@ -9,17 +8,19 @@ export interface IState {
     cartItems: ICartPositionsDetails[];
 }
 
-export const initialState = { cartItems: [] };
+export const initialState: IState = { cartItems: [] };
 
-export const reducer: ActionReducer<IState> = (state: IState = initialState, action: cart.Actions | catalog.Actions) => {
+export const reducer: ActionReducer<IState> = (state = initialState, action: cart.Actions | catalog.Actions) => {
     switch (action.type) {
         case cart.ActionTypes.LOAD_SUCCESS:
             return {
-                cartItems: action.payload
+                ...state,
+                cartItems: action.payload as ICartPositionsDetails[]
             };
 
         case cart.ActionTypes.LOAD_DETAILS_SUCCESS:
             return {
+                ...state,
                 cartItems: state.cartItems.map(cartItem => {
                     const cartItemDetails = action.payload.find(itemDetails => itemDetails.id === cartItem.id);
 
@@ -33,12 +34,13 @@ export const reducer: ActionReducer<IState> = (state: IState = initialState, act
             const existingItem = state.cartItems.find(cartItem => cartItem.id === action.payload.id);
 
             return {
+                ...state,
                 cartItems: existingItem
                     ? state.cartItems.map(cartItem =>
                         cartItem.id === action.payload.id
                             ? { ...cartItem, quantity: (cartItem.quantity || 0) + (action.payload.quantity || 1) }
                             : cartItem)
-                    : [...state.cartItems, action.payload]
+                    : [...state.cartItems, action.payload as ICartPositionsDetails]
             };
 
         case cart.ActionTypes.REMOVE_QUANTITY:
