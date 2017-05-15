@@ -32,6 +32,7 @@ services:
     secrets:
       - site.key
       - site.crt
+      - dhparam.pem
     networks:
       - nginx-be_network
     volumes:
@@ -51,5 +52,7 @@ secrets:
     file: secrets/siteCertificate/site.key
   site.crt:
     file: secrets/siteCertificate/site.crt
+  dhparam.pem:
+    file: secrets/siteCertificate/dhparam.pem
   jwt.key:
     file: secrets/jwt.key

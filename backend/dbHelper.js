@@ -17,7 +17,7 @@ module.exports = class Helper {
             .on('reconnected', () => { console.log('MongoDB reconnected!'); })
             .on('disconnected', () => {
                 console.log('MongoDB disconnected!');
-                mongoose.connect(dbUri);
+                setTimeout(() => mongoose.connect(dbUri), 500);
             });
 
         mongoose.connect(dbUri);
