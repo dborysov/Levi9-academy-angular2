@@ -9,6 +9,13 @@ app.disable('x-powered-by');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use((request, response, next) => {		
+    response.header('Access-Control-Allow-Origin', '*');		
+    response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');		
+    response.header('Access-Control-Allow-Headers', 'Content-Type,Authorization')		
+    next();		
+});
+
 // API Routes
 const apiRoutes = apiRouter(app);
 app.use('/api', apiRoutes);

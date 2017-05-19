@@ -1,8 +1,4 @@
-import { ActionReducer } from '@ngrx/store';
-
-import * as catalogActions from '../actions/catalog';
-import * as cartActions from '../actions/cart';
-import * as selectedProductActions from '../actions/selectedProduct';
+import { ActionReducer, combineReducers } from '@ngrx/store';
 
 import * as catalog from './catalog';
 import * as cart from './cart';
@@ -14,18 +10,8 @@ export interface IState {
     selectedProduct: selectedProduct.IState;
 };
 
-const initialValue: IState = {
-    catalog: catalog.initialState,
-    cart: cart.initialState,
-    selectedProduct: selectedProduct.initialState,
-};
-
-type actionType = catalogActions.Actions | cartActions.Actions | selectedProductActions.Actions;
-
-export const reducer: ActionReducer<IState> = (state = initialValue, action: actionType) => {
-    return {
-        cart: cart.reducer(state.cart, action),
-        catalog: catalog.reducer(state.catalog, action),
-        selectedProduct: selectedProduct.reducer(state.selectedProduct, action),
-    };
-};
+export const reducer: ActionReducer<IState> = combineReducers({
+    cart: cart.reducer,
+    catalog: catalog.reducer,
+    selectedProduct: selectedProduct.reducer,
+});
