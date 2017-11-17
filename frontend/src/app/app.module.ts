@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
-// import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -43,7 +43,6 @@ import { reducers, metaReducers } from 'app/reducers';
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
-    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
     AppRoutingModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
@@ -51,8 +50,10 @@ import { reducers, metaReducers } from 'app/reducers';
       effects.SelectedProductEffects,
       effects.NotificationsEffects,
       effects.RouterEffects,
+      effects.ProductsEffects
     ]),
-    // StoreRouterConnectingModule,
+    StoreRouterConnectingModule,
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [guards.LoggedInGuard, services.ProductsService, services.UserService],
   bootstrap: [containers.NavigationComponent],

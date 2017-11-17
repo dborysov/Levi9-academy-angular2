@@ -3,7 +3,6 @@ version: '3.1'
 services:
   db:
     image: mongo:3.5
-    command: ["mongod", "--smallfiles", "--nojournal"]
     networks:
       - node_network
   be:

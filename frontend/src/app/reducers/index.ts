@@ -1,6 +1,4 @@
 import * as fromRouter from '@ngrx/router-store';
-import { storeFreeze } from 'ngrx-store-freeze';
-import { environment } from '../../environments/environment';
 
 import * as fromProducts from './products';
 import * as fromUser from './user';
@@ -18,4 +16,4 @@ export const reducers = {
   router: fromRouter.routerReducer,
 };
 
-export const metaReducers: MetaReducer<IState>[] = !environment.production ? [storeFreeze] : [];
+export const metaReducers: MetaReducer<IState>[] = [];
