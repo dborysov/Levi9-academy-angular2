@@ -5,7 +5,7 @@ openssl rand -hex -out "jwt.key" 512
 
 mkdir siteCertificate && cd siteCertificate
 
-openssl dhparam -out "dhparam.pem" 4096
+openssl dhparam -out "dhparam.pem" 2048
 
 openssl genrsa -out "root-ca.key" 4096
 openssl req \

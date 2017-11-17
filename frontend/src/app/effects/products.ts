@@ -79,7 +79,7 @@ export class ProductsEffects {
 
     @Effect()
     deleteCatalogProduct$ = this.actions$
-        .ofType(catalog.ActionTypes.DELETE)
+        .ofType<catalog.DeleteAction>(catalog.ActionTypes.DELETE)
         .map(action => action.payload)
         .withLatestFrom(this.store.select(getUserTokenSelector))
         .switchMap(([product, token]) => this.productsService.removeProduct(product, token)

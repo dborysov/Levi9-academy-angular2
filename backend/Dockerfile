@@ -1,9 +1,9 @@
-FROM node:7.10-alpine
+FROM node:9.2-alpine
 
 WORKDIR /opt/app
 EXPOSE 7778
 
-COPY . /opt/app
+COPY . .
 
 RUN yarn
 

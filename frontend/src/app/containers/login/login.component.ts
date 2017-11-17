@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { back } from '@ngrx/router-store';
 
 import { Store } from '@ngrx/store';
 import { IState } from '../../reducers';
 import * as userActions from '../../actions/user';
+import * as routerActions from '../../actions/router';
 import { ICredentials } from '../../models';
 
 @Component({
@@ -20,6 +20,6 @@ export class LoginComponent {
     }
 
     back() {
-        this.store.dispatch(back());
+        this.store.dispatch(new routerActions.Back());
     }
 }

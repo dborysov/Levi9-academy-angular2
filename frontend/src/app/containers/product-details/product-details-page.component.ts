@@ -1,13 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { back } from '@ngrx/router-store';
 
 import { Store } from '@ngrx/store';
 
 import { getSelectedProductSelector } from '../../selectors';
 import { IState } from '../../reducers';
 import * as selectedProductActions from '../../actions/selectedProduct';
+import * as routerActions from '../../actions/router';
 import { IProduct } from '../../models';
 
 @Component({
@@ -30,6 +30,6 @@ export class ProductDetailsPageComponent implements OnInit {
     }
 
     back() {
-        this.store.dispatch(back());
+        this.store.dispatch(new routerActions.Back());
     }
 }

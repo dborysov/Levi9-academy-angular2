@@ -12,12 +12,9 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    // cannot use it yet since AOT generates some unused parameters
-    // "noUnusedParameters": true,
+    "noUnusedParameters": true,
     "target": "es5",
-    "lib": [
-      "es2016",
-      "dom"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"]
   }
 }

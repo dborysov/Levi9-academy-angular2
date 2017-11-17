@@ -1,10 +1,10 @@
-FROM node:7.10-alpine
+FROM node:9.2-alpine
 
 WORKDIR /opt/app
 EXPOSE 4200
 
-COPY . /opt/app
+COPY . .
 
 RUN yarn
 
-CMD yarn build -- --prod
+CMD yarn build --prod

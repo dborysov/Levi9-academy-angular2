@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
-import { RouterStoreModule } from '@ngrx/router-store';
+// import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -15,43 +15,46 @@ import * as services from './services';
 import * as containers from './containers';
 import * as components from './components';
 
-import { reducer } from './reducers';
+import { environment } from '../environments/environment';
+import { reducers, metaReducers } from 'app/reducers';
 
 @NgModule({
-    declarations: [
-        containers.AdminComponent,
-        containers.CartComponent,
-        containers.CatalogComponent,
-        containers.HomeComponent,
-        containers.LoginComponent,
-        containers.NavigationComponent,
-        containers.ProductCreateComponent,
-        containers.ProductDetailsPageComponent,
-        containers.RegisterComponent,
+  declarations: [
+    containers.AdminComponent,
+    containers.CartComponent,
+    containers.CatalogComponent,
+    containers.HomeComponent,
+    containers.LoginComponent,
+    containers.NavigationComponent,
+    containers.ProductCreateComponent,
+    containers.ProductDetailsPageComponent,
+    containers.RegisterComponent,
 
-        components.ProductsAdminComponent,
-        components.CartTableComponent,
-        components.ProductsComponent,
-        components.LoginFormComponent,
-        components.NavigationBarComponent,
-        components.ProductCreateFormComponent,
-        components.ProductDetailsComponent,
-        components.RegistrationFormComponent,
-    ],
-    imports: [
-        BrowserModule,
-        ReactiveFormsModule,
-        HttpModule,
-        AppRoutingModule,
-        RouterStoreModule.connectRouter(),
-        StoreModule.provideStore(reducer),
-        EffectsModule.run(effects.ProductsEffects),
-        EffectsModule.run(effects.UserEffects),
-        EffectsModule.run(effects.SelectedProductEffects),
-        EffectsModule.run(effects.NotificationsEffects),
-        StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    ],
-    providers: [guards.LoggedInGuard, services.ProductsService, services.UserService],
-    bootstrap: [containers.NavigationComponent]
+    components.ProductsAdminComponent,
+    components.CartTableComponent,
+    components.ProductsComponent,
+    components.LoginFormComponent,
+    components.NavigationBarComponent,
+    components.ProductCreateFormComponent,
+    components.ProductDetailsComponent,
+    components.RegistrationFormComponent,
+  ],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    HttpModule,
+    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
+    AppRoutingModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot([
+      effects.UserEffects,
+      effects.SelectedProductEffects,
+      effects.NotificationsEffects,
+      effects.RouterEffects,
+    ]),
+    // StoreRouterConnectingModule,
+  ],
+  providers: [guards.LoggedInGuard, services.ProductsService, services.UserService],
+  bootstrap: [containers.NavigationComponent],
 })
-export class AppModule { }
+export class AppModule {}

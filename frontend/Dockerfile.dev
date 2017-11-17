@@ -1,6 +1,6 @@
-FROM node:7.10-alpine
+FROM node:9.2-alpine
 
 WORKDIR /opt/app
 EXPOSE 4200
 
-CMD yarn && yarn start -- --host 0.0.0.0
+CMD yarn && yarn start --host 0.0.0.0
