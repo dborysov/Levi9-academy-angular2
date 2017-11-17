@@ -4,7 +4,7 @@ import * as catalog from '../actions/catalog';
 import { IProduct } from '../models';
 
 export interface IState {
-    products: IProduct[];
+    products: ReadonlyArray<IProduct>;
     filterTerm: string;
 }
 

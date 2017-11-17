@@ -5,7 +5,7 @@ import * as catalog from '../actions/catalog';
 import { ICartPositionsDetails } from '../models';
 
 export interface IState {
-  cartItems: ICartPositionsDetails[];
+  cartItems: ReadonlyArray<ICartPositionsDetails>;
 }
 
 export const initialState: IState = { cartItems: [] };
@@ -18,7 +18,7 @@ export const reducer: ActionReducer<IState> = (
     case cart.ActionTypes.LOAD_SUCCESS:
       return {
         ...state,
-        cartItems: action.payload as ICartPositionsDetails[],
+        cartItems: action.payload as ReadonlyArray<ICartPositionsDetails>,
       };
 
     case cart.ActionTypes.LOAD_DETAILS_SUCCESS:

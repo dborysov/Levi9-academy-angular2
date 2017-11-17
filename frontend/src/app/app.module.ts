@@ -44,13 +44,13 @@ import { reducers, metaReducers } from 'app/reducers';
     ReactiveFormsModule,
     HttpModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers: [...metaReducers] }),
     EffectsModule.forRoot([
       effects.UserEffects,
       effects.SelectedProductEffects,
       effects.NotificationsEffects,
       effects.RouterEffects,
-      effects.ProductsEffects
+      effects.ProductsEffects,
     ]),
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : [],

@@ -23,16 +23,16 @@ const getCatalogFilterTermSelectorSelector: Selector<IState, string> = createSel
   getCatalogFilterTerm,
 );
 
-export const getLoadedCartItemsSelector: Selector<IState, ICartPositionsDetails[]> = createSelector(
+export const getLoadedCartItemsSelector: Selector<IState, ReadonlyArray<ICartPositionsDetails>> = createSelector(
   getProductsState,
   getLoadedCartItems,
 );
-export const getCartItemsSelector: Selector<IState, ICartPosition[]> = createSelector(
+export const getCartItemsSelector: Selector<IState, ReadonlyArray<ICartPosition>> = createSelector(
   getProductsState,
   getCartItems,
 );
 
-export const getCatalogItemsSelector: Selector<IState, IProduct[]> = createSelector(
+export const getCatalogItemsSelector: Selector<IState, ReadonlyArray<IProduct>> = createSelector(
   getProductsState,
   getCatalog,
 );
@@ -44,7 +44,7 @@ export const getSelectedProductSelector: Selector<IState, IProduct> = createSele
 
 export const getFilteredCatalogSelector: Selector<
   IState,
-  IProduct[]
+  ReadonlyArray<IProduct>
 > = createSelector(getCatalogItemsSelector, getCatalogFilterTermSelectorSelector, (items, term) =>
   items.filter(item => !term || item.category.indexOf(term) > -1),
 );

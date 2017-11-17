@@ -21,7 +21,7 @@ export class Go implements Action {
 
   constructor(
     public payload: {
-      path: string[];
+      path: ReadonlyArray<string>
       query?: object;
       extras?: NavigationExtras;
     },

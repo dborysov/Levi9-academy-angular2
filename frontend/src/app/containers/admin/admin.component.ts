@@ -14,7 +14,7 @@ import { IProduct } from '../../models';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminComponent implements OnInit {
-    public products$: Observable<IProduct[]>;
+    public products$: Observable<ReadonlyArray<IProduct>>;
 
     constructor(private store: Store<IState>, ) { }
 

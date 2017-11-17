@@ -14,12 +14,12 @@ import { ICartPositionsDetails } from '../../models';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent implements OnInit {
-    public products$: Observable<ICartPositionsDetails[]>;
+    public products$: Observable<ReadonlyArray<ICartPositionsDetails>>;
 
     constructor(private store: Store<IState>, ) { }
 
     ngOnInit() {
-        this.products$ = this.store.select<ICartPositionsDetails[]>(getLoadedCartItemsSelector);
+        this.products$ = this.store.select<ReadonlyArray<ICartPositionsDetails>>(getLoadedCartItemsSelector);
     }
 
     removeFromCart({productId, quantity}: { productId: number, quantity?: number }) {

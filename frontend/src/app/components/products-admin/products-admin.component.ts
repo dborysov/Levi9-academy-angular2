@@ -7,6 +7,6 @@ import { IProduct } from '../../models';
     styleUrls: ['./products-admin.component.scss']
 })
 export class ProductsAdminComponent {
-    @Input() products: IProduct[];
+    @Input() products: ReadonlyArray<IProduct>;
     @Output() remove = new EventEmitter<IProduct>();
 }

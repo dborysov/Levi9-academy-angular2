@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
@@ -16,28 +15,41 @@ import { IState } from '../reducers';
 import { ProductsService } from '../services/products';
 import { ICartPosition } from '../models';
 
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/distinctUntilChanged';
 import { of } from 'rxjs/observable/of';
 import { defer } from 'rxjs/observable/defer';
+import {
+  map,
+  filter,
+  switchMap,
+  withLatestFrom,
+  distinctUntilChanged,
+  catchError,
+  tap,
+} from 'rxjs/operators';
 @Injectable()
 export class ProductsEffects {
   @Effect()
   loadCartDetails$ = this.actions$
-    .ofType(cart.ActionTypes.LOAD_DETAILS, cart.ActionTypes.LOAD_SUCCESS)
-    .map((action: cart.LoadDetailsAction | cart.LoadSuccessAction) => action.payload)
-    .filter(payload => payload.length > 0)
-    .switchMap(payload =>
-      this.productsService
-        .getProducts(payload.map(item => item.id))
-        .map(products => new cart.LoadDetailsSuccessAction(products))
-        .catch(() => Observable.of(new cart.LoadDetailsFailedAction())),
+    .ofType<cart.LoadDetailsAction | cart.LoadSuccessAction>(
+      cart.ActionTypes.LOAD_DETAILS,
+      cart.ActionTypes.LOAD_SUCCESS,
+    )
+    .pipe(
+      map(action => action.payload),
+      filter(payload => !!payload.length),
+      switchMap(payload =>
+        this.productsService
+          .getProducts(payload.map(item => item.id))
+          .pipe(
+            map(products => new cart.LoadDetailsSuccessAction(products)),
+            catchError(() => of(new cart.LoadDetailsFailedAction())),
+          ),
+      ),
     );
 
   @Effect()
   loadCart$ = defer(() => {
-    const cartItems: ICartPosition[] = JSON.parse(localStorage.getItem(Config.localStorageKeyCart));
+    const cartItems: ReadonlyArray<ICartPosition> = JSON.parse(localStorage.getItem(Config.localStorageKeyCart));
 
     return of(new cart.LoadSuccessAction(cartItems || []));
   });
@@ -45,68 +57,90 @@ export class ProductsEffects {
   @Effect()
   addItemToCart$ = this.actions$
     .ofType(cart.ActionTypes.ADD_QUANTITY)
-    .map((action: cart.AddQuantityAction) => action.payload)
-    .withLatestFrom(this.store.select(getLoadedCartItemsSelector))
-    .filter(([payload, savedPositions]) => savedPositions.every(p => p.id !== payload.id))
-    .distinctUntilChanged()
-    .map(([payload]) => new cart.LoadDetailsAction([payload]));
+    .pipe(
+      map((action: cart.AddQuantityAction) => action.payload),
+      withLatestFrom(this.store.select(getLoadedCartItemsSelector)),
+      filter(([payload, savedPositions]) => savedPositions.every(p => p.id !== payload.id)),
+      distinctUntilChanged(),
+      map(([payload]) => new cart.LoadDetailsAction([payload])),
+    );
 
   @Effect({ dispatch: false })
-  saveCart$ = this.store.select(getCartItemsSelector).do(cartItemsIds => {
-    localStorage.setItem(Config.localStorageKeyCart, JSON.stringify(cartItemsIds));
-  });
+  saveCart$ = this.store.select(getCartItemsSelector).pipe(
+    tap(cartItemsIds => {
+      localStorage.setItem(Config.localStorageKeyCart, JSON.stringify(cartItemsIds));
+    }),
+  );
 
   @Effect()
-  loadCatalog$ = this.actions$.ofType(catalog.ActionTypes.LOAD).switchMap(() =>
-    this.productsService
-      .getProducts()
-      .map(products => new catalog.LoadSuccessAction(products))
-      .catch(() => Observable.of(new catalog.LoadFailedAction())),
-  );
+  loadCatalog$ = this.actions$
+    .ofType(catalog.ActionTypes.LOAD)
+    .pipe(
+      switchMap(() =>
+        this.productsService
+          .getProducts()
+          .pipe(
+            map(products => new catalog.LoadSuccessAction(products)),
+            catchError(() => of(new catalog.LoadFailedAction())),
+          ),
+      ),
+    );
 
   @Effect()
   reloadCatalog$ = this.actions$
     .ofType(catalog.ActionTypes.ADD_SUCCESS, catalog.ActionTypes.DELETE_SUCCESS)
-    .map(() => new catalog.LoadAction());
+    .pipe(map(() => new catalog.LoadAction()));
 
   @Effect()
-  showSuccessOnCreate$ = this.actions$
-    .ofType(catalog.ActionTypes.ADD_SUCCESS)
-    .map(
+  showSuccessOnCreate$ = this.actions$.ofType(catalog.ActionTypes.ADD_SUCCESS).pipe(
+    map(
       (action: catalog.AddSuccessAction) =>
-        new notification.ShowSuccessAction({ message: `Position ${action.payload.title} created` }),
-    );
+        new notification.ShowSuccessAction({
+          message: `Position ${action.payload.title} created`,
+        }),
+    ),
+  );
 
   @Effect()
-  showSuccessOnDelete$ = this.actions$
-    .ofType(catalog.ActionTypes.DELETE_SUCCESS)
-    .map(
+  showSuccessOnDelete$ = this.actions$.ofType(catalog.ActionTypes.DELETE_SUCCESS).pipe(
+    map(
       (action: catalog.AddSuccessAction) =>
-        new notification.ShowSuccessAction({ message: `Position ${action.payload.title} deleted` }),
-    );
+        new notification.ShowSuccessAction({
+          message: `Position ${action.payload.title} deleted`,
+        }),
+    ),
+  );
 
   @Effect()
   deleteCatalogProduct$ = this.actions$
     .ofType<catalog.DeleteAction>(catalog.ActionTypes.DELETE)
-    .map(action => action.payload)
-    .withLatestFrom(this.store.select(getUserTokenSelector))
-    .switchMap(([product, token]) =>
-      this.productsService
-        .removeProduct(product, token)
-        .map(() => new catalog.DeleteSuccessAction(product))
-        .catch(() => Observable.of(new catalog.DeleteFailedAction(product))),
+    .pipe(
+      map(action => action.payload),
+      withLatestFrom(this.store.select(getUserTokenSelector)),
+      switchMap(([product, token]) =>
+        this.productsService
+          .removeProduct(product, token)
+          .pipe(
+            map(() => new catalog.DeleteSuccessAction(product)),
+            catchError(() => of(new catalog.DeleteFailedAction(product))),
+          ),
+      ),
     );
 
   @Effect()
   addCatalogProduct$ = this.actions$
     .ofType(catalog.ActionTypes.ADD)
-    .map((action: catalog.AddAction) => action.payload)
-    .withLatestFrom(this.store.select(getUserTokenSelector))
-    .switchMap(([product, token]) =>
-      this.productsService
-        .createProduct(product, token)
-        .map(() => new catalog.AddSuccessAction(product))
-        .catch(() => Observable.of(new catalog.AddFailedAction(product))),
+    .pipe(
+      map((action: catalog.AddAction) => action.payload),
+      withLatestFrom(this.store.select(getUserTokenSelector)),
+      switchMap(([product, token]) =>
+        this.productsService
+          .createProduct(product, token)
+          .pipe(
+            map(() => new catalog.AddSuccessAction(product)),
+            catchError(() => of(new catalog.AddFailedAction(product))),
+          ),
+      ),
     );
 
   constructor(

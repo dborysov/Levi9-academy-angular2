@@ -17,14 +17,14 @@ import { IProduct } from '../../models';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CatalogComponent implements OnInit {
-    public catalog$: Observable<IProduct[]>;
-    public filteredCatalog$: Observable<IProduct[]>;
+    public catalog$: Observable<ReadonlyArray<IProduct>>;
+    public filteredCatalog$: Observable<ReadonlyArray<IProduct>>;
     public selectedItem$: Observable<IProduct>;
 
     constructor(private store: Store<IState>, ) { }
 
     ngOnInit() {
-        this.filteredCatalog$ = this.store.select<IProduct[]>(getFilteredCatalogSelector);
+        this.filteredCatalog$ = this.store.select<ReadonlyArray<IProduct>>(getFilteredCatalogSelector);
 
         this.store.dispatch(new catalogActions.LoadAction());
         this.store.dispatch(new catalogActions.SetFilterTermAction({ filterTerm: '' }));

@@ -8,7 +8,7 @@ import { ICartPositionsDetails } from '../../models';
     styleUrls: ['./cart-table.component.scss']
 })
 export class CartTableComponent {
-    @Input() products: ICartPositionsDetails[];
+    @Input() products: ReadonlyArray<ICartPositionsDetails>;
     @Output() removeFromCart = new EventEmitter<{ productId: number, quantity?: number }>();
     @Output() addToCart = new EventEmitter<{ productId: number, quantity: number }>();
     @Output() clearCart = new EventEmitter<void>();

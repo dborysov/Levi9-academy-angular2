@@ -2,7 +2,7 @@ import * as fromRouter from '@ngrx/router-store';
 
 import * as fromProducts from './products';
 import * as fromUser from './user';
-import { MetaReducer } from '@ngrx/store/src/models';
+import { MetaReducer } from '@ngrx/store';
 
 export interface IState {
   products: fromProducts.IState;
@@ -16,4 +16,4 @@ export const reducers = {
   router: fromRouter.routerReducer,
 };
 
-export const metaReducers: MetaReducer<IState>[] = [];
+export const metaReducers: ReadonlyArray<MetaReducer<IState>> = [];

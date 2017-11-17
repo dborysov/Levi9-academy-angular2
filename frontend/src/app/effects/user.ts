@@ -9,86 +9,86 @@ import * as notification from '../actions/notification';
 import * as routerActions from '../actions/router';
 import { UserService } from '../services/user';
 import { ICredentials } from '../models';
-
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/observable/of';
+import { startWith, switchMap, map, tap, mergeMap, merge } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+import { catchError } from 'rxjs/operators/catchError';
 
 @Injectable()
 export class UserEffects {
   @Effect()
-  loadUser$: Observable<Action> = this.actions$
-    .ofType(user.ActionTypes.LOAD_CURRENT)
-    .startWith(new user.LoadCurrentAction())
-    .switchMap(() =>
-      Observable.of(localStorage.getItem(Config.localStorageKeyUser)).map((token: string) => {
-        if (!token) {
-          return new user.LoadCurrentFailedAction();
-        }
+  loadUser$: Observable<Action> = this.actions$.ofType(user.ActionTypes.LOAD_CURRENT).pipe(
+    startWith(new user.LoadCurrentAction()),
+    switchMap(() =>
+      of(localStorage.getItem(Config.localStorageKeyUser)).pipe(
+        map((token: string) => {
+          if (!token) {
+            return new user.LoadCurrentFailedAction();
+          }
 
-        const tokenArray = token.split('.');
-        const payload = JSON.parse(atob(tokenArray[1]));
+          const tokenArray = token.split('.');
+          const payload = JSON.parse(atob(tokenArray[1]));
 
-        return new user.LoadCurrentSuccessAction({ email: payload.email, token });
-      }),
-    );
+          return new user.LoadCurrentSuccessAction({ email: payload.email, token });
+        }),
+      ),
+    ),
+  );
 
   @Effect()
-  login$: Observable<Action> = this.actions$
-    .ofType<user.LoginAction>(user.ActionTypes.LOGIN)
-    .map(action => action.payload)
-    .switchMap((credentials: ICredentials) =>
-      this.userService
-        .login(credentials)
-        .do(loggedInUser => {
+  login$: Observable<Action> = this.actions$.ofType<user.LoginAction>(user.ActionTypes.LOGIN).pipe(
+    map(action => action.payload),
+    switchMap((credentials: ICredentials) =>
+      this.userService.login(credentials).pipe(
+        tap(loggedInUser => {
           localStorage.setItem(Config.localStorageKeyUser, loggedInUser.token);
-        })
-        .mergeMap(loggedInUser =>
-          Observable.of(new user.LoginSuccessAction(loggedInUser)).merge(
-            Observable.of(new routerActions.Go({ path: [''] })),
+        }),
+        mergeMap(loggedInUser =>
+          of(new user.LoginSuccessAction(loggedInUser)).pipe(
+            merge(of(new routerActions.Go({ path: [''] }))),
           ),
-        )
-        .catch(() => Observable.of(new user.LoginFailedAction())),
-    );
+        ),
+        catchError(() => of(new user.LoginFailedAction())),
+      ),
+    ),
+  );
 
   @Effect()
   register$: Observable<Action> = this.actions$
     .ofType<user.RegistrationAction>(user.ActionTypes.REGISTRATION)
-    .map(action => action.payload)
-    .switchMap((credentials: ICredentials) =>
-      this.userService
-        .register(credentials)
-        .do(loggedInUser => {
-          localStorage.setItem(Config.localStorageKeyUser, loggedInUser.token);
-        })
-        .mergeMap(loggedInUser =>
-          Observable.of(new user.RegistrationSuccessAction(loggedInUser)).merge(
-            Observable.of(new routerActions.Go({ path: [''] })),
+    .pipe(
+      map(action => action.payload),
+      switchMap((credentials: ICredentials) =>
+        this.userService.register(credentials).pipe(
+          tap(loggedInUser => {
+            localStorage.setItem(Config.localStorageKeyUser, loggedInUser.token);
+          }),
+          mergeMap(loggedInUser =>
+            of(new user.RegistrationSuccessAction(loggedInUser)).pipe(
+              merge(of(new routerActions.Go({ path: [''] }))),
+            ),
           ),
-        )
-        .catch(() => Observable.of(new user.RegistrationFailedAction())),
+          catchError(() => of(new user.RegistrationFailedAction())),
+        ),
+      ),
     );
 
   @Effect()
   showErrorOnLoginFailed$ = this.actions$
     .ofType(user.ActionTypes.LOGIN_FAILED)
-    .map(() => new notification.ShowErrorAction({ message: `Could not login` }));
+    .pipe(map(() => new notification.ShowErrorAction({ message: `Could not login` })));
 
   @Effect()
   showErrorOnRegisterFailed$ = this.actions$
     .ofType(user.ActionTypes.REGISTRATION_FAILED)
-    .map(() => new notification.ShowErrorAction({ message: `Could not register` }));
+    .pipe(map(() => new notification.ShowErrorAction({ message: `Could not register` })));
 
   @Effect()
   logout$: Observable<Action> = this.actions$
     .ofType(user.ActionTypes.LOGOUT)
-    .do(() => localStorage.removeItem(Config.localStorageKeyUser))
-    .map(() => new user.LogoutSuccessAction());
+    .pipe(
+      tap(() => localStorage.removeItem(Config.localStorageKeyUser)),
+      map(() => new user.LogoutSuccessAction()),
+    );
 
   constructor(private actions$: Actions, private userService: UserService) {}
 }

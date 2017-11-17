@@ -3,72 +3,72 @@ import { type } from '../util';
 import { ICartPosition, IProduct } from '../models';
 
 export class ActionTypes {
-    static readonly LOAD = type('[Cart] Load');
-    static readonly LOAD_SUCCESS = type('[Cart] Load Success');
-    static readonly LOAD_DETAILS = type('[Cart] Load Details');
-    static readonly LOAD_DETAILS_SUCCESS = type('[Cart] Load Details Success');
-    static readonly LOAD_DETAILS_FAILED = type('[Cart] Load Details Failed');
-    static readonly ADD_QUANTITY = type('[Cart] Add Quantity');
-    static readonly REMOVE_QUANTITY = type('[Cart] Remove Quantity');
-    static readonly REMOVE_ITEM = type('[Cart] Remove Item');
-    static readonly REMOVE_ALL = type('[Cart] Remove All');
-};
+  static readonly LOAD = type('[Cart] Load');
+  static readonly LOAD_SUCCESS = type('[Cart] Load Success');
+  static readonly LOAD_DETAILS = type('[Cart] Load Details');
+  static readonly LOAD_DETAILS_SUCCESS = type('[Cart] Load Details Success');
+  static readonly LOAD_DETAILS_FAILED = type('[Cart] Load Details Failed');
+  static readonly ADD_QUANTITY = type('[Cart] Add Quantity');
+  static readonly REMOVE_QUANTITY = type('[Cart] Remove Quantity');
+  static readonly REMOVE_ITEM = type('[Cart] Remove Item');
+  static readonly REMOVE_ALL = type('[Cart] Remove All');
+}
 
 export class LoadAction implements Action {
-    readonly type = ActionTypes.LOAD;
-};
+  readonly type = ActionTypes.LOAD;
+}
 
 export class LoadSuccessAction implements Action {
-    readonly type = ActionTypes.LOAD_SUCCESS;
+  readonly type = ActionTypes.LOAD_SUCCESS;
 
-    constructor(public readonly payload: ICartPosition[]) { }
-};
+  constructor(public readonly payload: ReadonlyArray<ICartPosition>) {}
+}
 
 export class LoadDetailsAction implements Action {
-    readonly type = ActionTypes.LOAD_DETAILS;
+  readonly type = ActionTypes.LOAD_DETAILS;
 
-    constructor(public readonly payload: ICartPosition[]) { }
-};
+  constructor(public readonly payload: ReadonlyArray<ICartPosition>) {}
+}
 
 export class LoadDetailsSuccessAction implements Action {
-    readonly type = ActionTypes.LOAD_DETAILS_SUCCESS;
+  readonly type = ActionTypes.LOAD_DETAILS_SUCCESS;
 
-    constructor(public readonly payload: IProduct[]) { }
-};
+  constructor(public readonly payload: ReadonlyArray<IProduct>) {}
+}
 
 export class LoadDetailsFailedAction implements Action {
-    readonly type = ActionTypes.LOAD_DETAILS_FAILED;
-};
+  readonly type = ActionTypes.LOAD_DETAILS_FAILED;
+}
 
 export class AddQuantityAction implements Action {
-    readonly type = ActionTypes.ADD_QUANTITY;
+  readonly type = ActionTypes.ADD_QUANTITY;
 
-    constructor(public readonly payload: ICartPosition) { }
-};
+  constructor(public readonly payload: ICartPosition) {}
+}
 
 export class RemoveQuantityAction implements Action {
-    readonly type = ActionTypes.REMOVE_QUANTITY;
+  readonly type = ActionTypes.REMOVE_QUANTITY;
 
-    constructor(public readonly payload: ICartPosition) { }
-};
+  constructor(public readonly payload: ICartPosition) {}
+}
 
 export class RemoveItemAction implements Action {
-    readonly type = ActionTypes.REMOVE_ITEM;
+  readonly type = ActionTypes.REMOVE_ITEM;
 
-    constructor(public readonly payload: { id: number }) { }
-};
+  constructor(public readonly payload: { id: number }) {}
+}
 
 export class RemoveAllAction implements Action {
-    readonly type = ActionTypes.REMOVE_ALL;
-};
+  readonly type = ActionTypes.REMOVE_ALL;
+}
 
-export type Actions
-    = LoadAction
-    | LoadSuccessAction
-    | LoadDetailsAction
-    | LoadDetailsSuccessAction
-    | LoadDetailsFailedAction
-    | AddQuantityAction
-    | RemoveQuantityAction
-    | RemoveItemAction
-    | RemoveAllAction;
+export type Actions =
+  | LoadAction
+  | LoadSuccessAction
+  | LoadDetailsAction
+  | LoadDetailsSuccessAction
+  | LoadDetailsFailedAction
+  | AddQuantityAction
+  | RemoveQuantityAction
+  | RemoveItemAction
+  | RemoveAllAction;

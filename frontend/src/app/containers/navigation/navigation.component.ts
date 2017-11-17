@@ -5,6 +5,7 @@ import * as selectors from '../../selectors';
 import * as userActions from '../../actions/user';
 import * as routerActions from '../../actions/router';
 import { IState } from '../../reducers';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navigation',
@@ -22,7 +23,7 @@ export class NavigationComponent implements OnInit {
   ngOnInit() {
     this.cartItemsCount$ = this.store
       .select(selectors.getLoadedCartItemsSelector)
-      .map(products => products.length);
+      .pipe(map(products => products.length));
     this.userEmail$ = this.store.select(selectors.getUserEmailSelector);
     this.userIsSignedIn$ = this.store.select(selectors.getUserIsSignedInSelector);
   }
