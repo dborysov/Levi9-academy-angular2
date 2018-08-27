@@ -2,7 +2,8 @@ import * as fromRouter from '@ngrx/router-store';
 
 import * as fromProducts from './products';
 import * as fromUser from './user';
-import { MetaReducer } from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
+import { InjectionToken } from '@angular/core';
 
 export interface IState {
   products: fromProducts.IState;
@@ -10,10 +11,12 @@ export interface IState {
   router: fromRouter.RouterReducerState;
 }
 
-export const reducers = {
+export const reducerToken = new InjectionToken<ActionReducerMap<IState>>('Reducers');
+
+export const getReducers = () => ({
   products: fromProducts.reducer,
   user: fromUser.reducer,
   router: fromRouter.routerReducer,
-};
+});
 
-export const metaReducers: ReadonlyArray<MetaReducer<IState>> = [];
+export const reducerProvider = [{ provide: reducerToken, useFactory: getReducers }];

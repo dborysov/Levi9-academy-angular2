@@ -16,7 +16,7 @@ import * as containers from './containers';
 import * as components from './components';
 
 import { environment } from '../environments/environment';
-import { reducers, metaReducers } from 'app/reducers';
+import { reducerToken, reducerProvider } from 'app/reducers';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import { reducers, metaReducers } from 'app/reducers';
     ReactiveFormsModule,
     HttpModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, { metaReducers: [...metaReducers] }),
+    StoreModule.forRoot(reducerToken),
     EffectsModule.forRoot([
       effects.UserEffects,
       effects.SelectedProductEffects,
@@ -55,7 +55,12 @@ import { reducers, metaReducers } from 'app/reducers';
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
-  providers: [guards.LoggedInGuard, services.ProductsService, services.UserService],
+  providers: [
+    guards.LoggedInGuard,
+    services.ProductsService,
+    services.UserService,
+    reducerProvider,
+  ],
   bootstrap: [containers.NavigationComponent],
 })
 export class AppModule {}

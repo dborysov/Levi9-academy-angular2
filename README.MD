@@ -1,11 +1,11 @@
 In order to run the application, you should first generate https site keys:
 
 ```
-sh ./generateSiteCertificate.sh
+sh ./generateSecrets.sh
 ```
 And start the application itself:
 ```
-docker-compose up
+docker-compose up --build
 ```
 
 To view it, you should open http://localhost

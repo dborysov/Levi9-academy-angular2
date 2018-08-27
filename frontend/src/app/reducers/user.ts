@@ -5,7 +5,7 @@ export interface IState {
     email: string;
     token: string;
     isSignedIn: boolean;
-};
+}
 
 const initialState: IState = { email: null, isSignedIn: false, token: null };
 

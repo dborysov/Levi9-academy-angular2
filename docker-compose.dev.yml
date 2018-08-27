@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   db:
-    image: mongo:3.5
+    image: mongo:3.6.7-jessie
     networks:
       - node_network
   be:
